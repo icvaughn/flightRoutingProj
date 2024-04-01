@@ -1,3 +1,5 @@
+package toRecode;
+
 import java.util.*;
 public class Point {
     String name;
