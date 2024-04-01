@@ -145,14 +145,11 @@ class FlightPlanSceane extends JPanel {
 
         add(addbutton, BorderLayout.WEST);
         add(new JButton("+++"), BorderLayout.SOUTH);
+        repaint();
 
 
     };
 
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-
-    }
 }
 
 
