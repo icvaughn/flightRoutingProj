@@ -16,23 +16,24 @@ public class AiportViewer extends JPanel {
 
 
     public AiportViewer (airport airport){
+        //initilization
          CAOid = airport.CAOid;
          APTname = airport.APTname;
          APRTfuleTypes = airport.APRTfuleTypes;
          APRTlongitude = airport.APRTlongitude;
          APRTlatitude = airport.APRTlatitude;
 
-         setLayout(new GridLayout(4,1));
-         add(new JLabel(CAOid));
-         add(new JLabel(APTname));
+
+
+
+         setLayout(new BorderLayout());
+        //creates a jlable for the airportinformation and adding it to the center border view
          String fuleTypes = new String();
         for (String string:APRTfuleTypes) {
             fuleTypes = fuleTypes + string +", ";
         }
-         add(new JLabel(fuleTypes));
-
-        add( new JLabel(String.valueOf(APRTlatitude)));
-        add( new JLabel(String.valueOf(APRTlongitude)));
+        add(new JLabel(CAOid+ "\n"+ APTname + "\n" + fuleTypes+ "\n"+ String.valueOf(APRTlatitude) + ", "+ String.valueOf(APRTlongitude)), BorderLayout.CENTER);
+        repaint();
     }
 }
 
