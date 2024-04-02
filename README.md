@@ -1,4 +1,23 @@
-i need my lego pieces
-to connect to
-your lego pieces
-and then we can have a lego house
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Dylan todo:
+Implement db methods
+Interface with isaacs gui
+implement point class
+implement pathfinding class
+implement algorithm in pathfinding class
