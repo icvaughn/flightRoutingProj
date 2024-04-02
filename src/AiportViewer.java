@@ -19,7 +19,7 @@ public class AiportViewer extends JPanel {
         //initilization
          CAOid = airport.CAOid;
          APTname = airport.APTname;
-         APRTfuleTypes = airport.APRTfuleTypes;
+         APRTfuleTypes = airport.APRTfuelTypes;
          APRTlongitude = airport.APRTlongitude;
          APRTlatitude = airport.APRTlatitude;
 

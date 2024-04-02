@@ -1,17 +1,18 @@
 public class airport {
     String CAOid = "";
     String APTname = "";
-    String[] APRTfuleTypes;
+    String[] APRTfuelTypes;
     double APRTlongitude;
     double APRTlatitude;
+    double freq;
 
-    public airport(String CAO, String Name, String[] fuleTYpes, double Longitude, double Latitude) {
+    public airport(String CAO, String Name, String[] fuelTypes, double Longitude, double Latitude, double fr) {
         CAOid = CAO;
         APTname = Name;
-        APRTfuleTypes = fuleTYpes;
+        APRTfuelTypes = fuelTypes;
         APRTlongitude = Longitude;
         APRTlatitude = Latitude;
-
+        freq = fr;
     }
 
 

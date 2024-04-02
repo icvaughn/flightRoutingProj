@@ -21,9 +21,9 @@ public class sceanes extends JFrame {
 
         //create airport list
         String[] gas = {"Jet", "Gasoline"} ;
-        airport west = new airport("KEN", "Kenidy Airport", gas, 34.369850, -80.084534);
-        airport east = new airport("CEN", "Cenidy Airport", gas, 134.369850, -80.084534);
-        airport mid = new airport("MEN", "Menidy Airport", gas, 84.369850, -80.084534);
+        airport west = new airport("KEN", "Kenidy Airport", gas, 34.369850, -80.084534, 100.0);
+        airport east = new airport("CEN", "Cenidy Airport", gas, 134.369850, -80.084534, 100.0);
+        airport mid = new airport("MEN", "Menidy Airport", gas, 84.369850, -80.084534, 100.0);
         airport[] aprts = {west,east,mid};
         airports = aprts;
 
@@ -49,6 +49,7 @@ public class sceanes extends JFrame {
                 currentSceane = new FlightPlanSceane();
                 add(currentSceane, BorderLayout.CENTER);
                 add(jpBackButton, BorderLayout.NORTH);
+                revalidate();
                 repaint();
 
             }
@@ -59,6 +60,7 @@ public class sceanes extends JFrame {
                 currentSceane = new flightViewerRightPanle(airports, flightplan);
                 add(currentSceane, BorderLayout.CENTER);
                 add(jpBackButton, BorderLayout.NORTH);
+                revalidate();
                 repaint();
             }
         });
@@ -70,17 +72,14 @@ public class sceanes extends JFrame {
                 currentSceane.add(addbutton);
                 add(currentSceane, BorderLayout.CENTER);
                 add(jpBackButton, BorderLayout.NORTH);
+                revalidate();
                 repaint();
             }
         });
         jbtExit.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                dispose();
 
-                remove(currentSceane);
-                currentSceane = new FlightPlanSceane();
-                add(currentSceane, BorderLayout.CENTER);
-                add(jpBackButton, BorderLayout.NORTH);
-                repaint();
             }
         });
 
@@ -115,17 +114,17 @@ public class sceanes extends JFrame {
 
 // The class for drawing arcs on a panel
 class FlightPlanSceane extends JPanel {
-    String[] gas = {"Jet", "Gasoline"} ;
+    String[] gas = {"JA-A", "AVGAS"} ;
     airport[] airports;
    ArrayList<airport> flightplan = new ArrayList<airport>();// airports;
     JButton addButton = new JButton("+");
 
     FlightPlanSceane(){
 
-        String[] gas = {"Jet", "Gasoline"} ;
-        airport west = new airport("KEN", "Kenidy Airport", gas, 34.369850, -80.084534);
-        airport east = new airport("CEN", "Cenidy Airport", gas, 134.369850, -80.084534);
-        airport mid = new airport("MEN", "Menidy Airport", gas, 84.369850, -80.084534);
+        String[] gas = {"JA-A", "AVGAS"} ;
+        airport west = new airport("KEN", "Kenidy Airport", gas, 34.369850, -80.084534, 100.0);
+        airport east = new airport("CEN", "Cenidy Airport", gas, 134.369850, -80.084534, 100.0);
+        airport mid = new airport("MEN", "Menidy Airport", gas, 84.369850, -80.084534, 100.0);
         airport[] aprts = {west,east,mid};
         airports = aprts;
 
