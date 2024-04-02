@@ -14,19 +14,22 @@ public class sceanes extends JFrame {
 
     private JButton jbtBack = new JButton("Back");
 
-    static airport[] airports;
+    static ArrayList<airport> airports;
 
     ArrayList<airport> flightplan;
+
     public sceanes() {
 
-        //create airport list
-        String[] gas = {"Jet", "Gasoline"} ;
+        // create airport list
+        String[] gas = { "Jet", "Gasoline" };
         airport west = new airport("KEN", "Kenidy Airport", gas, 34.369850, -80.084534, 100.0);
         airport east = new airport("CEN", "Cenidy Airport", gas, 134.369850, -80.084534, 100.0);
         airport mid = new airport("MEN", "Menidy Airport", gas, 84.369850, -80.084534, 100.0);
-        airport[] aprts = {west,east,mid};
+        ArrayList<airport> aprts = new ArrayList<airport>();
+        aprts.add(east);
+        aprts.add(west);
+        aprts.add(mid);
         airports = aprts;
-
 
         // Create Panel jpButtons to hold two Buttons "<=" and "right =>"
         JPanel jpButtons = new JPanel();
@@ -67,7 +70,7 @@ public class sceanes extends JFrame {
         jbtEditAirplane.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 remove(currentSceane);
-                currentSceane = new AiportViewer(airports[0]);
+                currentSceane = new AiportViewer(airports.get(0));
                 JButton addbutton = new JButton("+");
                 currentSceane.add(addbutton);
                 add(currentSceane, BorderLayout.CENTER);
@@ -93,7 +96,6 @@ public class sceanes extends JFrame {
             }
         });
 
-
         pack();
     }
 
@@ -106,34 +108,36 @@ public class sceanes extends JFrame {
         frame.setVisible(true);
     }
 
-
 }
-
-
-
 
 // The class for drawing arcs on a panel
 class FlightPlanSceane extends JPanel {
-    String[] gas = {"JA-A", "AVGAS"} ;
-    airport[] airports;
-   ArrayList<airport> flightplan = new ArrayList<airport>();// airports;
+    String[] gas = { "JA-A", "AVGAS" };
+    ArrayList<airport> airports;
+    ArrayList<airport> flightplan = new ArrayList<airport>();// airports;
     JButton addButton = new JButton("+");
 
-    FlightPlanSceane(){
+    FlightPlanSceane() {
 
-        String[] gas = {"JA-A", "AVGAS"} ;
-        airport west = new airport("KEN", "Kenidy Airport", gas, 34.369850, -80.084534, 100.0);
-        airport east = new airport("CEN", "Cenidy Airport", gas, 134.369850, -80.084534, 100.0);
-        airport mid = new airport("MEN", "Menidy Airport", gas, 84.369850, -80.084534, 100.0);
-        airport[] aprts = {west,east,mid};
-        airports = aprts;
+        // String[] gas = {"JA-A", "AVGAS"} ;
+        // airport west = new airport("KEN", "Kenidy Airport", gas, 34.369850,
+        // -80.084534, 100.0);
+        // airport east = new airport("CEN", "Cenidy Airport", gas, 134.369850,
+        // -80.084534, 100.0);
+        // airport mid = new airport("MEN", "Menidy Airport", gas, 84.369850,
+        // -80.084534, 100.0);
+        // airport[] aprts = {west,east,mid};
+        // airports = aprts;
+
+        db DB = new db("src\\dbDir\\airports.txt", "src\\dbDir\\airplanes.txt");
+        DB.readAirports();
+        airports = DB.aprts;
 
         setLayout(new BorderLayout());
         flightViewerRightPanle right = new flightViewerRightPanle(airports, flightplan);
         add(right, BorderLayout.EAST);
-        //add(new JButton("++"), BorderLayout.EAST);
-        JButton addbutton = new JButton("+");
 
+        JButton addbutton = new JButton("+");
 
         addbutton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -146,10 +150,6 @@ class FlightPlanSceane extends JPanel {
         add(new JButton("+++"), BorderLayout.SOUTH);
         repaint();
 
-
     };
 
 }
-
-
-
