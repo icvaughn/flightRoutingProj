@@ -1,0 +1,69 @@
+KCAE
+Columbia, South Carolina
+81
+34
+121.9
+AVGAS
+JA-a
+KAUG
+Augusa, Georgia
+81.97
+33.47
+109.5
+AVGAS
+JA-a
+KATL
+Atlanta, Georgia
+84.23
+33.44
+79.5
+AVGAS
+JA-a
+KCLT
+Charlotte, North Carolina
+80.84
+35.23
+100.5
+AVGAS
+JA-a
+KSTA
+Statesville, North Carolina
+80.87
+35.79
+159
+AVGAS
+JA-a
+KIAD
+Washington DC
+77.04
+38.9
+125.9
+AVGAS
+JA-a
+KJFK
+New York City, New York
+73.94
+40.67
+119.1
+AVGAS
+JA-a
+KRIC
+Richmond, Virginia
+77.43
+37.54
+123.6
+AVGAS
+CYYZ
+Toronto Pearson, Toronton, Canada
+79.62
+43.68
+122.275
+AVGAS
+JA-a
+KLAX
+Los Angelas, California
+118.41
+33.94
+128.2
+AVGAS
+JA-a
