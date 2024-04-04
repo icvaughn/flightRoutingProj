@@ -2,7 +2,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
+import java.util.Properties;
 
 public class sceanes extends JFrame {
 
@@ -117,7 +120,22 @@ class FlightPlanSceane extends JPanel {
     ArrayList<airport> flightplan = new ArrayList<airport>();// airports;
     JButton addButton = new JButton("+");
 
+    flightPathBottomPanel bottomPanel = new flightPathBottomPanel(airports, flightplan);
+
+    private JButton jbtEditAirplane = new JButton("Edit airplane");
+
     FlightPlanSceane() {
+
+
+        jbtEditAirplane.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                remove(bottomPanel);
+                bottomPanel = new flightPathBottomPanel(airports, flightplan);
+                add(bottomPanel);
+                validate();
+                repaint();
+            }
+        });
 
         // String[] gas = {"JA-A", "AVGAS"} ;
         // airport west = new airport("KEN", "Kenidy Airport", gas, 34.369850,
@@ -129,9 +147,21 @@ class FlightPlanSceane extends JPanel {
         // airport[] aprts = {west,east,mid};
         // airports = aprts;
 
-        db DB = new db("src\\dbDir\\airports.txt", "src\\dbDir\\airplanes.txt");
+        db DB = new db("./src/dbDir/airports.txt", "./src/dbDir/airplanes.txt");
         DB.readAirports();
         airports = DB.aprts;
+
+        addPropertyChangeListener("flightplan", new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                remove(bottomPanel);
+                bottomPanel = new flightPathBottomPanel(airports, flightplan);
+                add(bottomPanel, BorderLayout.SOUTH);
+                validate();
+                repaint();
+
+            }
+        });
 
         setLayout(new BorderLayout());
         flightViewerRightPanle right = new flightViewerRightPanle(airports, flightplan);
@@ -147,7 +177,8 @@ class FlightPlanSceane extends JPanel {
         });
 
         add(addbutton, BorderLayout.WEST);
-        add(new JButton("+++"), BorderLayout.SOUTH);
+        add( bottomPanel, BorderLayout.SOUTH);
+        add( jbtEditAirplane, BorderLayout.CENTER);
         repaint();
 
     };
