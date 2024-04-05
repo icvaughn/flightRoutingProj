@@ -4,51 +4,48 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class flightPathBottomPanel extends JPanel {
+public class flightViewerRightPanle extends JPanel {
 
-    ArrayList<airport> flightlist;
+    ArrayList<Airport> Airports;
+    ArrayList<Airport> flightlist;
     JPanel holderJPanel = new JPanel();
 
     TextField searchBar= new TextField();
 
-    flightPathBottomPanel(ArrayList<airport> airportes, ArrayList<airport> flightlists) {
+    flightViewerRightPanle(ArrayList<Airport> airportes, ArrayList<Airport> flightlists) {
+        Airports = airportes;
         flightlist = flightlists;
-        setLayout(new GridLayout(2,flightlist.size()));
+        //setLayout(new GridLayout(airports.size(), 1));
         generateAirportList();
-        holderJPanel.setLayout(new GridLayout(1, flightlist.size()));
+        holderJPanel.setLayout(new GridLayout(airportes.size(), 1));
         // Add the text area to a JScrollPane with a vertical scrollbar
-        JScrollPane scrollPane = new JScrollPane(holderJPanel, JScrollPane.VERTICAL_SCROLLBAR_NEVER,
-                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        JScrollPane scrollPane = new JScrollPane(holderJPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         // Create a vertical scrollbar
-        JScrollBar verticalScrollBar = scrollPane.getHorizontalScrollBar();
-        scrollPane.setPreferredSize(new Dimension(this.getWidth(),50));
+        JScrollBar verticalScrollBar = scrollPane.getVerticalScrollBar();
         add(scrollPane);
-        setSize(500,800);
 
-        add(new JButton("101"));
+
         repaint();
     };
 
     private void generateAirportList() {
         // Generates airplane viewers with buttons in order to add them to the flight
         // plan
-        for (airport aprt : flightlist) {
+        for (Airport aprt : Airports) {
 
             AiportViewer airpotviewer = new AiportViewer(aprt);
 
-            JButton addbutton = new JButton("-");
-
-
+            JButton addbutton = new JButton("+");
 
             addbutton.addActionListener(new ActionListener() {
                 // add the airport the button is associated with to the flightPlan ArrayList
                 public void actionPerformed(ActionEvent e) {
-                    flightlist.remove(aprt);
-                    holderJPanel = new JPanel();
-                    generateAirportList();
-
-                    revalidate();
+                    flightlist.add(aprt);
+                    firePropertyChange("flightplan",0,1);
                     repaint();
+                    FlightPlanScene parent = (FlightPlanScene) getParent();
+                    parent.reInit();
                 };
 
             });
@@ -59,4 +56,5 @@ public class flightPathBottomPanel extends JPanel {
 
         }
     };
+
 }

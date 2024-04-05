@@ -7,7 +7,7 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Properties;
 
-public class sceanes extends JFrame {
+public class Scenes extends JFrame {
 
     JPanel currentSceane = null;
     private JButton jbtMakePlan = new JButton("Make Plan");
@@ -21,18 +21,10 @@ public class sceanes extends JFrame {
 
     ArrayList<airport> flightplan;
 
-    public sceanes() {
+    public Scenes() {
 
         // create airport list
-        String[] gas = { "Jet", "Gasoline" };
-        airport west = new airport("KEN", "Kenidy Airport", gas, 34.369850, -80.084534, 100.0);
-        airport east = new airport("CEN", "Cenidy Airport", gas, 134.369850, -80.084534, 100.0);
-        airport mid = new airport("MEN", "Menidy Airport", gas, 84.369850, -80.084534, 100.0);
-        ArrayList<airport> aprts = new ArrayList<airport>();
-        aprts.add(east);
-        aprts.add(west);
-        aprts.add(mid);
-        airports = aprts;
+
 
         // Create Panel jpButtons to hold two Buttons "<=" and "right =>"
         JPanel jpButtons = new JPanel();
@@ -103,7 +95,7 @@ public class sceanes extends JFrame {
     }
 
     public static void main(String[] args) {
-        sceanes frame = new sceanes();
+        Scenes frame = new Scenes();
         frame.setTitle("TEST1NO5IsaacVaughn");
         frame.setLocationRelativeTo(null); // Center the frame
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -122,11 +114,8 @@ class FlightPlanSceane extends JPanel {
 
     flightPathBottomPanel bottomPanel = new flightPathBottomPanel(airports, flightplan);
 
-    private JButton jbtEditAirplane = new JButton("Edit airplane");
-
+    public JButton jbtEditAirplane = new JButton("Edit plan");
     FlightPlanSceane() {
-
-
         jbtEditAirplane.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 remove(bottomPanel);
@@ -136,6 +125,8 @@ class FlightPlanSceane extends JPanel {
                 repaint();
             }
         });
+
+
 
         // String[] gas = {"JA-A", "AVGAS"} ;
         // airport west = new airport("KEN", "Kenidy Airport", gas, 34.369850,
