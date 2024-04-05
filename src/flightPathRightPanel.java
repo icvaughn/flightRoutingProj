@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class flightViewerRightPanle extends JPanel {
+public class flightPathRightPanel extends JPanel {
 
     ArrayList<Airport> Airports;
     ArrayList<Airport> flightlist;
@@ -12,12 +12,14 @@ public class flightViewerRightPanle extends JPanel {
 
     TextField searchBar= new TextField();
 
-    flightViewerRightPanle(ArrayList<Airport> airportes, ArrayList<Airport> flightlists) {
+    flightPathRightPanel(ArrayList<Airport> airportes, ArrayList<Airport> flightlists) {
+
         Airports = airportes;
         flightlist = flightlists;
         //setLayout(new GridLayout(airports.size(), 1));
         generateAirportList();
         holderJPanel.setLayout(new GridLayout(airportes.size(), 1));
+        setLayout(new GridLayout(2,flightlist.size())); //this line is here so that the panels sizing is the same, left and right need to have the same behavior within the parent container
         // Add the text area to a JScrollPane with a vertical scrollbar
         JScrollPane scrollPane = new JScrollPane(holderJPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);

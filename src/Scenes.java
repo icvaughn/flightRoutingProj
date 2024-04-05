@@ -5,21 +5,19 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
-import java.util.Properties;
 
 public class Scenes extends JFrame {
 
-    JPanel currentSceane = null;
+    JPanel currentScene = null;
     private JButton jbtMakePlan = new JButton("Make Plan");
     private JButton jbtEditAirport = new JButton("Edit airport");
     private JButton jbtEditAirplane = new JButton("Edit airplane");
     private JButton jbtExit = new JButton("Exit");
-
     private JButton jbtBack = new JButton("Back");
 
-    static ArrayList<airport> airports;
+    static ArrayList<Airport> Airports;
 
-    ArrayList<airport> flightplan;
+    ArrayList<Airport> flightplan;
 
     public Scenes() {
 
@@ -36,16 +34,16 @@ public class Scenes extends JFrame {
         JPanel jpBackButton = new JPanel();
         jpBackButton.add(jbtBack);
 
-        currentSceane = jpButtons;
+        currentScene = jpButtons;
         setLayout(new BorderLayout());
-        add(currentSceane, BorderLayout.CENTER);
+        add(currentScene, BorderLayout.CENTER);
         ;
 
         jbtMakePlan.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                remove(currentSceane);
-                currentSceane = new FlightPlanSceane();
-                add(currentSceane, BorderLayout.CENTER);
+                remove(currentScene);
+                currentScene = new FlightPlanScene();
+                add(currentScene, BorderLayout.CENTER);
                 add(jpBackButton, BorderLayout.NORTH);
                 revalidate();
                 repaint();
@@ -54,9 +52,9 @@ public class Scenes extends JFrame {
         });
         jbtEditAirport.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                remove(currentSceane);
-                currentSceane = new flightViewerRightPanle(airports, flightplan);
-                add(currentSceane, BorderLayout.CENTER);
+                remove(currentScene);
+                currentScene = new flightPathRightPanel(Airports, flightplan);
+                add(currentScene, BorderLayout.CENTER);
                 add(jpBackButton, BorderLayout.NORTH);
                 revalidate();
                 repaint();
@@ -64,11 +62,11 @@ public class Scenes extends JFrame {
         });
         jbtEditAirplane.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                remove(currentSceane);
-                currentSceane = new AiportViewer(airports.get(0));
+                remove(currentScene);
+                currentScene = new AiportViewer(Airports.get(0));
                 JButton addbutton = new JButton("+");
-                currentSceane.add(addbutton);
-                add(currentSceane, BorderLayout.CENTER);
+                currentScene.add(addbutton);
+                add(currentScene, BorderLayout.CENTER);
                 add(jpBackButton, BorderLayout.NORTH);
                 revalidate();
                 repaint();
@@ -83,10 +81,10 @@ public class Scenes extends JFrame {
 
         jbtBack.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                remove(currentSceane);
+                remove(currentScene);
                 remove(jpBackButton);
-                currentSceane = jpButtons;
-                add(currentSceane);
+                currentScene = jpButtons;
+                add(currentScene);
                 repaint();
             }
         });
@@ -106,21 +104,27 @@ public class Scenes extends JFrame {
 }
 
 // The class for drawing arcs on a panel
-class FlightPlanSceane extends JPanel {
-    String[] gas = { "JA-A", "AVGAS" };
-    ArrayList<airport> airports;
-    ArrayList<airport> flightplan = new ArrayList<airport>();// airports;
+class FlightPlanScene extends JPanel {
+    public void reInit(){
+        remove(leftPanel);
+        leftPanel = new flightPathLeftPanel(Airports, flightplan);
+        add(leftPanel);
+        this.validate();
+        this.repaint();
+    }
+    ArrayList<Airport> Airports;
+    ArrayList<Airport> flightplan = new ArrayList<>();// airports;
     JButton addButton = new JButton("+");
 
-    flightPathBottomPanel bottomPanel = new flightPathBottomPanel(airports, flightplan);
+    flightPathLeftPanel leftPanel = new flightPathLeftPanel(Airports, flightplan);
 
     public JButton jbtEditAirplane = new JButton("Edit plan");
-    FlightPlanSceane() {
+    FlightPlanScene() {
         jbtEditAirplane.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                remove(bottomPanel);
-                bottomPanel = new flightPathBottomPanel(airports, flightplan);
-                add(bottomPanel);
+                remove(leftPanel);
+                leftPanel = new flightPathLeftPanel(Airports, flightplan);
+                add(leftPanel);
                 validate();
                 repaint();
             }
@@ -138,16 +142,16 @@ class FlightPlanSceane extends JPanel {
         // airport[] aprts = {west,east,mid};
         // airports = aprts;
 
-        db DB = new db("./src/dbDir/airports.txt", "./src/dbDir/airplanes.txt");
+        DataBaseManager DB = new DataBaseManager("./src/dbDir/airports.txt", "./src/dbDir/airplanes.txt");
         DB.readAirports();
-        airports = DB.aprts;
+        Airports = DB.aprts;
 
         addPropertyChangeListener("flightplan", new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
-                remove(bottomPanel);
-                bottomPanel = new flightPathBottomPanel(airports, flightplan);
-                add(bottomPanel, BorderLayout.SOUTH);
+                //remove(leftPanel);
+                leftPanel = new flightPathLeftPanel(Airports, flightplan);
+                //add(leftPanel, BorderLayout.SOUTH);
                 validate();
                 repaint();
 
@@ -155,10 +159,10 @@ class FlightPlanSceane extends JPanel {
         });
 
         setLayout(new BorderLayout());
-        flightViewerRightPanle right = new flightViewerRightPanle(airports, flightplan);
+        flightPathRightPanel right = new flightPathRightPanel(Airports, flightplan);
         add(right, BorderLayout.EAST);
 
-        JButton addbutton = new JButton("+");
+        /*JButton addbutton = new JButton("+");
 
         addbutton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -167,9 +171,9 @@ class FlightPlanSceane extends JPanel {
             };
         });
 
-        add(addbutton, BorderLayout.WEST);
-        add( bottomPanel, BorderLayout.SOUTH);
-        add( jbtEditAirplane, BorderLayout.CENTER);
+        add(addbutton, BorderLayout.WEST);*/
+        add( leftPanel, BorderLayout.CENTER);
+        //add( jbtEditAirplane, BorderLayout.WEST);
         repaint();
 
     };

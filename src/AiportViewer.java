@@ -1,7 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.text.ParsePosition;
-import java.util.*;
 
 public class AiportViewer extends JPanel {
 
@@ -15,7 +13,7 @@ public class AiportViewer extends JPanel {
     int y= 0 ;
 
 
-    public AiportViewer (airport airport){
+    public AiportViewer (Airport airport){
         //initilization
          CAOid = airport.CAOid;
          APTname = airport.APTname;

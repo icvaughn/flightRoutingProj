@@ -1,22 +1,19 @@
 import java.io.FileNotFoundException;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
 import java.lang.*;
 import java.io.FileWriter;
 import java.util.HashSet;
 import java.text.DecimalFormat;
-public class db {
+public class DataBaseManager {
     public static File airportDB;
     public static File airplaneDB;
     public static ArrayList<Airport> aprts;
     public static ArrayList<Airplane> aplanes;
 
     //init sets runtime arraylists
-    public db(String airportDBs, String airplaneDBs) {
+    public DataBaseManager(String airportDBs, String airplaneDBs) {
         airportDB = new File(airportDBs);
         airplaneDB = new File(airplaneDBs);
         aprts = readAirports();
@@ -77,8 +74,8 @@ public class db {
             Scanner sc = new Scanner(airplaneDB);
             while (sc.hasNextLine()) {
                 String[] info = sc.nextLine().split(",");
-                String model = info[0].trim();
-                String make = info[1].trim();
+                String make = info[0].trim();
+                String model = info[1].trim();
                 String fuel = info[2].trim();
                 int fuelCapacity = Integer.parseInt(info[3].trim());
                 int fuelConsumption = Integer.parseInt(info[4].trim());
@@ -178,7 +175,7 @@ public class db {
             aplanes.add(a);
             try {
                 FileWriter writer = new FileWriter(airplaneDB, true);
-                writer.write("\n" + a.model + ", " + a.make + ", " + a.fuel + ", " + a.fuelCapacity + ", " + a.fuelConsumption + ", " + a.speed);
+                writer.write("\n" + a.make + ", " + a.model + ", " + a.fuel + ", " + a.fuelCapacity + ", " + a.fuelConsumption + ", " + a.speed);
                 writer.close();
             } catch (IOException e) {
                 System.err.println("the child laborer could not get the job done 184 " + e.getMessage());
@@ -186,20 +183,30 @@ public class db {
         }
         //update file
     }
-
-    public void removeAirport(Airport a) {
+    public static void removeAirplane(Airplane a) {
         //update arraylist
         //update file
     }
-
+    public static void removeAirport(Airport a) {
+        //update arraylist
+        //update file
+    }
+    public static void modifyAirplane(Airplane a) {
+        //update arraylist
+        //update file
+    }
+    public static void modifyAirport(Airport a) {
+        //update arraylist
+        //update file
+    }
     public static void main(String[] args) {
         //db dbinst = new db("src/dbDir/airports.txt", "src/dbDir/airplanes.txt");
         //makeMassiveAportDB("src/dbDir/airports1.txt");
 
             //WORKING CODE TO INTERACT WITH DB: (prints for debug)
-            db dbinst = new db("src/dbDir/airports1.txt", "src/dbDir/airplanes.txt");
-            db.addAirport(new Airport("KJFK", "John F. Kennedy International Airport", new String[]{"JA-A","AVGAS"}, 40.6413, -73.7781, 100.0));
-            db.addAirplane(new Airplane("Boeing", "Shittyplane", "JA-A", 10000, 100, 500));
+            DataBaseManager dbinst = new DataBaseManager("src/dbDir/airports1.txt", "src/dbDir/airplanes.txt");
+            DataBaseManager.addAirport(new Airport("KJFK", "John F. Kennedy International Airport", new String[]{"JA-A","AVGAS"}, 40.6413, -73.7781, 100.0));
+            DataBaseManager.addAirplane(new Airplane("Boeing", "Shittyplane", "JA-A", 10000, 100, 500));
             ArrayList<Airport> aprts = readAirports();
 
             for (Airport a : aprts) {

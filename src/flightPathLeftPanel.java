@@ -4,13 +4,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class flightPathBottomPanel extends JPanel {
+public class flightPathLeftPanel extends JPanel {
 
     ArrayList<Airport> flightlist;
     JPanel holderJPanel = new JPanel();
     TextField searchBar= new TextField();
 
-    flightPathBottomPanel(ArrayList<Airport> airportes, ArrayList<Airport> flightlists) {
+    flightPathLeftPanel(ArrayList<Airport> airports, ArrayList<Airport> flightlists) {
         flightlist = flightlists;
         setLayout(new GridLayout(2,flightlist.size()));
         generateAirportList();
@@ -21,7 +21,7 @@ public class flightPathBottomPanel extends JPanel {
         //JScrollBar verticalScrollBar = scrollPane.getHorizontalScrollBar();
         scrollPane.setPreferredSize(new Dimension(this.getWidth(),50));
         add(scrollPane);
-        setSize(500,800);
+        //setSize(500,800);
 
         //add(new JButton("101"));
         repaint();

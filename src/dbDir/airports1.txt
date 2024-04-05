@@ -6326,3 +6326,24 @@ City3,Country3
 44.06
 18.65
 AVGAS
+KJFK
+John F. Kennedy International Airport
+40.6413
+-73.7781
+100.0
+JA-A
+AVGAS
+KJFK
+John F. Kennedy International Airport
+40.6413
+-73.7781
+100.0
+JA-A
+AVGAS
+KJFK
+John F. Kennedy International Airport
+40.6413
+-73.7781
+100.0
+JA-A
+AVGAS

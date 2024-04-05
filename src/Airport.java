@@ -1,4 +1,4 @@
-public class airport {
+public class Airport {
     String CAOid = "";
     String APTname = "";
     String[] APRTfuelTypes;
@@ -6,7 +6,7 @@ public class airport {
     double APRTlatitude;
     double freq;
 
-    public airport(String CAO, String Name, String[] fuelTypes, double Longitude, double Latitude, double fr) {
+    public Airport(String CAO, String Name, String[] fuelTypes, double Longitude, double Latitude, double fr) {
         CAOid = CAO;
         APTname = Name;
         APRTfuelTypes = fuelTypes;
