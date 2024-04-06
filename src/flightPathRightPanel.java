@@ -24,7 +24,7 @@ public class flightPathRightPanel extends JPanel {
         JScrollPane scrollPane = new JScrollPane(holderJPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         // Create a vertical scrollbar
-        JScrollBar verticalScrollBar = scrollPane.getVerticalScrollBar();
+        //JScrollBar verticalScrollBar = scrollPane.getVerticalScrollBar();
         add(scrollPane);
 
 

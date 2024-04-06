@@ -40,13 +40,6 @@ Washington DC
 125.9
 AVGAS
 JA-a
-KJFK
-New York City, New York
-73.94
-40.67
-119.1
-AVGAS
-JA-a
 KRIC
 Richmond, Virginia
 77.43
@@ -54,7 +47,7 @@ Richmond, Virginia
 123.6
 AVGAS
 CYYZ
-Toronto Pearson, Toronton, Canada
+Toronto Pearson, Toronto, Canada
 79.62
 43.68
 122.275
@@ -67,3 +60,16 @@ Los Angelas, California
 128.2
 AVGAS
 JA-a
+CYYZ
+Torontoo Pearson, Toronto, Canada
+79.62
+43.68
+122.275
+AVGAS
+JA-a
+KJFK
+Johne F. Kennedy International Airport
+40.6413
+-73.7781
+100.0
+AVGAS
