@@ -14,7 +14,8 @@ public class Scenes extends JFrame {
     private JButton jbtEditAirplane = new JButton("Edit airplane");
     private JButton jbtExit = new JButton("Exit");
     private JButton jbtBack = new JButton("Back");
-
+    private JButton jbtAddAirport = new JButton("Add airport");
+    private JButton jbtAddAirplane = new JButton("Add airplane");
     static ArrayList<Airport> Airports;
 
     ArrayList<Airport> flightplan;
@@ -24,12 +25,15 @@ public class Scenes extends JFrame {
         // create airport list
 
 
+
         // Create Panel jpButtons to hold two Buttons "<=" and "right =>"
         JPanel jpButtons = new JPanel();
         jpButtons.add(jbtMakePlan);
         jpButtons.add(jbtEditAirport);
         jpButtons.add(jbtEditAirplane);
         jpButtons.add(jbtExit);
+        jpButtons.add(jbtAddAirplane);
+        jpButtons.add(jbtAddAirport);
 
         JPanel jpBackButton = new JPanel();
         jpBackButton.add(jbtBack);
@@ -38,7 +42,26 @@ public class Scenes extends JFrame {
         setLayout(new BorderLayout());
         add(currentScene, BorderLayout.CENTER);
         ;
-
+        jbtAddAirplane.addActionListener(new ActionListener() {	//new additions
+            public void actionPerformed(ActionEvent e) {
+                remove(currentScene);
+                currentScene = new addAirplanePanel();
+                add(currentScene, BorderLayout.CENTER);
+                add(jpBackButton, BorderLayout.NORTH);
+                revalidate();
+                repaint();
+            }
+        });
+        jbtAddAirport.addActionListener(new ActionListener() { //new additions
+            public void actionPerformed(ActionEvent e) {
+                remove(currentScene);
+                currentScene = new addAirportPanel();
+                add(currentScene, BorderLayout.CENTER);
+                add(jpBackButton, BorderLayout.NORTH);
+                revalidate();
+                repaint();
+            }
+        });
         jbtMakePlan.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 remove(currentScene);

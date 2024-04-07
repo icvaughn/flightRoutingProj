@@ -20,8 +20,9 @@ display next best?
 show graph of airports and optimal path.
 
 Dylan todo:
-Implement db methods
-Interface with isaacs gui
+Implement db methods -- done
+
+
 implement point class
 implement pathfinding class
 implement algorithm in pathfinding class
