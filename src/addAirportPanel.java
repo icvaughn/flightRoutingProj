@@ -39,7 +39,7 @@ public class addAirportPanel extends JPanel{
 	private double airportFreq;
 	private String[] airportFuel;
 	
-	private db DB = new db("./src/dbDir/airports.txt", "./src/dbDir/airplanes.txt");
+	private DataBaseManager DB = new DataBaseManager("./src/dbDir/airports.txt", "./src/dbDir/airplanes.txt");
 	
 	public addAirportPanel() {
 		setLayout(new GridLayout(7,1,5,5));
@@ -101,8 +101,8 @@ public class addAirportPanel extends JPanel{
 	            						if(vFuel1.verify(rdFuel1)) {
 	            							if(vFuel2.verify(rdFuel2)) {
 	            								System.out.println("Verified");	
-	            								airport nw = new airport(airportICAO, airportName,airportFuel,airportLong,airportLat,airportFreq);
-	            								DB.addAirport(nw); //TODO update this to new db name after initial testing
+	            								Airport nw = new Airport(airportICAO, airportName,airportFuel,airportLong,airportLat,airportFreq);
+	            								DB.addAirport(nw);
 	            								DB.readAirports();
 	            								//System.out.println()
 	            								//break;
