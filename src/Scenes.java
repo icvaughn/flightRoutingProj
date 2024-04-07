@@ -31,9 +31,9 @@ public class Scenes extends JFrame {
         jpButtons.add(jbtMakePlan);
         jpButtons.add(jbtEditAirport);
         jpButtons.add(jbtEditAirplane);
-        jpButtons.add(jbtExit);
         jpButtons.add(jbtAddAirplane);
         jpButtons.add(jbtAddAirport);
+        jpButtons.add(jbtExit);
 
         JPanel jpBackButton = new JPanel();
         jpBackButton.add(jbtBack);

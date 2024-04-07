@@ -30,7 +30,7 @@ public class addAirportPanel extends JPanel{
 	
 	JButton jbtAdd = new JButton("Add");
 	JPanel panAdd = new JPanel();
-	JLabel lblError = new JLabel("Test");
+	JLabel lblError = new JLabel("Please report this for $1000*");
 	
 	private String airportICAO;
 	private String airportName;
