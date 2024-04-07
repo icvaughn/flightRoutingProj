@@ -1,4 +1,7 @@
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.*;
 
 public class addAirplanePanel extends JPanel{
@@ -10,10 +13,12 @@ public class addAirplanePanel extends JPanel{
 	private JPanel panMake = new JPanel();
 	private JLabel lblMake = new JLabel("Please enter the Make");
 	private JTextField txtMake = new JTextField("Make");
+	private MakeVerifier vMake = new MakeVerifier();
 	
 	private JPanel panModel = new JPanel();
 	private JLabel lblModel = new JLabel("Please enter the Model");
 	private JTextField txtModel = new JTextField("Model");
+	private ModelVerifier vModel = new ModelVerifier();
 	
 	private JPanel panType = new JPanel();
 	private JLabel lblType = new JLabel("Please select the type of plane");
@@ -21,18 +26,24 @@ public class addAirplanePanel extends JPanel{
 	private JRadioButton rbtnType1 = new JRadioButton("Prop");
 	private JRadioButton rbtnType2= new JRadioButton("Turbo-prop");
 	private JRadioButton rbtnType3 = new JRadioButton("Jet");
+	private TypeVerifier vType1 = new TypeVerifier();
+	private TypeVerifier vType2 = new TypeVerifier();
+	private TypeVerifier vType3 = new TypeVerifier();
 	
 	private JPanel panCap = new JPanel();
 	private JLabel lblCap = new JLabel("Please enter Fuel Capacity (Liters)");
 	private JTextField txtCap = new JTextField("Capacity");
+	private CapVerifier vCap = new CapVerifier();
 	
 	private JPanel panBurn = new JPanel();
 	private JLabel lblBurn = new JLabel("Please enter fuel burn rate at cruise (Liters/Hour)");
 	private JTextField txtBurn = new JTextField("Burn Rate");
+	private BurnVerifier vBurn = new BurnVerifier();
 	
 	private JPanel panSpeed = new JPanel();
 	private JLabel lblSpeed = new JLabel("Please enter cruise speed (knots)");
 	private JTextField txtSpeed = new JTextField("Speed");
+	private SpeedVerifier vSpeed = new SpeedVerifier();
 	
 	private JPanel panBtm = new JPanel();
 	private JButton btnAdd = new JButton("Add");
@@ -65,6 +76,7 @@ public class addAirplanePanel extends JPanel{
 		panType.add(rbtnType3);
 		panInput.add(panType);
 		
+		
 		panCap.add(lblCap);
 		panCap.add(txtCap);
 		panInput.add(panCap);
@@ -85,7 +97,104 @@ public class addAirplanePanel extends JPanel{
 		lblError.setVisible(false);
 		panBtm.add(lblError);
 		add(panBtm,BorderLayout.SOUTH);
-	
+		
+		btnAdd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("add");
+				vMake.verify(txtMake);
+				
+				if (vMake.verify(txtMake)) {
+					if(vModel.verify(txtModel)) {
+						if(vType1.verify(rbtnType1)) {
+							if(vType2.verify(rbtnType2)) {
+								if(vType3.verify(rbtnType3)) {
+									if(vCap.verify(txtCap)) {
+										if(vBurn.verify(txtBurn)) {
+											if(vSpeed.verify(txtBurn)) {
+												System.out.println("Verified");
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+				
+			}
+		});
+	}
+	class MakeVerifier extends InputVerifier{
+		public boolean verify(JComponent input) {
+			try {
+				
+			}
+			catch(Exception e) {
+				lblError.setText(e.getMessage());
+				lblError.setVisible(true);
+			}
+			return false;
+		}
+	}
+	class ModelVerifier extends InputVerifier{
+		public boolean verify(JComponent input) {
+			try {
+				
+			}
+			catch(Exception e) {
+				lblError.setText(e.getMessage());
+				lblError.setVisible(true);
+			}
+			return false;
+		}
+	}
+	class TypeVerifier extends InputVerifier{
+		public boolean verify(JComponent input) {
+			try {
+				
+			}
+			catch(Exception e) {
+				lblError.setText(e.getMessage());
+				lblError.setVisible(true);
+			}
+			return false;
+		}
+	}
+	class CapVerifier extends InputVerifier{
+		public boolean verify(JComponent input) {
+			try {
+				
+			}
+			catch(Exception e) {
+				lblError.setText(e.getMessage());
+				lblError.setVisible(true);
+			}
+			return false;
+		}
+	}
+	class BurnVerifier extends InputVerifier{
+		public boolean verify(JComponent input) {
+			try {
+				
+			}
+			catch(Exception e) {
+				lblError.setText(e.getMessage());
+				lblError.setVisible(true);
+			}
+			return false;
+		}
+	}
+	class SpeedVerifier extends InputVerifier{
+		public boolean verify(JComponent input) {
+			try {
+				
+			}
+			catch(Exception e) {
+				lblError.setText(e.getMessage());
+				lblError.setVisible(true);
+			}
+			return false;
+		}
 	}
 	
 
