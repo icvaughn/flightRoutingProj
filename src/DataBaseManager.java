@@ -56,6 +56,11 @@ public class DataBaseManager {
                 fts[0] = sc.nextLine();
                 if (sc.hasNextLine()) {
                     nxt = sc.nextLine();
+                } else {
+                    fts[1] = null;
+                    Airport a = new Airport(ICAO, Loc, fts, Long, Lat, freq);
+                    aprts.add(a);
+                    continue;
                 }
 
                 if (Objects.equals(nxt.trim(), "JA-a") || Objects.equals(nxt.trim(), "AVGAS")) {
@@ -213,12 +218,12 @@ public class DataBaseManager {
                                     // ++ln(aprt.APRTfuelTypes.length);
                                     //System.out.println(a.APRTfuelTypes.length);
                                     //aprtz from file reader always has 2 fuel types because of the reader logic.
-                                    if (a.APRTfuelTypes.length == 1) {
+                                    if (a.APRTfuelTypes.length == 1 || a.APRTfuelTypes[1] == null) {
                                         return true;
                                     } else if (a.APRTfuelTypes.length == 2) {
-                                        if (aprt.APRTfuelTypes[1].equals(a.APRTfuelTypes[1])) {
-                                            return true;
-                                        }
+                                            if (aprt.APRTfuelTypes[1].equals(a.APRTfuelTypes[1])) {
+                                                return true;
+                                            }
                                     }
                                 }
                             }
@@ -310,11 +315,18 @@ public class DataBaseManager {
                             if (Double.parseDouble(reader.readLine().trim()) == a.APRTlongitude) {
                                 if (Double.parseDouble(reader.readLine().trim()) == a.APRTlatitude) {
                                     if (Double.parseDouble(reader.readLine().trim()) == a.freq) {
+                                        //current logic assumes that if all these other parts are correct, and fuel type 1 is the same,
+                                        // then fuel type 2 will also be the same, this is technically flawed but
+                                        // its sound for implementation for our purposes.
                                         if (reader.readLine().trim().equals(a.APRTfuelTypes[0].trim())) {
-                                            if (a.APRTfuelTypes.length == 1 ) {
+
+                                            reader.mark(1000);
+                                            String next = reader.readLine();
+                                            if (a.APRTfuelTypes.length == 1 || a.APRTfuelTypes[1] == "" || a.APRTfuelTypes[1] == null) {
+                                                reader.reset();
                                                 continue;
-                                            } else if (reader.readLine().trim().equals(a.APRTfuelTypes[1].trim())) {
-                                                    continue;
+                                            } else if (next != null && next.equals(a.APRTfuelTypes[1].trim())) {
+                                                continue;
                                             }
                                         }
                                     }
@@ -336,12 +348,15 @@ public class DataBaseManager {
                                 if (Double.parseDouble(reader.readLine().trim()) == a.APRTlatitude) {
                                     if (Double.parseDouble(reader.readLine().trim()) == a.freq) {
                                         if (reader.readLine().trim().equals(a.APRTfuelTypes[0].trim())) {
-                                            if (a.APRTfuelTypes.length == 1 ) {
-                                                if (reader.readLine() == null) {
+                                            //reader.mark(1000);
+                                            String next = reader.readLine();
+                                            if (a.APRTfuelTypes.length == 1 || a.APRTfuelTypes[1] == null) {
+                                                //reader.reset();
+                                                if (next == null) {
                                                     writer.write(currentLine);
                                                     continue;
                                                 }
-                                            } else if (reader.readLine().trim().equals(a.APRTfuelTypes[1].trim())) {
+                                            } else if (next != null && next.trim().equals(a.APRTfuelTypes[1].trim())) {
                                                 if (reader.readLine() == null) {
                                                     writer.write(currentLine);
                                                     continue;
@@ -406,6 +421,15 @@ public class DataBaseManager {
             addAirport(nw);
         }
     }
+    public static ArrayList<Airport> searchAirports(String srch){
+        ArrayList<Airport> results = new ArrayList<>();
+        for (Airport a : aprts) {
+            if (a.CAOid.contains(srch) || a.APTname.contains(srch)) {
+                results.add(a);
+            }
+        }
+        return results;
+    }
     public static void main(String[] args) {
         // this main method is for testing db functionality, for the developers
         // if z li touches this code hes bypassing what i intended for him to be able to test
@@ -425,6 +449,17 @@ public class DataBaseManager {
             Airport a = new Airport("KJFK", "Johne F. Kennedy International Airport", new String[]{"AVGAS"}, 40.6413, -73.7781, 100.0);
             Airport a1 = new Airport("KJFK (modified)", "John F. Kennedy International Airport", new String[]{"AVGAS","JA-a"}, 40.6413, -73.7781, 100.0);
             Airport a2 = new Airport("CYYZ","Torontoo Pearson, Toronto, Canada", new String[]{"AVGAS","JA-a"}, 79.62, 43.68, 122.275);
+            ArrayList<Airport> opts = searchAirports("K");
+            for (Airport AA : opts){
+                System.out.println(AA.CAOid);
+                System.out.println(AA.APTname);
+                System.out.println(AA.APRTlatitude);
+                System.out.println(AA.APRTlongitude);
+                System.out.println(AA.freq);
+                for (String s : AA.APRTfuelTypes) {
+                    System.out.println(s);
+                }
+            }
             //dbinst.addAirport(a);
             //dbinst.addAirport(a1);
             //dbinst.addAirport(a2);

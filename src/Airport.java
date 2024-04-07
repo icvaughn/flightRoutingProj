@@ -14,6 +14,12 @@ public class Airport {
         APRTlatitude = Latitude;
         freq = fr;
     }
+    public String forPrint() {
+        if (APRTfuelTypes.length > 1){
+            return "ICAO: " + CAOid + " Name: " + APTname + " Fuel Types: " + APRTfuelTypes[0] + ", " + APRTfuelTypes[1] + " Longitude: " + APRTlongitude + " Latitude: " + APRTlatitude + " Frequency: " + freq;
+        }
+        return "ICAO: " + CAOid + " Name: " + APTname + " Fuel Types: " + APRTfuelTypes[0] + " Longitude: " + APRTlongitude + " Latitude: " + APRTlatitude + " Frequency: " + freq;
+    }
 
 
 

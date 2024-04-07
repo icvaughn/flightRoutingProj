@@ -52,24 +52,3 @@ Toronto Pearson, Toronto, Canada
 43.68
 122.275
 AVGAS
-JA-a
-KLAX
-Los Angelas, California
-118.41
-33.94
-128.2
-AVGAS
-JA-a
-CYYZ
-Torontoo Pearson, Toronto, Canada
-79.62
-43.68
-122.275
-AVGAS
-JA-a
-KJFK
-Johne F. Kennedy International Airport
-40.6413
--73.7781
-100.0
-AVGAS
