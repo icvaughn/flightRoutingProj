@@ -16,7 +16,7 @@ public class removeAirportPanel extends JPanel {
         JLabel searchWarning = new JLabel("Capital sensitive, ICAO or Name only, partial search is supported");
         searchWarning.setBounds(10, 70, 400, 25);
         results = new JPanel();
-
+        JLabel info = new JLabel("Simply click the airport and confirm your selection to remove it.");
         searchbar.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
@@ -67,9 +67,12 @@ public class removeAirportPanel extends JPanel {
             }
         });
 
+
         JScrollPane scrollPane = new JScrollPane(results, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setBounds(10, 100, 1000, 100);
         searchbar.setBounds(10, 40, 150, 25);
+        info.setBounds(170, 40, 400, 25);
+        add(info);
         add(scrollPane);
         add(label);
         add(searchWarning);
