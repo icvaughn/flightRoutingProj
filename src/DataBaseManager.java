@@ -12,6 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.time.*;
 public class DataBaseManager {
     public static File airportDB;
     public static File airplaneDB;
@@ -89,9 +90,9 @@ public class DataBaseManager {
                 String make = info[0].trim();
                 String model = info[1].trim();
                 String fuel = info[2].trim();
-                int fuelCapacity = Integer.parseInt(info[3].trim());
-                int fuelConsumption = Integer.parseInt(info[4].trim());
-                int speed = Integer.parseInt(info[5].trim());
+                double fuelCapacity = Double.parseDouble(info[3].trim());
+                double fuelConsumption = Double.parseDouble(info[4].trim());
+                double speed = Double.parseDouble(info[5].trim());
                 Airplane a = new Airplane(make, model, fuel, fuelCapacity, fuelConsumption, speed);
                 a.setRange();
                 aplanes.add(a);
@@ -102,54 +103,7 @@ public class DataBaseManager {
         }
         return aplanes;
     }
-    public static void makeMassiveAportDB(String finalName) {
-        File apdb = new File(finalName);
-        Random randy = new Random();
-        DecimalFormat df = new DecimalFormat("#.##");
-        String[] locations = {"City1,Country1", "City2,Country2", "City3,Country3", "City4,Country4", "City5,Country5", "City6,Country6", "City7,Country7", "City8,Country8", "City9,Country9", "City10,Country10", "City11,Country11", "City12,Country12"};
-        HashSet<String> usedICAOs = new HashSet<>();
-        try (FileWriter writer = new FileWriter(apdb)) {
-            for (int i = 1; i <= 1000; i++) {
-                String ICAO;
-                do {
-                    ICAO = randy.ints(65, 91)
-                            .limit(4)
-                            .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
-                            .toString();
-                } while (usedICAOs.contains(ICAO));
-                usedICAOs.add(ICAO);
 
-                String Loc = locations[randy.nextInt(locations.length)];
-
-                double Long = randy.nextDouble() * 180 * (randy.nextBoolean() ? -1 : 1);
-                double Lat = randy.nextDouble() * 90 * (randy.nextBoolean() ? -1 : 1);
-
-                double freq = randy.nextDouble() * 150;
-
-                String[][] fuelTypes = {{"JA-A", "AVGAS"}, {"JA-A"}, {"AVGAS"}};
-                String[] fts = fuelTypes[randy.nextInt(fuelTypes.length)];
-                Long = Double.parseDouble(df.format(Long));
-                Lat = Double.parseDouble(df.format(Lat));
-                freq = Double.parseDouble(df.format(freq));
-                writer.write(ICAO + "\n");
-                writer.write(Loc + "\n");
-                writer.write(Long + "\n");
-                writer.write(Lat + "\n");
-                writer.write(freq + "\n");
-                for (String ft : fts) {
-                    if (ft != null) {
-                        if (ft != fts[fts.length - 1] || fts[fts.length-1] != null) {
-                            writer.write(ft + "\n");
-                        } else {
-                            writer.write(ft);
-                        }
-                    }
-                }
-            }
-        } catch (IOException e) {
-            System.err.println("The helpless child laborer could not get the file written: " + e.getMessage());
-        }
-    }
     public static void addAirport(Airport a) { //epic logic to ensure no trailing spaces
         //data validation on the add buttons, not here
         //update arrlist
@@ -430,10 +384,28 @@ public class DataBaseManager {
         }
         return results;
     }
+    public static ArrayList<Airplane> searchAirplanes(String srch){
+        ArrayList<Airplane> results = new ArrayList<>();
+        if (srch.contains(",")){
+            ArrayList<String> specific = new ArrayList<>(Arrays.asList(srch.split(",")));
+            for (Airplane a : aplanes) {
+                if (a.make.toLowerCase().contains(specific.get(0).toLowerCase().trim()) && a.model.toLowerCase().contains(specific.get(1).toLowerCase().trim())) {
+                    results.add(a);
+                }
+            }
+        } else {
+            for (Airplane a : aplanes) {
+                if (a.make.toLowerCase().contains(srch.toLowerCase().trim()) || a.model.toLowerCase().contains(srch.toLowerCase().trim()) || a.fuel.toLowerCase().contains(srch.toLowerCase().trim())) {
+                    results.add(a);
+                }
+            }
+        }
+
+        return results;
+    }
+
     public static void main(String[] args) {
         // this main method is for testing db functionality, for the developers
-        // if z li touches this code hes bypassing what i intended for him to be able to test
-        // and thus will be able to break it, hopefully otherwise he will have a hard time breaking this code,
         // the checks are pretty redundant
         //db dbinst = new db("src/dbDir/airports.txt", "src/dbDir/airplanes.txt");
         //makeMassiveAportDB("src/dbDir/airports1.txt");
@@ -460,6 +432,8 @@ public class DataBaseManager {
                     System.out.println(s);
                 }
             }
+
+
             //dbinst.addAirport(a);
             //dbinst.addAirport(a1);
             //dbinst.addAirport(a2);

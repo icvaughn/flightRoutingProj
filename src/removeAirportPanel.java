@@ -10,13 +10,11 @@ public class removeAirportPanel extends JPanel {
     public removeAirportPanel() {
         setLayout(null);
         JLabel label = new JLabel("Remove Airport");
-        label.setBounds(10, 10, 100,25);
-
-        JTextField searchbar = new JTextField("Search");
+        JTextField searchbar = new JTextField("");
         JLabel searchWarning = new JLabel("Capital sensitive, ICAO or Name only, partial search is supported");
-        searchWarning.setBounds(10, 70, 400, 25);
         results = new JPanel();
         JLabel info = new JLabel("Simply click the airport and confirm your selection to remove it.");
+        /*
         searchbar.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
@@ -28,15 +26,16 @@ public class removeAirportPanel extends JPanel {
                 searchbar.setText("Search");
             }
         });
+        */
         searchbar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String searchText = searchbar.getText();
                 DataBaseManager db = new DataBaseManager("src/dbDir/airports.txt", "src/dbDir/airplanes.txt");
-                ArrayList<Airport> aports = new ArrayList<>();
+
                 airportsSearch = db.searchAirports(searchText);
                 results.removeAll();
-                results.setLayout(new GridLayout(aports.size(), 1, 5, 5));
+                results.setLayout(new GridLayout(airportsSearch.size(), 1, 5, 5));
                 for (Airport aa: airportsSearch){
                     JButton airportLabel = new JButton(aa.forPrint());
                     airportLabel.addActionListener(new ActionListener() {
@@ -68,10 +67,13 @@ public class removeAirportPanel extends JPanel {
         });
 
 
-        JScrollPane scrollPane = new JScrollPane(results, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        JScrollPane scrollPane = new JScrollPane(results, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setBounds(10, 100, 1000, 100);
         searchbar.setBounds(10, 40, 150, 25);
         info.setBounds(170, 40, 400, 25);
+        label.setBounds(10, 10, 100,25);
+        searchWarning.setBounds(10, 70, 400, 25);
+
         add(info);
         add(scrollPane);
         add(label);

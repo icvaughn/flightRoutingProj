@@ -1,6 +1,5 @@
-Boeing,777,Turbofan,45000,1980,556
-Boeing,747,Jet,12474,1795,556
-Airbus,A320,Jet,15698,3400,564999
-Boeing,Shittyplane1,JA-A,10000,100,500
-Boeing,Shittyplane2,JA-A,10000,100,500
-Boeing,Shittyplane3,JA-A,10000,100,500
+boeing,747,Jet,12474.0,1795.0,556.0
+boeing,777,Turbofan,45000.0,1980.0,556.0
+boeing,Shittyplane2,Jet,10000.0,100.0,500.0
+airbus,A320,Jet,15695.0,3400.0,564999.0
+boeing,Shittyplane1,Jet,9.0,100.0,500.0
