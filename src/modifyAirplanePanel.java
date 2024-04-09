@@ -58,7 +58,7 @@ public class modifyAirplanePanel extends JPanel{
             }
         });
         searchbar.setBounds(10, 10, 200, 25);
-        JLabel searchWarning = new JLabel("<html> Capital sensitive, search make, model, and fuel type, or search make and model for a specific option, <br> to search the specific plane include a comma, the syntax is Make,model (spaces do not matter)</html>");
+        JLabel searchWarning = new JLabel("<html> Capital sensitive, search make, model, and fuel type, or search make and model for a specific option, <br> to search the specific plane include a comma, the syntax is Make,model (spaces do not matter) --decimals are cut for display</html>");
         searchWarning.setBounds(10, 40, 600, 50);
         results = new JPanel();
         JScrollPane scroll = new JScrollPane(results, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -101,7 +101,8 @@ public class modifyAirplanePanel extends JPanel{
             remove(modifyPanel);
 
         }
-        DataBaseManager db = new DataBaseManager("src/dbDir/airports.txt", "src/dbDir/airplanes.txt");
+        //DataBaseManager db = new DataBaseManager("src/dbDir/airports.txt", "src/dbDir/airplanes.txt");
+        db.aplanes = db.readAirplanes();
         make = new JTextField(selectedAirplane.make);
         model = new JTextField(selectedAirplane.model);
         fuel = new JTextField(selectedAirplane.fuel);
@@ -117,6 +118,10 @@ public class modifyAirplanePanel extends JPanel{
                 if (newAirplane != null){
                     newAirplane = null;
 
+                }
+                if (!isValidNumber(fuelCapacity.getText().trim()) || !isValidNumber(fuelConsumption.getText().trim()) || !isValidNumber(speed.getText().trim())) {
+                    JOptionPane.showMessageDialog(null, "Please enter a valid number");
+                    return;
                 }
                 if (make.getText().equals("") || model.getText().equals("") || fuel.getText().equals("") || fuelCapacity.getText().equals("") || fuelConsumption.getText().equals("") || speed.getText().equals("")){
                     JOptionPane.showMessageDialog(null, "Please fill out all fields");
@@ -139,6 +144,11 @@ public class modifyAirplanePanel extends JPanel{
                     JOptionPane.showMessageDialog(null, "This airplane already exists");
                     return;
                 }
+                if (decCheck(fuelCapacity.getText()) || decCheck(fuelConsumption.getText()) || decCheck(speed.getText())) {
+                    JOptionPane.showMessageDialog(null, "Please enter a valid number (limited to .#####)");
+                    return;
+                }
+
                 db.modifyAirplane(selectedAirplane, newAirplane);
 
                 JOptionPane.showMessageDialog(null, "Airplane has been modified");
@@ -193,6 +203,17 @@ public class modifyAirplanePanel extends JPanel{
         add(modifyPanel);
         validate();
         repaint();
+        }
+        public boolean decCheck(String input) {
+            return input.matches("^-?\\d*\\.\\d{6,}$");
+        }
+        public boolean isValidNumber(String input) {
+            try {
+                Double.parseDouble(input);
+                return true;
+            } catch (NumberFormatException e) {
+                return false;
+            }
         }
         public static void main(String[] args){
             JFrame frame = new JFrame();

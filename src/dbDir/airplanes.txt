@@ -1,5 +1,5 @@
 boeing,747,Jet,12474.0,1795.0,556.0
 boeing,777,Turbofan,45000.0,1980.0,556.0
-boeing,Shittyplane2,Jet,10000.0,100.0,500.0
 airbus,A320,Jet,15695.0,3400.0,564999.0
 boeing,Shittyplane1,Jet,9.0,100.0,500.0
+boeing,Shittyplane2,Jet,1.0,100.0,500.0
