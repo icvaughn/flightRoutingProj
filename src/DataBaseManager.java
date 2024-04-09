@@ -377,7 +377,13 @@ public class DataBaseManager {
     public static ArrayList<Airport> searchAirports(String srch){
         ArrayList<Airport> results = new ArrayList<>();
         for (Airport a : aprts) {
-            if (a.CAOid.toLowerCase().contains(srch.toLowerCase().trim()) || a.APTname.toLowerCase().contains(srch.toLowerCase().trim()) || (a.APRTfuelTypes[0].toLowerCase() + a.APRTfuelTypes[1].toLowerCase()).contains(srch.toLowerCase().trim())){
+            String combined;
+            if (a.APRTfuelTypes[1] != null){
+                combined = a.APRTfuelTypes[0].toLowerCase().trim() + a.APRTfuelTypes[1].toLowerCase().trim();
+            } else {
+                combined = a.APRTfuelTypes[0];
+            }
+            if (a.CAOid.toLowerCase().contains(srch.toLowerCase().trim()) || a.APTname.toLowerCase().contains(srch.toLowerCase().trim()) || combined.contains(srch.toLowerCase().trim())){
                 results.add(a);
             }
         }

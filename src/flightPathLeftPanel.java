@@ -8,7 +8,6 @@ public class flightPathLeftPanel extends JPanel {
 
     ArrayList<Airport> flightlist;
     JPanel holderJPanel = new JPanel();
-    TextField searchBar= new TextField();
 
     flightPathLeftPanel(ArrayList<Airport> airports, ArrayList<Airport> flightlists) {
         flightlist = flightlists;

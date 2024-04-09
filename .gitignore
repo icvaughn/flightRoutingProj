@@ -1,6 +1,7 @@
 # Project exclude paths
 /out/
 vcs.xml
+uiDesigner.xml
 /bin/
 .classpath
 .project

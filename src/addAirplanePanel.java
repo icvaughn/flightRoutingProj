@@ -263,7 +263,33 @@ public class addAirplanePanel extends JPanel{
 	class SpeedVerifier extends InputVerifier{
 		public boolean verify(JComponent input) {
 			try {
-				
+				double speed = Double.valueOf(txtSpeed.getText());
+				String speedText = txtSpeed.getText();
+				double sciSpeed = Double.valueOf(String.format("%.5E",speed));
+				if(sciSpeed <= Double.MAX_VALUE) {
+					if(speed >= 0) {
+						if(speedText.matches("\\d+\\.\\d{0,5}$") || speedText.matches("\\d+")) {
+							lblError.setVisible(false);
+							return true;
+						}
+						else {
+							lblError.setText("Speed cannot be blank or more than 5 decimal places");
+							lblError.setVisible(true);
+							return false;
+						}
+					}
+					else {
+						lblError.setText("Speed must be > 0");
+						lblError.setVisible(true);
+						return false;
+					}
+				}
+				else{
+					lblError.setText("Speed is too large");
+					lblError.setVisible(true);
+					return false;
+				}
+
 			}
 			catch(Exception e) {
 				lblError.setText(e.getMessage());
