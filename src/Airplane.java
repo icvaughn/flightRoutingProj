@@ -17,6 +17,7 @@ public class Airplane {
         this.fuelCapacity = fuelCapacity;
         this.fuelConsumption = fuelConsumption;
         this.speed = speed;
+        setRange();
     }
 
     public void setRange() {

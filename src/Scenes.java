@@ -74,7 +74,7 @@ public class Scenes extends JFrame {
         jbtEditAirport.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 remove(currentScene);
-                currentScene = new flightPathRightPanel(Airports, flightplan);
+                currentScene = new modifyAirportPanel();
                 add(currentScene, BorderLayout.CENTER);
                 add(jpBackButton, BorderLayout.NORTH);
                 revalidate();
