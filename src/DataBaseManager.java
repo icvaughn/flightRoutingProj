@@ -175,7 +175,7 @@ public class DataBaseManager {
                                     if (a.APRTfuelTypes.length == 1 || a.APRTfuelTypes[1] == null) {
                                         return true;
                                     } else if (a.APRTfuelTypes.length == 2) {
-                                            if (aprt.APRTfuelTypes[1].equals(a.APRTfuelTypes[1])) {
+                                            if (aprt.APRTfuelTypes[1] == a.APRTfuelTypes[1]) {
                                                 return true;
                                             }
                                     }
@@ -369,8 +369,7 @@ public class DataBaseManager {
             return;
         }
         if (containsAirport(aprts,old)){
-            aprts.remove(old);
-            aprts.add(nw);
+
             removeAirport(old);
             addAirport(nw);
         }
@@ -378,7 +377,7 @@ public class DataBaseManager {
     public static ArrayList<Airport> searchAirports(String srch){
         ArrayList<Airport> results = new ArrayList<>();
         for (Airport a : aprts) {
-            if (a.CAOid.contains(srch) || a.APTname.contains(srch)) {
+            if (a.CAOid.toLowerCase().contains(srch.toLowerCase().trim()) || a.APTname.toLowerCase().contains(srch.toLowerCase().trim()) || (a.APRTfuelTypes[0].toLowerCase() + a.APRTfuelTypes[1].toLowerCase()).contains(srch.toLowerCase().trim())){
                 results.add(a);
             }
         }
@@ -421,7 +420,7 @@ public class DataBaseManager {
             Airport a = new Airport("KJFK", "Johne F. Kennedy International Airport", new String[]{"AVGAS"}, 40.6413, -73.7781, 100.0);
             Airport a1 = new Airport("KJFK (modified)", "John F. Kennedy International Airport", new String[]{"AVGAS","JA-a"}, 40.6413, -73.7781, 100.0);
             Airport a2 = new Airport("CYYZ","Torontoo Pearson, Toronto, Canada", new String[]{"AVGAS","JA-a"}, 79.62, 43.68, 122.275);
-            ArrayList<Airport> opts = searchAirports("K");
+            ArrayList<Airport> opts = searchAirports("");
             for (Airport AA : opts){
                 System.out.println(AA.CAOid);
                 System.out.println(AA.APTname);
