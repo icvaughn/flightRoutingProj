@@ -53,19 +53,21 @@ public class addAirplanePanel extends JPanel{
 	private String airplaneMake;
 	private String airplaneModel;
 	private String airplaneType;
-	private int airplaneFuelCap;
-	private int airplaneFuelUse;
-	private int airplaneSpeed;
+	private double airplaneFuelCap;
+	private double airplaneFuelUse;
+	private double airplaneSpeed;
 	
 	public addAirplanePanel() {
 		setLayout(new BorderLayout());
 		panMake.add(lblMake);
 		panMake.add(txtMake);
 		panInput.add(panMake);
+		txtMake.setInputVerifier(vMake);
 		
 		panModel.add(lblModel);
 		panModel.add(txtModel);
 		panInput.add(panModel);
+		txtModel.setInputVerifier(vModel);
 		
 		panType.add(lblType);
 		bg.add(rbtnType1);
@@ -75,19 +77,25 @@ public class addAirplanePanel extends JPanel{
 		panType.add(rbtnType2);
 		panType.add(rbtnType3);
 		panInput.add(panType);
+		rbtnType1.setInputVerifier(vType1);
+		rbtnType2.setInputVerifier(vType2);
+		rbtnType3.setInputVerifier(vType3);
 		
 		
 		panCap.add(lblCap);
 		panCap.add(txtCap);
 		panInput.add(panCap);
+		txtCap.setInputVerifier(vCap);
 		
 		panBurn.add(lblBurn);
 		panBurn.add(txtBurn);
 		panInput.add(panBurn);
+		txtBurn.setInputVerifier(vBurn);
 		
 		panSpeed.add(lblSpeed);
 		panSpeed.add(txtSpeed);
 		panInput.add(panSpeed);
+		txtSpeed.setInputVerifier(vSpeed);
 		
 		panInput.setLayout(new GridLayout(6,1,5,5));
 		add(panInput,BorderLayout.CENTER);
@@ -127,31 +135,47 @@ public class addAirplanePanel extends JPanel{
 	class MakeVerifier extends InputVerifier{
 		public boolean verify(JComponent input) {
 			try {
-				
+				String make = txtMake.getText();
+				if(make.equals("") || make.length()>=20) {
+					lblError.setText("Make cannot be blank or over length 20");
+					lblError.setVisible(true);
+					return false;
+				}
 			}
 			catch(Exception e) {
 				lblError.setText(e.getMessage());
 				lblError.setVisible(true);
+				return false;
 			}
-			return false;
+			lblError.setVisible(false);
+			return true;
 		}
 	}
 	class ModelVerifier extends InputVerifier{
 		public boolean verify(JComponent input) {
 			try {
-				
+				String model = txtModel.getText();
+				if(model.equals("") || model.length() >= 20) {
+					lblError.setText("Model cannotbe blank or over length 20");
+					lblError.setVisible(true);
+				}
 			}
 			catch(Exception e) {
 				lblError.setText(e.getMessage());
 				lblError.setVisible(true);
+				return false;
 			}
-			return false;
+			lblError.setVisible(false);
+			return true;
 		}
 	}
 	class TypeVerifier extends InputVerifier{
 		public boolean verify(JComponent input) {
 			try {
-				
+				if(rbtnType1.isSelected() || rbtnType2.isSelected() || rbtnType3.isSelected()) {
+					lblError.setVisible(false);
+					return true;
+				}
 			}
 			catch(Exception e) {
 				lblError.setText(e.getMessage());
@@ -169,7 +193,7 @@ public class addAirplanePanel extends JPanel{
 				lblError.setText(e.getMessage());
 				lblError.setVisible(true);
 			}
-			return false;
+			return true;
 		}
 	}
 	class BurnVerifier extends InputVerifier{
@@ -181,7 +205,7 @@ public class addAirplanePanel extends JPanel{
 				lblError.setText(e.getMessage());
 				lblError.setVisible(true);
 			}
-			return false;
+			return true;
 		}
 	}
 	class SpeedVerifier extends InputVerifier{
@@ -193,7 +217,7 @@ public class addAirplanePanel extends JPanel{
 				lblError.setText(e.getMessage());
 				lblError.setVisible(true);
 			}
-			return false;
+			return true;
 		}
 	}
 	
