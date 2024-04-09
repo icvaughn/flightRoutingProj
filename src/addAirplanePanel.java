@@ -187,25 +187,77 @@ public class addAirplanePanel extends JPanel{
 	class CapVerifier extends InputVerifier{
 		public boolean verify(JComponent input) {
 			try {
-				
+				double cap = Double.valueOf(txtCap.getText());
+				String capText = txtCap.getText();
+				//System.out.println(capText);
+				double sciCap = Double.valueOf(String.format("%.5E", cap));
+				if(sciCap <= Double.MAX_VALUE) {
+					if(cap >= 0) {
+						if(capText.matches("\\d+\\.\\d{0,5}$") || capText.matches("\\d+")) {
+							lblError.setVisible(false);
+							return true;
+						}
+						else {
+							lblError.setText("Cap cannot be blank or more than 5 decimal places");
+							lblError.setVisible(true);
+							return false;
+						}
+					}
+					else {
+						lblError.setText("Capacity must be > 0");
+						lblError.setVisible(true);
+						return false;
+					}
+				}
+				else{
+					lblError.setText("Capacity is too large");
+					lblError.setVisible(true);
+					return false;
+				}
 			}
 			catch(Exception e) {
 				lblError.setText(e.getMessage());
 				lblError.setVisible(true);
 			}
-			return true;
+			return false;
 		}
 	}
 	class BurnVerifier extends InputVerifier{
 		public boolean verify(JComponent input) {
 			try {
-				
+				double burn = Double.valueOf(txtBurn.getText());
+				String burnText = txtBurn.getText();
+				double sciBurn = Double.valueOf(String.format("%.5E",burn));
+				if(sciBurn <= Double.MAX_VALUE) {
+					if(burn >= 0) {
+						if(burnText.matches("\\d+\\.\\d{0,5}$") || burnText.matches("\\d+")) {
+							lblError.setVisible(false);
+							return true;
+						}
+						else {
+							lblError.setText("Burn cannot be blank or more than 5 decimal places");
+							lblError.setVisible(true);
+							return false;
+						}
+					}
+					else {
+						lblError.setText("Burn must be > 0");
+						lblError.setVisible(true);
+						return false;
+					}
+				}
+				else{
+					lblError.setText("Burn Rate is too large");
+					lblError.setVisible(true);
+					return false;
+				}
+					
 			}
 			catch(Exception e) {
 				lblError.setText(e.getMessage());
 				lblError.setVisible(true);
 			}
-			return true;
+			return false;
 		}
 	}
 	class SpeedVerifier extends InputVerifier{
