@@ -218,7 +218,7 @@ public class modifyAirportPanel extends JPanel{
         repaint();
     }
     public boolean isValidICAO(String input) {
-        return input.matches("^[A-Z]{4}$");
+        return input.matches("^[A-Z]{3,4}$");
     }
     public boolean isValidNumber(String input) {
         try {
