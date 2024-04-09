@@ -15,7 +15,7 @@ public class flightPathLeftPanel extends JPanel {
         generateAirportList();
         holderJPanel.setLayout(new GridLayout(flightlist.size(), 1));
         // Add the text area to a JScrollPane with a vertical scrollbar
-        JScrollPane scrollPane = new JScrollPane(holderJPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        JScrollPane scrollPane = new JScrollPane(holderJPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         // Create a vertical scrollbar
         //JScrollBar verticalScrollBar = scrollPane.getHorizontalScrollBar();
         scrollPane.setPreferredSize(new Dimension(this.getWidth(),50));
@@ -56,5 +56,9 @@ public class flightPathLeftPanel extends JPanel {
             // add button to right of the airport Viewer
 
         }
+    };
+    public void reinit() {
+        this.removeAll();
+        generateAirportList();
     };
 }

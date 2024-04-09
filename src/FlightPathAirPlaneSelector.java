@@ -8,13 +8,18 @@ public class FlightPathAirPlaneSelector extends JPanel {
 
     ArrayList<Airplane> Airplanes;
 
+    Airplane Airplane;
     JPanel holderJPanel = new JPanel();
 
     JPanel anotherHolder = new JPanel();
 
-    FlightPathAirPlaneSelector(ArrayList<Airplane> airplanes) {
+    DataBaseManager db;
 
+    FlightPathAirPlaneSelector(ArrayList<Airplane> airplanes,Airplane airplane, DataBaseManager DB) {
+
+        Airplane = airplane;
         Airplanes = airplanes;
+        db = DB;
         Init();
     }
 
@@ -25,13 +30,12 @@ public class FlightPathAirPlaneSelector extends JPanel {
         generateAirplaneList();
         holderJPanel.setLayout(new GridLayout(Airplanes.size(), 1));
         setLayout(new GridLayout(2, Airplanes.size()));
+        setSize(500, 800);
 
         searchbar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String searchText = searchbar.getText();
-                DataBaseManager db = new DataBaseManager("src/dbDir/airports.txt", "src/dbDir/airplanes.txt");
-
                 ArrayList<Airplane> list = db.searchAirplanes(searchText);
                 Airplanes.clear();
                 Airplanes.addAll(list);
@@ -61,7 +65,7 @@ public class FlightPathAirPlaneSelector extends JPanel {
         repaint();
     }
 
-    private void reinit() {
+    void reinit() {
         this.removeAll();
         Init();
     }
@@ -69,17 +73,26 @@ public class FlightPathAirPlaneSelector extends JPanel {
     private void generateAirplaneList() {
         for (Airplane plane : Airplanes) {
 
-            JLabel airplaneviewer = new JLabel(plane.forPrint());
+            JButton airplaneviewer = new JButton(plane.forPrint());
 
             JButton addbutton = new JButton("+");
 
-            addbutton.addActionListener(new ActionListener() {
+            airplaneviewer.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
+                    Airplane.make = plane.make;
+                    Airplane.model = plane.model;
+                    Airplane.fuel = plane.fuel;
+                    Airplane.fuelCapacity = plane.fuelCapacity;
+                    Airplane.speed = plane.speed;
+                    Airplane.fuelConsumption = plane.fuelConsumption;
+                    Airplane.range = plane.range;
                     repaint();
+                    FlightPlanScene parent = (FlightPlanScene) getParent();
+                    parent.Ai = Airplane;
+                    parent.right.Airplane = Airplane;
                 }
             });
 
-            airplaneviewer.add(addbutton, BorderLayout.EAST);
             holderJPanel.add(airplaneviewer, BorderLayout.CENTER);
         }
     }

@@ -124,6 +124,9 @@ public class Scenes extends JFrame {
 
 // The class for drawing arcs on a panel
 class FlightPlanScene extends JPanel {
+    public FlightPathAirPlaneSelector left;
+    flightPathRightPanel right;
+
     public void reInit(){
         remove(CenterPanel);
         CenterPanel = new flightPathLeftPanel(Airports, flightplan);
@@ -135,6 +138,7 @@ class FlightPlanScene extends JPanel {
     ArrayList<Airport> flightplan = new ArrayList<>();// airports;
 
     ArrayList<Airplane> Airplanes;
+    Airplane Ai = new Airplane();
     JButton jbtSubmit = new JButton("Submit");
 
     flightPathLeftPanel CenterPanel = new flightPathLeftPanel(Airports, flightplan);
@@ -160,7 +164,7 @@ class FlightPlanScene extends JPanel {
              //take the return of the flight plan and display the information of the flight plan
 
         
-
+            System.out.println(Ai.forPrint());
             }
         });
 
@@ -171,12 +175,12 @@ class FlightPlanScene extends JPanel {
         Airplanes = DB.aplanes;
 
         setLayout(new BorderLayout());
-        flightPathRightPanel right = new flightPathRightPanel(Airports, flightplan);
+        right = new flightPathRightPanel(Airports, flightplan, DB);
         add(right, BorderLayout.EAST);
-        FlightPathAirPlaneSelector left = new FlightPathAirPlaneSelector(Airplanes);
+        left = new FlightPathAirPlaneSelector(Airplanes, Ai, DB);
         add(CenterPanel, BorderLayout.CENTER);
-        add(jbtSubmit, BorderLayout.SOUTH);
-        add(left, BorderLayout.WEST);
+        add(jbtSubmit, BorderLayout.WEST);
+        add(left, BorderLayout.SOUTH);
         repaint();
 
     };

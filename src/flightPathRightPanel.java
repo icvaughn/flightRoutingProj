@@ -12,12 +12,16 @@ public class flightPathRightPanel extends JPanel {
 
     JPanel anotherHolder = new JPanel();
 
+    Airplane Airplane;
 
+DataBaseManager db;
 
-    flightPathRightPanel(ArrayList<Airport> airportes, ArrayList<Airport> flightlists) {
+    flightPathRightPanel(ArrayList<Airport> airportes, ArrayList<Airport> flightlists, DataBaseManager DB) {
 
         Airports = airportes;
         flightlist = flightlists;
+        db= DB;
+        FlightPlanScene parent = (FlightPlanScene) getParent();
         Init();
     }
 
@@ -34,7 +38,7 @@ public class flightPathRightPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String searchText = searchbar.getText();
-                DataBaseManager db = new DataBaseManager("src/dbDir/airports.txt", "src/dbDir/airplanes.txt");
+                //DataBaseManager db = new DataBaseManager("src/dbDir/airports.txt", "src/dbDir/airplanes.txt");
 
                 ArrayList<Airport> list = db.searchAirports(searchText);
                 Airports.clear();
@@ -48,7 +52,7 @@ public class flightPathRightPanel extends JPanel {
                 repaint();
                 //line to reinitialize parent scene (refresh display)
                 FlightPlanScene parent = (FlightPlanScene) getParent();
-                parent.reInit();
+                parent.left.reinit();
                 reinit();
 
             }
@@ -58,8 +62,8 @@ public class flightPathRightPanel extends JPanel {
         });
 
 
-        JScrollPane scrollPane = new JScrollPane(holderJPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        JScrollPane scrollPane = new JScrollPane(holderJPanel, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
         anotherHolder.removeAll();
 
@@ -95,10 +99,9 @@ public class flightPathRightPanel extends JPanel {
                 // add the airport the button is associated with to the flightPlan ArrayList
                 public void actionPerformed(ActionEvent e) {
                     flightlist.add(aprt);
-                    //firePropertyChange("flightplan",0,1);
                     repaint();
-//                    FlightPlanScene parent = (FlightPlanScene) getParent();
-//                    parent.reInit();
+                    FlightPlanScene parent = (FlightPlanScene) getParent();
+                     parent.reInit();
                 };
 
             });

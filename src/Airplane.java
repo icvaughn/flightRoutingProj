@@ -20,6 +20,10 @@ public class Airplane {
         setRange();
     }
 
+    public Airplane() {
+        //Empty constructor
+    }
+
     public void setRange() {
         this.range = (double) fuelCapacity / fuelConsumption * speed;
     }
