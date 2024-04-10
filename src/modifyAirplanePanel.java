@@ -131,8 +131,8 @@ public class modifyAirplanePanel extends JPanel{
                     JOptionPane.showMessageDialog(null, "Please enter a valid number");
                     return;
                 }
-                if (!Objects.equals(fuel.getText().toLowerCase().trim(), "jet") && (!Objects.equals(fuel.getText().toLowerCase().trim(), "turbofan"))){
-                    JOptionPane.showMessageDialog(null, "Please enter a valid fuel type (jet or turbofan)");
+                if (!Objects.equals(fuel.getText().toLowerCase().trim(), "jet") && (!Objects.equals(fuel.getText().toLowerCase().trim(), "turbofan")) && (!Objects.equals(fuel.getText().toLowerCase().trim(), "prop")) ){
+                    JOptionPane.showMessageDialog(null, "Please enter a valid fuel type (jet, turbofan, or prop)");
                     return;
                 }
                 if ((Double.parseDouble(fuelCapacity.getText()) >= Double.MAX_VALUE) || (Double.parseDouble(fuelConsumption.getText()) >= Double.MAX_VALUE) || (Double.parseDouble(speed.getText()) >= Double.MAX_VALUE)){

@@ -3,12 +3,11 @@ public class Airplane {
     public String make;
     public String model;
     public String fuel;
+    public String trueFuelType;
     public double fuelCapacity;
     public double fuelConsumption;
     public double speed;
-    public double range; // unit based on speed unit m or km
-    // this will only be accurate if the units match up (Liters, liters/hr, km/hr or
-    // m/hr)
+    public double range;
 
     public Airplane(String make, String model, String fuel, double fuelCapacity, double fuelConsumption, double speed) {
         this.make = make;
@@ -25,7 +24,18 @@ public class Airplane {
     }
 
     public void setRange() {
-        this.range = (double) fuelCapacity / fuelConsumption * speed;
+        this.range = (double) fuelCapacity / fuelConsumption * (speed*1.852); //converts speed from knots to km/hr
+    }
+    public void setTrueFuelType(){
+        if (fuel.toLowerCase().trim().equals("prop")){
+            trueFuelType = "AVGAS";
+        }
+        if (fuel.toLowerCase().trim().equals("jet")){
+            trueFuelType = "JA-a";
+        }
+        if (fuel.toLowerCase().trim().equals("turboprop")){
+            trueFuelType = "JA-a";
+        }
     }
     public String forPrint(){
         DecimalFormat decimalFormat = new DecimalFormat("0.00");

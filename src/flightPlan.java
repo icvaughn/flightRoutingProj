@@ -2,10 +2,11 @@ import java.util.*;
 import javax.swing.*;
 import java.awt.*;
 import java.util.PriorityQueue;
+//this algorithm is flat earth asf. will remodel when i have time (before pres)
 public class flightPlan {
     //back-end
     public ArrayList<Airport> inputApts;
-    public ArrayList<Airport> optimalPath;
+    public ArrayList<AirportInfo> optimalPath;
     public Airport start;
     public Airport end;
     public DataBaseManager DB = new DataBaseManager("./src/dbDir/airports.txt", "./src/dbDir/airplanes.txt");
@@ -22,7 +23,7 @@ public class flightPlan {
     public double totalTimeCost;
     public int totalStops;
 
-    public ArrayList<point> bestPathpts = new ArrayList<>();
+    //public ArrayList<point> bestPathpts = new ArrayList<>();
     //priorqueue?
 
     //custom class for algorithmic use
@@ -31,6 +32,7 @@ public class flightPlan {
         public double x;
         public double y;
         public double weight;
+        public double distance;
         public boolean isStart;
         public boolean isEnd;
         public boolean hasAVGAS;
@@ -54,6 +56,11 @@ public class flightPlan {
             this.hasAVGAS = hasAVGAS;
             this.hasJAa = hasJAa;
         }
+        public point(){
+            this.x = 0;
+            this.y = 0;
+            this.name = "tmp";
+        }
         public point(Airport a){
             this.x = a.APRTlatitude;
             this.y = a.APRTlongitude;
@@ -64,9 +71,21 @@ public class flightPlan {
         public ArrayList<point> convert(ArrayList<Airport> apts){
             ArrayList<point> pts = new ArrayList<>();
             for (Airport a : apts){
-                pts.add(new point(a));
+                point p = new point(a);
+                //System.out.println(p.name);
+                if (!pts.contains(p)){
+                    pts.add(p);
+                }
             }
             return pts;
+        }
+        public point getPoint(String name, ArrayList<point> pts){
+            for (point p : pts){
+                if (p.name.equals(name)){
+                    return p;
+                }
+            }
+            return new point();
         }
         public double[] deriveWeight(point thisPT, point nxtPT, point p) {
             point intercept = new point(0,0,"imaginary");
@@ -122,30 +141,124 @@ public class flightPlan {
                 }
             }
         }
+        public void setDistance(point base,point jump){
+            distance = Math.sqrt(Math.pow(jump.x-base.x,2)+Math.pow(jump.y-base.y,2));
+        }
+        public double getDistance(point base,point jump){
+            return Math.sqrt(Math.pow(jump.x-base.x,2)+Math.pow(jump.y-base.y,2));
+        }
+        public static double calculateHeading(double log1, double lat1, double log2, double lat2){
+
+            double temp = (lat2 - lat1) / Math.sqrt( (log2-log1)*(log2-log1) + (lat2-lat1)*(lat2-lat1) );
+            double theta = (180.0 / Math.PI) * Math.acos(temp);
+
+            //System.out.println("The value of theta is " + theta);
+
+            return theta;
+
+        }
         //this is not finished: will work when im back
         public ArrayList<AirportInfo> getBestPath(ArrayList<Airport> pts, Airport start, Airport end, Airplane ap){
+            ap.setRange();
+            ap.setTrueFuelType();
+            System.out.println(ap.trueFuelType);
+            ArrayList<point> ptz = new ArrayList<>();
+            for (Airport a : pts){
+                if (Arrays.asList(a.APRTfuelTypes).contains(ap.trueFuelType)) {
+                    ptz.add(new point(a));
+                    //System.out.println(a.CAOid);
+                }
+            }
             ArrayList<AirportInfo> path = new ArrayList<>();
-            ArrayList<point> ptz = convert(pts);
+
+            for (point p : ptz){
+                System.out.println(p.name);
+            }
             point startpt = new point(start);
             point endpt = new point(end);
-            ptz.get(ptz.indexOf(new point(start))).isStart = true;
-            ptz.get(ptz.indexOf(new point(end))).isEnd = true;
+            ptz.get(ptz.indexOf(startpt.getPoint(startpt.name,ptz))).isStart = true;
+            ptz.get(ptz.indexOf(endpt.getPoint(endpt.name,ptz))).isEnd = true;
+            point cpyStr = ptz.get(ptz.indexOf(startpt.getPoint(startpt.name,ptz)));
+            point cpyEnd = ptz.get(ptz.indexOf(endpt.getPoint(endpt.name,ptz)));
             point[] ptsArr = ptz.toArray(new point[ptz.size()]);
-            for (point p : ptsArr){
-                p.setWeight(startpt,endpt, p);
+
+            for (point p : ptz){
+                p.setWeight(cpyStr, cpyEnd, p);
             }
-            for (point p : ptsArr){
+            for (point p : ptz){
                 p.associateNbs(ptsArr, ap.range);
+
             }
             boolean finished = false;
-            while (!finished){
-                point min = startpt.getMin();
-                if (min.isEnd){
-                    finished = true;
+            point min = cpyStr;
+            point current = cpyStr;
+            while (!finished) {
+                if (min.neighbors.size() == 0){
+                    throw new IllegalArgumentException("No path found");
                 }
-                path.add(new AirportInfo(pts.get(ptz.indexOf(min))));
+                if (ptz.get(ptz.indexOf(current.getPoint(current.name,ptz))).isEnd) {
+                    finished = true;
+                    continue;
+                }
+                //System.out.println(min.neighbors.get(0).name);
+                for (point p : min.neighbors){
+                    System.out.println(min.name + " -Neighbor: " + p.name);
+                }
+                //System.out.println(min.name);
+                current = min;
+                min = current.getMin();
+
+                AirportInfo ai = new AirportInfo(DB.searchICAO(current.name));
+
+                double distance = current.getDistance(current, min);
+                //System.out.println(distance);
+                ai.distance = distance;
+
+                double time = ai.distance/ap.speed; //this assumes km and km/hr (and L/hr and L)
+                ai.timeCost = time; //hours
+                ai.fuelCost = time*ap.fuelConsumption; // Liters (assumes L/Hr)
+                ai.Heading = calculateHeading(current.x, current.y, min.x, min.y);
+                ai.nextAirport = DB.searchICAO(min.name);
+                path.add(ai);
+
             }
             return path;
         }
+    }
+    public flightPlan(ArrayList<Airport> inputApts, Airport start, Airport end, Airplane ap){
+        point p = new point(0,0,"tmp");
+        this.inputApts = inputApts;
+        this.start = start;
+        this.end = end;
+        this.optimalPath = p.getBestPath(inputApts, start, end, ap);
+        this.totalDistance = 0;
+        this.totalFuelCost = 0;
+        this.totalTimeCost = 0;
+        this.totalStops = 0;
+        for (AirportInfo ai : optimalPath){
+            totalDistance += ai.distance;
+            totalFuelCost += ai.fuelCost;
+            totalTimeCost += ai.timeCost;
+            totalStops++;
+        }
+    }
+    public flightPlan(){
+        //empty constructor
+    }
+    public static void main(String[] args){
+        DataBaseManager db = new DataBaseManager("./src/dbDir/airports.txt", "./src/dbDir/airplanes.txt");
+        Airplane ap = new Airplane("Boeing", "747", "jet", 100000, 1000, 900);
+        Airport start = db.searchICAO("KIAD");
+        Airport end = db.searchICAO("KCAE");
+        //System.out.println(start.forPrint());
+        flightPlan fp = new flightPlan(db.aprts, start,end, ap);
+        for (AirportInfo ai : fp.optimalPath){
+            System.out.println(ai.thisAirport.forPrint());
+            System.out.println("Heading: " + ai.Heading);
+        }
+        System.out.println("Fuel cost " + fp.totalFuelCost);
+        System.out.println("Total Distance " + fp.totalDistance);
+        System.out.println("Total Time " + fp.totalTimeCost);
+        System.out.println("Total Stops " + fp.totalStops);
     }
 }

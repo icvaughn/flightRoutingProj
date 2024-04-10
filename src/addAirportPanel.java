@@ -245,9 +245,7 @@ public class addAirportPanel extends JPanel{
 	}
 	class FuelVerifier extends InputVerifier{
 		public boolean verify(JComponent input) {
-			revalidate();
-			repaint();
-			//System.out.println("Fuel Verify");
+			System.out.println("Fuel Verify");
 			try {
 				if(!rdFuel1.isSelected() && !rdFuel2.isSelected()) {
 					lblError.setText("Must select 1 or both fuel types");
@@ -255,19 +253,19 @@ public class addAirportPanel extends JPanel{
 					jbtAdd.setEnabled(false);
 					return false;
 				}
+				else if(rdFuel1.isSelected() && rdFuel2.isSelected()) {
+					airportFuel = new String[2];
+					airportFuel[0] = "AVGAS";
+					airportFuel[1] = "JA-a";
+				}
 				else if(rdFuel1.isSelected() ^ rdFuel2.isSelected()) {
 					airportFuel = new String[1];
 					if(rdFuel1.isSelected()) {
 						airportFuel[0]="AVGAS";
 					}
 					else {
-						airportFuel[1]="JA-a";
+						airportFuel[0]="JA-a";
 					}
-				}
-				else if(rdFuel1.isSelected() && rdFuel2.isSelected()) {
-					airportFuel = new String[2];
-					airportFuel[0] = "AVGAS";
-					airportFuel[1] = "JA-a";
 				}
 				lblError.setVisible(false);
 				jbtAdd.setEnabled(true);

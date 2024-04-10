@@ -119,7 +119,7 @@ public class DataBaseManager {
                 writer.write(a.freq + "\n");
                 for (String ft : a.APRTfuelTypes) {
                     if (ft != null) {
-                        if (ft != a.APRTfuelTypes[a.APRTfuelTypes.length - 1]) {
+                        if (ft != a.APRTfuelTypes[a.APRTfuelTypes.length - 1]) { // wait a second lol
                             writer.write(ft.trim() + "\n");
                         } else {
                             writer.write(ft.trim());
@@ -389,6 +389,14 @@ public class DataBaseManager {
         }
         return results;
     }
+    public static Airport searchICAO(String srch){
+        for (Airport a : aprts) {
+            if (a.CAOid.toLowerCase().contains(srch.toLowerCase().trim())){
+                return a;
+            }
+        }
+        return null;
+    }
     public static ArrayList<Airplane> searchAirplanes(String srch){
         ArrayList<Airplane> results = new ArrayList<>();
         if (srch.contains(",")){
@@ -416,7 +424,7 @@ public class DataBaseManager {
         //makeMassiveAportDB("src/dbDir/airports1.txt");
 
             //WORKING CODE TO INTERACT WITH DB: (prints for debug)
-            DataBaseManager dbinst = new DataBaseManager("src/dbDir/airports.txt", "src/dbDir/airplanes.txt");
+            DataBaseManager dbinst = new DataBaseManager("src/dbDir/airports1.txt", "src/dbDir/airplanes.txt");
             aplanes = readAirplanes();
             aprts = readAirports();
             //dbinst.addAirport(new Airport("KJFK", "John F. Kennedy International Airport", new String[]{"JA-A","AVGAS"}, 40.6413, -73.7781, 100.0));
@@ -427,7 +435,7 @@ public class DataBaseManager {
             Airport a1 = new Airport("KJFK (modified)", "John F. Kennedy International Airport", new String[]{"AVGAS","JA-a"}, 40.6413, -73.7781, 100.0);
             Airport a2 = new Airport("CYYZ","Torontoo Pearson, Toronto, Canada", new String[]{"AVGAS","JA-a"}, 79.62, 43.68, 122.275);
             ArrayList<Airport> opts = searchAirports("");
-            for (Airport AA : opts){
+            /*for (Airport AA : opts){
                 System.out.println(AA.CAOid);
                 System.out.println(AA.APTname);
                 System.out.println(AA.APRTlatitude);
@@ -436,7 +444,9 @@ public class DataBaseManager {
                 for (String s : AA.APRTfuelTypes) {
                     System.out.println(s);
                 }
-            }
+            }*/
+            //Airport a4 = searchICAO("GSZR");
+            //System.out.println(a4.forPrint());
 
 
             //dbinst.addAirport(a);
