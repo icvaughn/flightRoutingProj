@@ -29,11 +29,12 @@ public class Scenes extends JFrame {
 
         // Create Panel jpButtons to hold two Buttons "<=" and "right =>"
         JPanel jpButtons = new JPanel();
+        //jpButtons.setLayout(new GridLayout(5,2));
         jpButtons.add(jbtMakePlan);
-        jpButtons.add(jbtEditAirport);
-        jpButtons.add(jbtEditAirplane);
         jpButtons.add(jbtAddAirplane);
         jpButtons.add(jbtAddAirport);
+        jpButtons.add(jbtEditAirport);
+        jpButtons.add(jbtEditAirplane);
         jpButtons.add(jbtRmvAirport);
         jpButtons.add(jbtRmvAirplane);
         jpButtons.add(jbtExit);
@@ -48,6 +49,7 @@ public class Scenes extends JFrame {
         add(txtDontUseThisLol, BorderLayout.SOUTH);
         txtDontUseThisLol.setLineWrap(true);
         txtDontUseThisLol.setWrapStyleWord(true);
+        txtDontUseThisLol.setEditable(false);
         
         ;
         jbtAddAirplane.addActionListener(new ActionListener() {	//new additions
