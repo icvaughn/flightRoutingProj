@@ -104,7 +104,7 @@ public class addAirportPanel extends JPanel{
 	            								Airport nw = new Airport(airportICAO, airportName,airportFuel,airportLong,airportLat,airportFreq);
 	            								DB.addAirport(nw);
 	            								DB.readAirports();
-	            								//System.out.println()
+	            								System.out.println(airportFuel.toString());
 	            								//break;
 	            							}
 	            						}

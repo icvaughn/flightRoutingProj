@@ -136,7 +136,7 @@ public class addAirplanePanel extends JPanel{
 		public boolean verify(JComponent input) {
 			try {
 				String make = txtMake.getText();
-				if(make.equals("") || make.length()>=20) {
+				if(make.equals("") || make.length()>20) {
 					lblError.setText("Make cannot be blank or over length 20");
 					lblError.setVisible(true);
 					return false;
@@ -155,9 +155,10 @@ public class addAirplanePanel extends JPanel{
 		public boolean verify(JComponent input) {
 			try {
 				String model = txtModel.getText();
-				if(model.equals("") || model.length() >= 20) {
+				if(model.equals("") || model.length() > 20) {
 					lblError.setText("Model cannotbe blank or over length 20");
 					lblError.setVisible(true);
+					return false;
 				}
 			}
 			catch(Exception e) {
