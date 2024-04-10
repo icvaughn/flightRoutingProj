@@ -145,7 +145,7 @@ public class Scenes extends JFrame {
 
     public static void main(String[] args) {
         Scenes frame = new Scenes();
-        frame.setTitle("TEST1NO5IsaacVaughn");
+        frame.setTitle("Fligth Planer");
         frame.setLocationRelativeTo(null); // Center the frame
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(400, 320);
@@ -207,6 +207,7 @@ class FlightPlanScene extends JPanel {
 
         setLayout(new BorderLayout());
         right = new flightPathRightPanel(Airports, flightplan, DB);
+        right.Airplane = Ai;
         add(right, BorderLayout.EAST);
         left = new FlightPathAirPlaneSelector(Airplanes, Ai, DB);
         add(CenterPanel, BorderLayout.CENTER);

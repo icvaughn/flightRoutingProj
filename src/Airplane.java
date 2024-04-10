@@ -1,8 +1,11 @@
 import java.text.DecimalFormat;
+import java.util.Objects;
+
 public class Airplane {
     public String make;
     public String model;
     public String fuel;
+    public String searchFuel;
     public double fuelCapacity;
     public double fuelConsumption;
     public double speed;
@@ -17,6 +20,8 @@ public class Airplane {
         this.fuelCapacity = fuelCapacity;
         this.fuelConsumption = fuelConsumption;
         this.speed = speed;
+        if (Objects.equals(fuel, "Jet")) searchFuel = "JA-a";
+        else searchFuel = "AVGAS";
         setRange();
     }
 

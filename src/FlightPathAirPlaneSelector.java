@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class FlightPathAirPlaneSelector extends JPanel {
 
@@ -38,6 +39,7 @@ public class FlightPathAirPlaneSelector extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String searchText = searchbar.getText();
+
                 ArrayList<Airplane> list = db.searchAirplanes(searchText);
                 Airplanes.clear();
                 Airplanes.addAll(list);
@@ -87,10 +89,12 @@ public class FlightPathAirPlaneSelector extends JPanel {
                     Airplane.speed = plane.speed;
                     Airplane.fuelConsumption = plane.fuelConsumption;
                     Airplane.range = plane.range;
+                    Airplane.searchFuel = plane.searchFuel;
                     repaint();
                     FlightPlanScene parent = (FlightPlanScene) getParent();
-                    parent.Ai = Airplane;
-                    parent.right.Airplane = Airplane;
+                    //parent.Ai = Airplane;
+                    parent.right.Airports = db.searchAirports("", Airplane);
+                    parent.right.reinit();
                     reinit();
                     revalidate();
                     repaint();

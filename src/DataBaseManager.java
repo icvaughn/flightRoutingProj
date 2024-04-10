@@ -409,6 +409,30 @@ public class DataBaseManager {
         return results;
     }
 
+
+
+    public static ArrayList<Airport> searchAirports(String srch, Airplane air){
+        ArrayList<Airport> results = new ArrayList<>();
+        for (Airport a : aprts) {
+            String combined;
+
+            String searchFuel;
+
+            if (a.APRTfuelTypes[1] != null){
+                combined = a.APRTfuelTypes[0].toLowerCase().trim() + a.APRTfuelTypes[1].toLowerCase().trim();
+            } else {
+                combined = a.APRTfuelTypes[0];
+            }
+
+            if(Objects.equals(a.APRTfuelTypes[0], air.searchFuel) || Objects.equals(a.APRTfuelTypes[1], air.searchFuel)){
+                if (a.CAOid.toLowerCase().contains(srch.toLowerCase().trim()) || a.APTname.toLowerCase().contains(srch.toLowerCase().trim()) || combined.contains(srch.toLowerCase().trim())){
+                    results.add(a);
+                }
+            }
+        }
+        return results;
+    }
+
     public static void main(String[] args) {
         // this main method is for testing db functionality, for the developers
         // the checks are pretty redundant
