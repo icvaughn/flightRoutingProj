@@ -29,11 +29,12 @@ public class Scenes extends JFrame {
 
         // Create Panel jpButtons to hold two Buttons "<=" and "right =>"
         JPanel jpButtons = new JPanel();
+        //jpButtons.setLayout(new GridLayout(5,2));
         jpButtons.add(jbtMakePlan);
-        jpButtons.add(jbtEditAirport);
-        jpButtons.add(jbtEditAirplane);
         jpButtons.add(jbtAddAirplane);
         jpButtons.add(jbtAddAirport);
+        jpButtons.add(jbtEditAirport);
+        jpButtons.add(jbtEditAirplane);
         jpButtons.add(jbtRmvAirport);
         jpButtons.add(jbtRmvAirplane);
         jpButtons.add(jbtExit);
@@ -48,6 +49,7 @@ public class Scenes extends JFrame {
         add(txtDontUseThisLol, BorderLayout.SOUTH);
         txtDontUseThisLol.setLineWrap(true);
         txtDontUseThisLol.setWrapStyleWord(true);
+        txtDontUseThisLol.setEditable(false);
         
         ;
         jbtAddAirplane.addActionListener(new ActionListener() {	//new additions
@@ -143,7 +145,7 @@ public class Scenes extends JFrame {
 
     public static void main(String[] args) {
         Scenes frame = new Scenes();
-        frame.setTitle("TEST1NO5IsaacVaughn");
+        frame.setTitle("Fligth Planer");
         frame.setLocationRelativeTo(null); // Center the frame
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(400, 320);
@@ -205,6 +207,7 @@ class FlightPlanScene extends JPanel {
 
         setLayout(new BorderLayout());
         right = new flightPathRightPanel(Airports, flightplan, DB);
+        right.Airplane = Ai;
         add(right, BorderLayout.EAST);
         left = new FlightPathAirPlaneSelector(Airplanes, Ai, DB);
         add(CenterPanel, BorderLayout.CENTER);

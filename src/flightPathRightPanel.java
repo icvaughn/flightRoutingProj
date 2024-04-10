@@ -39,8 +39,10 @@ DataBaseManager db;
             public void actionPerformed(ActionEvent e) {
                 String searchText = searchbar.getText();
                 //DataBaseManager db = new DataBaseManager("src/dbDir/airports.txt", "src/dbDir/airplanes.txt");
-
-                ArrayList<Airport> list = db.searchAirports(searchText);
+                ArrayList<Airport> list;
+                if(Airplane.model == null){list = db.searchAirports(searchText);}
+                else{System.out.println("Airplane model: " + Airplane.searchFuel);
+                    list = db.searchAirports(searchText, Airplane);}
                 Airports.clear();
                 Airports.addAll(list);
 
@@ -78,7 +80,7 @@ DataBaseManager db;
 
     }
 
-    private void reinit() {
+    void reinit() {
         this.removeAll();
         Init();
 
