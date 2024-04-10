@@ -14,7 +14,7 @@ public class addAirportPanel extends JPanel{
 	private JTextField txtName = new JTextField("Please enter the Name");
 	
 	private JPanel panLatLong = new JPanel();
-	private JLabel lblLatLong = new JLabel("Please enter latitude, then enter longitude");
+	private JLabel lblLatLong = new JLabel("Please enter longitude, then enter latitude");
 	private JTextField txtLat = new JTextField("Latitude");
 	private JTextField txtLong = new JTextField("Longitude");
 	
@@ -121,11 +121,13 @@ public class addAirportPanel extends JPanel{
 			try {
 				airportICAO = txtIcao.getText();
 				//String error = lblError.getText();
-				if(airportICAO.length() == 3 || airportICAO.length() == 4) {
-					if(airportICAO.toUpperCase().equals(airportICAO)) {
-						lblError.setVisible(false);
-						jbtAdd.setEnabled(true);
-						return true;
+				if(airportICAO.matches("//d+")) {
+					if(airportICAO.length() == 3 || airportICAO.length() == 4) {
+						if(airportICAO.toUpperCase().equals(airportICAO)) {
+							lblError.setVisible(false);
+							jbtAdd.setEnabled(true);
+							return true;
+						}
 					}
 				}
 				lblError.setText("\n ICAO must be 3 or 4 letters and all caps");
