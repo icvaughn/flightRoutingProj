@@ -14,6 +14,7 @@ public class Scenes extends JFrame {
     private JButton jbtBack = new JButton("Back");
     private JButton jbtAddAirport = new JButton("Add airport");
     private JButton jbtAddAirplane = new JButton("Add airplane");
+    private JTextArea txtDontUseThisLol = new JTextArea("THIS SOFTWARE IS NOT TO BE USED FOR FLIGHT PLANNING OR NAVIGATIONAL PURPOSE");
     static ArrayList<Airport> Airports;
 
     ArrayList<Airport> flightplan;
@@ -39,6 +40,11 @@ public class Scenes extends JFrame {
         currentScene = jpButtons;
         setLayout(new BorderLayout());
         add(currentScene, BorderLayout.CENTER);
+        
+        add(txtDontUseThisLol, BorderLayout.SOUTH);
+        txtDontUseThisLol.setLineWrap(true);
+        txtDontUseThisLol.setWrapStyleWord(true);
+        
         ;
         jbtAddAirplane.addActionListener(new ActionListener() {	//new additions
             public void actionPerformed(ActionEvent e) {
