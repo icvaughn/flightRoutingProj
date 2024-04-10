@@ -111,7 +111,6 @@ public class addAirplanePanel extends JPanel{
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("add");
-				vMake.verify(txtMake);
 				
 				if (vMake.verify(txtMake)) {
 					if(vModel.verify(txtModel)) {
@@ -120,7 +119,7 @@ public class addAirplanePanel extends JPanel{
 								if(vType3.verify(rbtnType3)) {
 									if(vCap.verify(txtCap)) {
 										if(vBurn.verify(txtBurn)) {
-											if(vSpeed.verify(txtBurn)) {
+											if(vSpeed.verify(txtSpeed)) {
 												System.out.println("Verified");
 												Airplane ar = new Airplane(airplaneMake, airplaneModel, airplaneType,airplaneCap, airplaneBurn, airplaneSpeed);
 												DB.addAirplane(ar);
@@ -146,16 +145,19 @@ public class addAirplanePanel extends JPanel{
 				if(make.equals("") || make.length()>20) {
 					lblError.setText("Make cannot be blank or over length 20");
 					lblError.setVisible(true);
+					btnAdd.setEnabled(false);
 					return false;
 				}
 			}
 			catch(Exception e) {
 				lblError.setText(e.getMessage());
 				lblError.setVisible(true);
+				btnAdd.setEnabled(false);
 				return false;
 			}
 			lblError.setVisible(false);
 			airplaneMake = txtMake.getText();
+			btnAdd.setEnabled(true);
 			return true;
 		}
 	}
@@ -168,6 +170,7 @@ public class addAirplanePanel extends JPanel{
 				if(model.equals("") || model.length() > 20) {
 					lblError.setText("Model cannotbe blank or over length 20");
 					lblError.setVisible(true);
+					btnAdd.setEnabled(false);
 					return false;
 				}
 			}
@@ -175,10 +178,12 @@ public class addAirplanePanel extends JPanel{
 				lblError.setText(e.getMessage());
 				lblError.setVisible(true);
 				System.out.println("meow; ilmgf"); //can safely ignore
+				btnAdd.setEnabled(false);
 				return false;
 			}
 			lblError.setVisible(false);
 			airplaneModel = txtModel.getText();
+			btnAdd.setEnabled(true);
 			return true;
 		}
 	}
@@ -198,6 +203,7 @@ public class addAirplanePanel extends JPanel{
 					else if(rbtnType3.isSelected()) {
 						airplaneType = "jet";
 					}
+					btnAdd.setEnabled(true);
 					return true;
 				}
 			}
@@ -205,6 +211,9 @@ public class addAirplanePanel extends JPanel{
 				lblError.setText(e.getMessage());
 				lblError.setVisible(true);
 			}
+			lblError.setText("Must select a type");
+			lblError.setVisible(true);
+			btnAdd.setEnabled(false);
 			return false;
 		}
 	}
@@ -222,30 +231,36 @@ public class addAirplanePanel extends JPanel{
 						if(capText.matches("\\d+\\.\\d{0,5}$") || capText.matches("\\d+")) {
 							lblError.setVisible(false);
 							airplaneCap = cap;
+							btnAdd.setEnabled(true);
 							return true;
 						}
 						else {
 							lblError.setText("Cap cannot be blank or more than 5 decimal places");
 							lblError.setVisible(true);
+							btnAdd.setEnabled(false);
 							return false;
 						}
 					}
 					else {
 						lblError.setText("Capacity must be > 0");
 						lblError.setVisible(true);
+						btnAdd.setEnabled(false);
 						return false;
 					}
 				}
 				else{
 					lblError.setText("Capacity is too large");
 					lblError.setVisible(true);
+					btnAdd.setEnabled(false);
 					return false;
 				}
 			}
 			catch(Exception e) {
 				lblError.setText(e.getMessage());
 				lblError.setVisible(true);
+				
 			}
+			btnAdd.setEnabled(false);
 			return false;
 		}
 	}
@@ -262,23 +277,27 @@ public class addAirplanePanel extends JPanel{
 						if(burnText.matches("\\d+\\.\\d{0,5}$") || burnText.matches("\\d+")) {
 							lblError.setVisible(false);
 							airplaneBurn = burn;
+							btnAdd.setEnabled(true);
 							return true;
 						}
 						else {
 							lblError.setText("Burn cannot be blank or more than 5 decimal places");
 							lblError.setVisible(true);
+							btnAdd.setEnabled(false);
 							return false;
 						}
 					}
 					else {
 						lblError.setText("Burn must be > 0");
 						lblError.setVisible(true);
+						btnAdd.setEnabled(false);
 						return false;
 					}
 				}
 				else{
 					lblError.setText("Burn Rate is too large");
 					lblError.setVisible(true);
+					btnAdd.setEnabled(false);
 					return false;
 				}
 					
@@ -287,6 +306,7 @@ public class addAirplanePanel extends JPanel{
 				lblError.setText(e.getMessage());
 				lblError.setVisible(true);
 			}
+			btnAdd.setEnabled(false);
 			return false;
 		}
 	}
@@ -303,32 +323,37 @@ public class addAirplanePanel extends JPanel{
 						if(speedText.matches("\\d+\\.\\d{0,5}$") || speedText.matches("\\d+")) {
 							lblError.setVisible(false);
 							airplaneSpeed = speed;
+							btnAdd.setEnabled(true);
 							return true;
 						}
 						else {
 							lblError.setText("Speed cannot be blank or more than 5 decimal places");
 							lblError.setVisible(true);
+							btnAdd.setEnabled(false);
 							return false;
 						}
 					}
 					else {
 						lblError.setText("Speed must be > 0");
 						lblError.setVisible(true);
+						btnAdd.setEnabled(false);
 						return false;
 					}
+
 				}
 				else{
 					lblError.setText("Speed is too large");
 					lblError.setVisible(true);
+					btnAdd.setEnabled(false);
 					return false;
 				}
-
 			}
 			catch(Exception e) {
 				lblError.setText(e.getMessage());
 				lblError.setVisible(true);
+				btnAdd.setEnabled(false);
+				return false;
 			}
-			return true;
 		}
 	}
 	

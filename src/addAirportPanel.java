@@ -87,12 +87,7 @@ public class addAirportPanel extends JPanel{
 		
 		jbtAdd.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-            	//TODO this shit? While loop gets stuck if you dont select one of the fields first
-            	//But while loop feels better user wise, no need to manually click to another button to refresh error label
-            	//By defualt ,While selecting a text , unable to select another button after add b/c focus will not yield since verify() is false
-            	//EDIT: Scratch on thw while loop I think, but leaving it here in case
-            	System.out.println("add");
-            	//while (true){
+            	System.out.println("try add");
 	            	if (vIcao.verify(txtIcao)) {
 	            		if(vName.verify(txtName)) {
 	            			if(vLong.verify(txtLong)) {
@@ -104,8 +99,7 @@ public class addAirportPanel extends JPanel{
 	            								Airport nw = new Airport(airportICAO, airportName,airportFuel,airportLong,airportLat,airportFreq);
 	            								DB.addAirport(nw);
 	            								DB.readAirports();
-	            								System.out.println(airportFuel.toString());
-	            								//break;
+	            								System.out.println("added");
 	            							}
 	            						}
 	            					}
@@ -113,7 +107,6 @@ public class addAirportPanel extends JPanel{
 	            			}
 	            		}
 	            	}
-            	//}
             	
             	
 ;            }
@@ -131,17 +124,20 @@ public class addAirportPanel extends JPanel{
 				if(airportICAO.length() == 3 || airportICAO.length() == 4) {
 					if(airportICAO.toUpperCase().equals(airportICAO)) {
 						lblError.setVisible(false);
+						jbtAdd.setEnabled(true);
 						return true;
 					}
 				}
 				lblError.setText("\n ICAO must be 3 or 4 letters and all caps");
 				lblError.setVisible(true);
+				jbtAdd.setEnabled(false);
 				return false;
 			}
 			catch(Exception e) {
 				lblError.setText(e.getMessage());
 				lblError.setVisible(true);
 			}
+			jbtAdd.setEnabled(false);
 			return false;
 		}
 	
@@ -155,16 +151,19 @@ public class addAirportPanel extends JPanel{
 				airportName = txtName.getText();
 				if(airportName.matches(".+") && !(airportName.equals("Please enter the Name"))) { //1+ of any char
 					lblError.setVisible(false);
+					jbtAdd.setEnabled(true);
 					return true;
 				}
 				lblError.setText("Name cannot be blank or default text");
 				lblError.setVisible(true);
+				jbtAdd.setEnabled(false);
 				return false;
 			}
 			catch(Exception e) {
 				lblError.setText(e.getMessage());
 				lblError.setVisible(true);
 			}
+			jbtAdd.setEnabled(false);
 			return false;
 		}
 	}
@@ -178,16 +177,19 @@ public class addAirportPanel extends JPanel{
 				airportLong  = Double.valueOf(txtLong.getText());
 				if(airportLong >= -180.0 && airportLong <= 180.0) {
 						lblError.setVisible(false);
+						jbtAdd.setEnabled(true);
 						return true;
 					}
 				lblError.setText("Longitude must be within -180 and 180");
 				lblError.setVisible(true);
+				jbtAdd.setEnabled(false);
 				return false;
 				}
 			catch (Exception e) {
 				lblError.setText("Longitude must be a number");
 				lblError.setVisible(true);
 			}
+			jbtAdd.setEnabled(false);
 			return false;
 		}
 	}
@@ -200,16 +202,19 @@ public class addAirportPanel extends JPanel{
 				airportLat = Double.valueOf(txtLat.getText());
 				if(airportLat >= -90.0 && airportLat <= 90.0) {
 					lblError.setVisible(false);
+					jbtAdd.setEnabled(true);
 					return true;
 				}
 				lblError.setText("Latitude must be within -90.0 and 90.0");
 				lblError.setVisible(true);
+				jbtAdd.setEnabled(false);
 				return false;
 			}
 			catch(Exception e) {
 				lblError.setText("Latitude must be a number");
 				lblError.setVisible(true);
 			}
+			jbtAdd.setEnabled(false);
 			return false;
 		}
 	}
@@ -222,16 +227,19 @@ public class addAirportPanel extends JPanel{
 				airportFreq = Double.valueOf(txtComm.getText());
 				if(airportFreq > 0.0) {
 					lblError.setVisible(false);
+					jbtAdd.setEnabled(true);
 					return true;
 				}
 				lblError.setText("Comms Frequency must be > 0");
 				lblError.setVisible(true);
+				jbtAdd.setEnabled(false);
 				return false;
 			}
 			catch(Exception e){
 				lblError.setText("Comms Frequency must be a number");
 				lblError.setVisible(true);
 			}
+			jbtAdd.setEnabled(false);
 			return false;
 		}
 	}
@@ -244,6 +252,7 @@ public class addAirportPanel extends JPanel{
 				if(!rdFuel1.isSelected() && !rdFuel2.isSelected()) {
 					lblError.setText("Must select 1 or both fuel types");
 					lblError.setVisible(true);
+					jbtAdd.setEnabled(false);
 					return false;
 				}
 				else if(rdFuel1.isSelected() ^ rdFuel2.isSelected()) {
@@ -260,13 +269,16 @@ public class addAirportPanel extends JPanel{
 					airportFuel[0] = "AVGAS";
 					airportFuel[1] = "JA-a";
 				}
+				lblError.setVisible(false);
+				jbtAdd.setEnabled(true);
+				return true;
 			}
 			catch(Exception e){
 				lblError.setText(e.getLocalizedMessage());
 				lblError.setVisible(true);
+				jbtAdd.setEnabled(false);
 			}
-			lblError.setVisible(false);
-			return true;
+			return false;
 		}
 	}
 }
