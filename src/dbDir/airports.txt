@@ -1,10 +1,3 @@
-KCAE
-Columbia, South Carolina
-81
-34
-121.9
-AVGAS
-JA-a
 KAUG
 Augusa, Georgia
 81.97
@@ -33,13 +26,6 @@ Statesville, North Carolina
 159
 AVGAS
 JA-a
-KIAD
-Washington DC
-77.04
-38.9
-125.9
-AVGAS
-JA-a
 KRIC
 Richmond, Virginia
 77.43
@@ -52,3 +38,18 @@ Toronto Pearson, Toronto, Canada
 43.68
 122.275
 AVGAS
+JA-a
+KIAD
+Washington DC
+77.04
+38.9
+125.9
+AVGAS
+JA-a
+KCAE
+Columbia, South Carolina
+82.0
+34.0
+121.9
+AVGAS
+JA-a
