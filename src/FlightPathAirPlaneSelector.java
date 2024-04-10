@@ -30,6 +30,8 @@ public class FlightPathAirPlaneSelector extends JPanel {
         generateAirplaneList();
         holderJPanel.setLayout(new GridLayout(Airplanes.size(), 1));
         setLayout(new GridLayout(2, Airplanes.size()));
+
+
         setSize(500, 800);
 
         searchbar.addActionListener(new ActionListener() {
@@ -60,8 +62,8 @@ public class FlightPathAirPlaneSelector extends JPanel {
         anotherHolder.setLayout(new BorderLayout());
         anotherHolder.add(searchbar, BorderLayout.NORTH);
         anotherHolder.add(scrollPane, BorderLayout.CENTER);
+        if(Airplane.model != null) anotherHolder.add(new JLabel(Airplane.forPrint()), BorderLayout.SOUTH);
         add(anotherHolder);
-
         repaint();
     }
 
@@ -75,7 +77,6 @@ public class FlightPathAirPlaneSelector extends JPanel {
 
             JButton airplaneviewer = new JButton(plane.forPrint());
 
-            JButton addbutton = new JButton("+");
 
             airplaneviewer.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
@@ -90,6 +91,9 @@ public class FlightPathAirPlaneSelector extends JPanel {
                     FlightPlanScene parent = (FlightPlanScene) getParent();
                     parent.Ai = Airplane;
                     parent.right.Airplane = Airplane;
+                    reinit();
+                    revalidate();
+                    repaint();
                 }
             });
 

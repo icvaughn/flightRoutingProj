@@ -163,8 +163,7 @@ class FlightPlanScene extends JPanel {
 
              //take the return of the flight plan and display the information of the flight plan
 
-        
-            System.out.println(Ai.forPrint());
+
             }
         });
 
