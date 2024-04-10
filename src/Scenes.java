@@ -208,14 +208,16 @@ class FlightPlanScene extends JPanel {
                     flightPlan plan = new flightPlan(selctionList,flightplan.get(i-1), flightplan.get(i)  ,Ai);
 
                     for (AirportInfo info : plan.optimalPath) {
+
                         JPanel panel = new JPanel();
                         panel.setLayout(new GridLayout(6, 1));
                         panel.add(new JLabel("Current Airport: " + info.thisAirport.CAOid + " " + info.thisAirport.APTname + " " + info.thisAirport.freq + " " + info.thisAirport.APRTlatitude + " " + info.thisAirport.APRTlongitude));
                         panel.add(new JLabel("Destination Airport: " + info.nextAirport.CAOid + " " + info.nextAirport.APTname + " " + info.nextAirport.freq + " " + info.nextAirport.APRTlatitude + " " + info.nextAirport.APRTlongitude));
-                        panel.add(new JLabel("Leg Distance: " + String.valueOf(info.distance)));
-                        panel.add(new JLabel("Heading of Leg: " + String.valueOf(info.Heading)));
-                        panel.add(new JLabel("Fuel Used in Leg: " + String.valueOf(info.fuelCost)));
-                        panel.add(new JLabel("Expected Time of Leg: " + String.valueOf(info.timeCost)));
+                        panel.add(new JLabel("Leg Distance: " + String.valueOf(info.distance) + " km"));
+                        panel.add(new JLabel("Heading of Leg: " + String.valueOf(info.Heading) + " degrees"));
+                        panel.add(new JLabel("Fuel Used in Leg: " + String.valueOf(info.fuelCost) + " L"));
+                        panel.add(new JLabel("Expected Time of Leg: " + String.valueOf(info.timeCost) + " hours"));
+
 
                         holderPanel.add(panel);
                     }

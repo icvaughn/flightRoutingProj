@@ -117,7 +117,7 @@ public class flightPlan {
             return p;
         }
         public boolean isInRange(double r, point Base, point Jump){
-            return Math.sqrt(Math.pow(Jump.x-Base.x,2)+Math.pow(Jump.y-Base.y,2)) <= r;
+            return getDistance(Base,Jump) <= r;
         }
         public void associateNbs(point[] pts, double range){
             for (point p: pts){
@@ -144,8 +144,23 @@ public class flightPlan {
         public void setDistance(point base,point jump){
             distance = Math.sqrt(Math.pow(jump.x-base.x,2)+Math.pow(jump.y-base.y,2));
         }
-        public double getDistance(point base,point jump){
-            return Math.sqrt(Math.pow(jump.x-base.x,2)+Math.pow(jump.y-base.y,2));
+        public double getDistance(point base,point jump) {
+            final int R = 6371; // Radius of the earth in km
+
+            double lat1 = Math.toRadians(base.x);
+            double lon1 = Math.toRadians(base.y);
+            double lat2 = Math.toRadians(jump.x);
+            double lon2 = Math.toRadians(jump.y);
+
+            double dLat = lat2 - lat1;
+            double dLon = lon2 - lon1;
+
+            double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                    Math.cos(lat1) * Math.cos(lat2) *
+                            Math.sin(dLon / 2) * Math.sin(dLon / 2);
+            double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+            return R * c;
         }
         public static double calculateHeading(double log1, double lat1, double log2, double lat2){
 

@@ -59,10 +59,10 @@ public class modifyAirplanePanel extends JPanel{
         });
         searchbar.setBounds(10, 10, 200, 25);
         JLabel searchWarning = new JLabel("<html> Capital sensitive, search make, model, and fuel type, or search make and model for a specific option, <br> to search the specific plane include a comma, the syntax is Make,model (spaces do not matter) --decimals are cut for display</html>");
-        searchWarning.setBounds(10, 40, 600, 50);
+        searchWarning.setBounds(10, 40, 600, 80);
         results = new JPanel();
         JScrollPane scroll = new JScrollPane(results, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        scroll.setBounds(10, 100, 1000, 200);
+        scroll.setBounds(10, 130, 1000, 200);
         add(searchbar);
         add(searchWarning);
         add(scroll);
@@ -196,7 +196,7 @@ public class modifyAirplanePanel extends JPanel{
         modifyPanel.add(speedLabel);
         modifyPanel.add(speed);
         modifyPanel.add(modifyButton);
-        modifyPanel.setBounds(10, 300, 600, 500);
+        modifyPanel.setBounds(10, 330, 600, 500);
         modifyPanel.setBorder(BorderFactory.createLineBorder(Color.black));
         modifyPanel.revalidate();
         modifyPanel.repaint();
