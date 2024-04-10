@@ -228,6 +228,8 @@ class FlightPlanScene extends JPanel {
 
                 removeAll();
                 add(flightPanthPanel,BorderLayout.CENTER);
+                revalidate();
+                repaint();
             }
         });
 
