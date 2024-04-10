@@ -125,6 +125,12 @@ public class Scenes extends JFrame {
         });
         jbtExit.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                remove(currentScene);
+                currentScene = new snake.GamePanel();
+                add(currentScene,BorderLayout.CENTER);
+                add(jpBackButton, BorderLayout.NORTH);
+                revalidate();
+                repaint();
                 dispose();
 
             }
@@ -172,9 +178,8 @@ class FlightPlanScene extends JPanel {
     ArrayList<Airplane> Airplanes;
     Airplane Ai = new Airplane();
     JButton jbtSubmit = new JButton("Submit");
-
+    DataBaseManager DB = new DataBaseManager("./src/dbDir/airports.txt", "./src/dbDir/airplanes.txt");
     flightPathLeftPanel CenterPanel = new flightPathLeftPanel(Airports, flightplan);
-
 
     public JButton jbtEditAirplane = new JButton("Edit plan");
     FlightPlanScene() {
@@ -190,16 +195,43 @@ class FlightPlanScene extends JPanel {
 
         jbtSubmit.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-             // send flight plan to flight planing algorithm//
+             // send flight plan to flight planing algorithm
+
 
 
              //take the return of the flight plan and display the information of the flight plan
+                JPanel flightPanthPanel = new JPanel();
+                JPanel holderPanel = new JPanel();
+                holderPanel.setLayout(new GridLayout(1, flightplan.size()));
+                ArrayList<Airport> selctionList = DB.searchAirports("", Ai);
+                for(int i = 1; i < flightplan.size() ; i++){
+                    flightPlan plan = new flightPlan(selctionList,flightplan.get(i-1), flightplan.get(i)  ,Ai);
 
+                    for (AirportInfo info : plan.optimalPath) {
+                        JPanel panel = new JPanel();
+                        panel.setLayout(new GridLayout(6, 1));
+                        panel.add(new JLabel("Current Airport: " + info.thisAirport.CAOid + " " + info.thisAirport.APTname + " " + info.thisAirport.freq + " " + info.thisAirport.APRTlatitude + " " + info.thisAirport.APRTlongitude));
+                        panel.add(new JLabel("Destination Airport: " + info.nextAirport.CAOid + " " + info.nextAirport.APTname + " " + info.nextAirport.freq + " " + info.nextAirport.APRTlatitude + " " + info.nextAirport.APRTlongitude));
+                        panel.add(new JLabel("Leg Distance: " + String.valueOf(info.distance)));
+                        panel.add(new JLabel("Heading of Leg: " + String.valueOf(info.Heading)));
+                        panel.add(new JLabel("Fuel Used in Leg: " + String.valueOf(info.fuelCost)));
+                        panel.add(new JLabel("Expected Time of Leg: " + String.valueOf(info.timeCost)));
 
+                        holderPanel.add(panel);
+                    }
+                }
+
+                JScrollPane scrollPane = new JScrollPane(holderPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+                        JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+                flightPanthPanel.setLayout(new BorderLayout());
+                flightPanthPanel.add(scrollPane, BorderLayout.CENTER);
+
+                removeAll();
+                add(flightPanthPanel,BorderLayout.CENTER);
             }
         });
 
-        DataBaseManager DB = new DataBaseManager("./src/dbDir/airports.txt", "./src/dbDir/airplanes.txt");
+
         DB.readAirports();
         Airports = DB.aprts;
         DB.readAirplanes();

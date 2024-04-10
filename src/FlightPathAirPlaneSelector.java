@@ -89,6 +89,7 @@ public class FlightPathAirPlaneSelector extends JPanel {
                     Airplane.speed = plane.speed;
                     Airplane.fuelConsumption = plane.fuelConsumption;
                     Airplane.range = plane.range;
+                    plane.setTrueFuelType();
                     Airplane.trueFuelType = plane.trueFuelType;
                     repaint();
                     FlightPlanScene parent = (FlightPlanScene) getParent();

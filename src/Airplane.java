@@ -36,6 +36,9 @@ public class Airplane {
         if (fuel.toLowerCase().trim().equals("turboprop")){
             trueFuelType = "JA-a";
         }
+        if (fuel.toLowerCase().trim().equals("turbofan")){
+            trueFuelType = "JA-a";
+        }
     }
     public String forPrint(){
         DecimalFormat decimalFormat = new DecimalFormat("0.00");
