@@ -420,6 +420,7 @@ public class DataBaseManager {
 
 
     public static ArrayList<Airport> searchAirports(String srch, Airplane air){
+        air.setTrueFuelType();
         ArrayList<Airport> results = new ArrayList<>();
         for (Airport a : aprts) {
             String combined;
@@ -432,7 +433,7 @@ public class DataBaseManager {
                 combined = a.APRTfuelTypes[0];
             }
 
-            if(Objects.equals(a.APRTfuelTypes[0], air.searchFuel) || Objects.equals(a.APRTfuelTypes[1], air.searchFuel)){
+            if(Objects.equals(a.APRTfuelTypes[0], air.trueFuelType) || Objects.equals(a.APRTfuelTypes[1], air.trueFuelType)){
                 if (a.CAOid.toLowerCase().contains(srch.toLowerCase().trim()) || a.APTname.toLowerCase().contains(srch.toLowerCase().trim()) || combined.contains(srch.toLowerCase().trim())){
                     results.add(a);
                 }

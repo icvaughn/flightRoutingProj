@@ -41,7 +41,7 @@ DataBaseManager db;
                 //DataBaseManager db = new DataBaseManager("src/dbDir/airports.txt", "src/dbDir/airplanes.txt");
                 ArrayList<Airport> list;
                 if(Airplane.model == null){list = db.searchAirports(searchText);}
-                else{System.out.println("Airplane model: " + Airplane.searchFuel);
+                else{System.out.println("Airplane model: " + Airplane.trueFuelType);
                     list = db.searchAirports(searchText, Airplane);}
                 Airports.clear();
                 Airports.addAll(list);
