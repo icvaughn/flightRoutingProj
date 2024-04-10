@@ -201,6 +201,7 @@ public class snake {
 
             // Draw the score
             g.drawString("Score: " + applesEaten, x, y);
+
         }
 
         @Override

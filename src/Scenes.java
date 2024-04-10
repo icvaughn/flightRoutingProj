@@ -208,7 +208,9 @@ class FlightPlanScene extends JPanel {
                     flightPlan plan = new flightPlan(selctionList,flightplan.get(i-1), flightplan.get(i)  ,Ai);
 
                     for (AirportInfo info : plan.optimalPath) {
-
+                        if (info == plan.optimalPath.get(plan.optimalPath.size()-1)){
+                            continue;
+                        }
                         JPanel panel = new JPanel();
                         panel.setLayout(new GridLayout(6, 1));
                         panel.add(new JLabel("Current Airport: " + info.thisAirport.CAOid + " " + info.thisAirport.APTname + " " + info.thisAirport.freq + " " + info.thisAirport.APRTlatitude + " " + info.thisAirport.APRTlongitude));
