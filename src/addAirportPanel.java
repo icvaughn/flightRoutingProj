@@ -122,6 +122,8 @@ public class addAirportPanel extends JPanel{
 	}
 	class ICAOVerifier extends InputVerifier{
 		public boolean verify(JComponent input) {
+			revalidate();
+			repaint();
 			System.out.println("ICAO Verify");
 			try {
 				airportICAO = txtIcao.getText();
@@ -146,7 +148,9 @@ public class addAirportPanel extends JPanel{
 	}
 	class NameVerifier extends InputVerifier{
 		public boolean verify(JComponent input) {
-			System.out.println("Name Verify");
+			revalidate();
+			repaint();
+			//System.out.println("Name Verify");
 			try {
 				airportName = txtName.getText();
 				if(airportName.matches(".+") && !(airportName.equals("Please enter the Name"))) { //1+ of any char
@@ -166,7 +170,9 @@ public class addAirportPanel extends JPanel{
 	}
 	class LongVerifier extends InputVerifier{
 		public boolean verify(JComponent input) {
-			System.out.println("Long Verify");
+			//System.out.println("Long Verify");
+			revalidate();
+			repaint();
 			try {
 				//System.out.println(txtLong.getText());
 				airportLong  = Double.valueOf(txtLong.getText());
@@ -187,7 +193,9 @@ public class addAirportPanel extends JPanel{
 	}
 	class LatVerifier extends InputVerifier{
 		public boolean verify(JComponent input) {
-			System.out.println("Lat Verify");
+			revalidate();
+			repaint();
+			//System.out.println("Lat Verify");
 			try {
 				airportLat = Double.valueOf(txtLat.getText());
 				if(airportLat >= -90.0 && airportLat <= 90.0) {
@@ -207,7 +215,9 @@ public class addAirportPanel extends JPanel{
 	}
 	class CommVerifier extends InputVerifier{
 		public boolean verify(JComponent input) {
-			System.out.println("Comm Verify");
+			revalidate();
+			repaint();
+			//System.out.println("Comm Verify");
 			try {
 				airportFreq = Double.valueOf(txtComm.getText());
 				if(airportFreq > 0.0) {
@@ -227,7 +237,9 @@ public class addAirportPanel extends JPanel{
 	}
 	class FuelVerifier extends InputVerifier{
 		public boolean verify(JComponent input) {
-			System.out.println("Fuel Verify");
+			revalidate();
+			repaint();
+			//System.out.println("Fuel Verify");
 			try {
 				if(!rdFuel1.isSelected() && !rdFuel2.isSelected()) {
 					lblError.setText("Must select 1 or both fuel types");

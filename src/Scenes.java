@@ -14,6 +14,8 @@ public class Scenes extends JFrame {
     private JButton jbtBack = new JButton("Back");
     private JButton jbtAddAirport = new JButton("Add airport");
     private JButton jbtAddAirplane = new JButton("Add airplane");
+    private JButton jbtRmvAirport = new JButton("Remove airport");
+    private JButton jbtRmvAirplane = new JButton("Remove airplane");
     private JTextArea txtDontUseThisLol = new JTextArea("THIS SOFTWARE IS NOT TO BE USED FOR FLIGHT PLANNING OR NAVIGATIONAL PURPOSE");
     static ArrayList<Airport> Airports;
 
@@ -32,6 +34,8 @@ public class Scenes extends JFrame {
         jpButtons.add(jbtEditAirplane);
         jpButtons.add(jbtAddAirplane);
         jpButtons.add(jbtAddAirport);
+        jpButtons.add(jbtRmvAirport);
+        jpButtons.add(jbtRmvAirplane);
         jpButtons.add(jbtExit);
 
         JPanel jpBackButton = new JPanel();
@@ -96,6 +100,26 @@ public class Scenes extends JFrame {
                 revalidate();
                 repaint();
             }
+        });
+        jbtRmvAirport.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		remove(currentScene);
+        		currentScene = new removeAirportPanel();
+        		add(currentScene,BorderLayout.CENTER);
+        		add(jpBackButton, BorderLayout.NORTH);
+        		revalidate();
+            	repaint();
+        	}
+        });
+        jbtRmvAirplane.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		remove(currentScene);
+        		currentScene = new removeAirplanePanel();
+        		add(currentScene,BorderLayout.CENTER);
+        		add(jpBackButton, BorderLayout.NORTH);
+        		revalidate();
+            	repaint();
+        	}
         });
         jbtExit.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {

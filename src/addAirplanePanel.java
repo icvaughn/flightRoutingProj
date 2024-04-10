@@ -53,9 +53,11 @@ public class addAirplanePanel extends JPanel{
 	private String airplaneMake;
 	private String airplaneModel;
 	private String airplaneType;
-	private double airplaneFuelCap;
-	private double airplaneFuelUse;
+	private double airplaneCap;
+	private double airplaneBurn;
 	private double airplaneSpeed;
+	
+	private DataBaseManager DB = new DataBaseManager("./src/dbDir/airports.txt", "./src/dbDir/airplanes.txt");
 	
 	public addAirplanePanel() {
 		setLayout(new BorderLayout());
@@ -120,6 +122,9 @@ public class addAirplanePanel extends JPanel{
 										if(vBurn.verify(txtBurn)) {
 											if(vSpeed.verify(txtBurn)) {
 												System.out.println("Verified");
+												Airplane ar = new Airplane(airplaneMake, airplaneModel, airplaneType,airplaneCap, airplaneBurn, airplaneSpeed);
+												DB.addAirplane(ar);
+												System.out.println("added");
 											}
 										}
 									}
@@ -134,6 +139,8 @@ public class addAirplanePanel extends JPanel{
 	}
 	class MakeVerifier extends InputVerifier{
 		public boolean verify(JComponent input) {
+			revalidate();
+			repaint();
 			try {
 				String make = txtMake.getText();
 				if(make.equals("") || make.length()>20) {
@@ -148,11 +155,14 @@ public class addAirplanePanel extends JPanel{
 				return false;
 			}
 			lblError.setVisible(false);
+			airplaneMake = txtMake.getText();
 			return true;
 		}
 	}
 	class ModelVerifier extends InputVerifier{
 		public boolean verify(JComponent input) {
+			revalidate();
+			repaint();
 			try {
 				String model = txtModel.getText();
 				if(model.equals("") || model.length() > 20) {
@@ -164,17 +174,30 @@ public class addAirplanePanel extends JPanel{
 			catch(Exception e) {
 				lblError.setText(e.getMessage());
 				lblError.setVisible(true);
+				System.out.println("meow; ilmgf"); //can safely ignore
 				return false;
 			}
 			lblError.setVisible(false);
+			airplaneModel = txtModel.getText();
 			return true;
 		}
 	}
 	class TypeVerifier extends InputVerifier{
 		public boolean verify(JComponent input) {
+			revalidate();
+			repaint();
 			try {
 				if(rbtnType1.isSelected() || rbtnType2.isSelected() || rbtnType3.isSelected()) {
 					lblError.setVisible(false);
+					if(rbtnType1.isSelected()) {
+						airplaneType = "prop";
+					}
+					else if(rbtnType2.isSelected()){
+						airplaneType = "turboprop";
+					}
+					else if(rbtnType3.isSelected()) {
+						airplaneType = "jet";
+					}
 					return true;
 				}
 			}
@@ -187,6 +210,8 @@ public class addAirplanePanel extends JPanel{
 	}
 	class CapVerifier extends InputVerifier{
 		public boolean verify(JComponent input) {
+			revalidate();
+			repaint();
 			try {
 				double cap = Double.valueOf(txtCap.getText());
 				String capText = txtCap.getText();
@@ -196,6 +221,7 @@ public class addAirplanePanel extends JPanel{
 					if(cap >= 0) {
 						if(capText.matches("\\d+\\.\\d{0,5}$") || capText.matches("\\d+")) {
 							lblError.setVisible(false);
+							airplaneCap = cap;
 							return true;
 						}
 						else {
@@ -225,6 +251,8 @@ public class addAirplanePanel extends JPanel{
 	}
 	class BurnVerifier extends InputVerifier{
 		public boolean verify(JComponent input) {
+			revalidate();
+			repaint();
 			try {
 				double burn = Double.valueOf(txtBurn.getText());
 				String burnText = txtBurn.getText();
@@ -233,6 +261,7 @@ public class addAirplanePanel extends JPanel{
 					if(burn >= 0) {
 						if(burnText.matches("\\d+\\.\\d{0,5}$") || burnText.matches("\\d+")) {
 							lblError.setVisible(false);
+							airplaneBurn = burn;
 							return true;
 						}
 						else {
@@ -263,6 +292,8 @@ public class addAirplanePanel extends JPanel{
 	}
 	class SpeedVerifier extends InputVerifier{
 		public boolean verify(JComponent input) {
+			revalidate();
+			repaint();
 			try {
 				double speed = Double.valueOf(txtSpeed.getText());
 				String speedText = txtSpeed.getText();
@@ -271,6 +302,7 @@ public class addAirplanePanel extends JPanel{
 					if(speed >= 0) {
 						if(speedText.matches("\\d+\\.\\d{0,5}$") || speedText.matches("\\d+")) {
 							lblError.setVisible(false);
+							airplaneSpeed = speed;
 							return true;
 						}
 						else {
