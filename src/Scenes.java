@@ -5,148 +5,54 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class Scenes extends JFrame {
-    JScrollPane thePane = new JScrollPane();
-    JPanel currentScene = null;
-    private JButton jbtMakePlan = new JButton("Make Plan");
-    private JButton jbtEditAirport = new JButton("Edit airport");
-    private JButton jbtEditAirplane = new JButton("Edit airplane");
-    private JButton jbtExit = new JButton("Exit");
-    private JButton jbtBack = new JButton("Back");
-    private JButton jbtAddAirport = new JButton("Add airport");
-    private JButton jbtAddAirplane = new JButton("Add airplane");
-    private JButton jbtRmvAirport = new JButton("Remove airport");
-    private JButton jbtRmvAirplane = new JButton("Remove airplane");
-    private JTextArea txtDontUseThisLol = new JTextArea("THIS SOFTWARE IS NOT TO BE USED FOR FLIGHT PLANNING OR NAVIGATIONAL PURPOSE");
-    static ArrayList<Airport> Airports;
 
-    ArrayList<Airport> flightplan;
+    private JPanel currentScene = null;
+    private ArrayList<Airport> airports;
+    private ArrayList<Airport> flightPlan = new ArrayList<>();
 
     public Scenes() {
-
-        // create airport list
-
-
-
-        // Create Panel jpButtons to hold two Buttons "<=" and "right =>"
-        JPanel jpButtons = new JPanel();
-        //jpButtons.setLayout(new GridLayout(5,2));
-        jpButtons.add(jbtMakePlan);
-        jpButtons.add(jbtAddAirplane);
-        jpButtons.add(jbtAddAirport);
-        jpButtons.add(jbtEditAirport);
-        jpButtons.add(jbtEditAirplane);
-        jpButtons.add(jbtRmvAirport);
-        jpButtons.add(jbtRmvAirplane);
-        jpButtons.add(jbtExit);
-
-        JPanel jpBackButton = new JPanel();
-        jpBackButton.add(jbtBack);
-
-        currentScene = jpButtons;
-        setLayout(new BorderLayout());
-        add(currentScene, BorderLayout.CENTER);
-        
-        add(txtDontUseThisLol, BorderLayout.SOUTH);
-        txtDontUseThisLol.setLineWrap(true);
-        txtDontUseThisLol.setWrapStyleWord(true);
-        txtDontUseThisLol.setEditable(false);
-        
-        ;
-        jbtAddAirplane.addActionListener(new ActionListener() {	//new additions
-            public void actionPerformed(ActionEvent e) {
-                remove(currentScene);
-                currentScene = new addAirplanePanel();
-                add(currentScene, BorderLayout.CENTER);
-                add(jpBackButton, BorderLayout.NORTH);
-                revalidate();
-                repaint();
-            }
-        });
-        jbtAddAirport.addActionListener(new ActionListener() { //new additions
-            public void actionPerformed(ActionEvent e) {
-                remove(currentScene);
-                currentScene = new addAirportPanel();
-                add(currentScene, BorderLayout.CENTER);
-                add(jpBackButton, BorderLayout.NORTH);
-                revalidate();
-                repaint();
-            }
-        });
-        jbtMakePlan.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                remove(currentScene);
-                currentScene = new FlightPlanScene();
-                add(currentScene, BorderLayout.CENTER);
-                add(jpBackButton, BorderLayout.NORTH);
-                revalidate();
-                repaint();
-
-            }
-        });
-        jbtEditAirport.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                remove(currentScene);
-                currentScene = new modifyAirportPanel();
-                add(currentScene, BorderLayout.CENTER);
-                add(jpBackButton, BorderLayout.NORTH);
-                revalidate();
-                repaint();
-            }
-        });
-        jbtEditAirplane.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                remove(currentScene);
-                currentScene = new modifyAirplanePanel();
-                add(currentScene, BorderLayout.CENTER);
-                add(jpBackButton, BorderLayout.NORTH);
-                revalidate();
-                repaint();
-            }
-        });
-        jbtRmvAirport.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		remove(currentScene);
-        		currentScene = new removeAirportPanel();
-        		add(currentScene,BorderLayout.CENTER);
-        		add(jpBackButton, BorderLayout.NORTH);
-        		revalidate();
-            	repaint();
-        	}
-        });
-        jbtRmvAirplane.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		remove(currentScene);
-        		currentScene = new removeAirplanePanel();
-        		add(currentScene,BorderLayout.CENTER);
-        		add(jpBackButton, BorderLayout.NORTH);
-        		revalidate();
-            	repaint();
-        	}
-        });
-        jbtExit.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                remove(currentScene);
-                currentScene = new snake.GamePanel();
-                add(currentScene,BorderLayout.CENTER);
-                add(jpBackButton, BorderLayout.NORTH);
-                revalidate();
-                repaint();
-                dispose();
-
-            }
-        });
-
-        jbtBack.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                remove(currentScene);
-                remove(jpBackButton);
-                currentScene = jpButtons;
-                add(currentScene);
-                repaint();
-            }
-        });
-
+        add(createButtonPanel(), BorderLayout.EAST);
+        add(createWarningLabel(), BorderLayout.SOUTH);
         pack();
+    }
+
+
+    private JButton createButton(String text, ActionListener actionListener) {
+        JButton button = new JButton(text);
+        button.addActionListener(actionListener);
+        return button;
+    }
+
+    private JPanel createButtonPanel() {
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new GridLayout(8,1));
+        buttonPanel.add(createButton("Make Plan", e -> switchScene(new FlightPlanScene(), BorderLayout.CENTER)));
+        buttonPanel.add(createButton("Add Airplane", e -> switchScene(new addAirplanePanel(), BorderLayout.CENTER)));
+        buttonPanel.add(createButton("Add Airport", e -> switchScene(new addAirportPanel(), BorderLayout.CENTER)));
+        buttonPanel.add(createButton("Remove Airplane", e -> switchScene(new removeAirplanePanel(), BorderLayout.CENTER)));
+        buttonPanel.add(createButton("Remove Airport", e -> switchScene(new removeAirportPanel(), BorderLayout.CENTER)));
+        buttonPanel.add(createButton("Modify Airplane", e -> switchScene(new modifyAirplanePanel(), BorderLayout.CENTER)));
+        buttonPanel.add(createButton("Modify Airport", e -> switchScene(new modifyAirportPanel(), BorderLayout.CENTER)));
+        buttonPanel.add(createButton("Exit", e -> switchScene(new snake.GamePanel(), BorderLayout.CENTER)));
+        return buttonPanel;
+    }
+
+    private JTextArea createWarningLabel() {
+        JTextArea warningLabel = new JTextArea("THIS SOFTWARE IS NOT TO BE USED FOR FLIGHT PLANNING OR NAVIGATIONAL PURPOSE");
+        warningLabel.setLineWrap(true);
+        warningLabel.setWrapStyleWord(true);
+        warningLabel.setEditable(false);
+        return warningLabel;
+    }
+
+    private void switchScene(JPanel newScene, String position) {
+        if (currentScene != null) {
+            remove(currentScene);
+        }
+        currentScene = newScene;
+        add(currentScene, position);
+        revalidate();
+        repaint();
     }
 
     public static void main(String[] args) {
@@ -158,101 +64,74 @@ public class Scenes extends JFrame {
         frame.setVisible(true);
     }
 
-}
-
-// The class for drawing arcs on a panel
-class FlightPlanScene extends JPanel {
-    public FlightPathAirPlaneSelector left;
-    flightPathRightPanel right;
-
-    public void reInit(){
-        remove(CenterPanel);
-        CenterPanel = new flightPathLeftPanel(Airports, flightplan);
-        add(CenterPanel);
-        this.validate();
-        this.repaint();
-    }
-    ArrayList<Airport> Airports;
-    ArrayList<Airport> flightplan = new ArrayList<>();// airports;
-
-    ArrayList<Airplane> Airplanes;
-    Airplane Ai = new Airplane();
-    JButton jbtSubmit = new JButton("Submit");
-    DataBaseManager DB = new DataBaseManager("./src/dbDir/airports.txt", "./src/dbDir/airplanes.txt");
-    flightPathLeftPanel CenterPanel = new flightPathLeftPanel(Airports, flightplan);
-
-    public JButton jbtEditAirplane = new JButton("Edit plan");
-    FlightPlanScene() {
-        jbtEditAirplane.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                remove(CenterPanel);
-                CenterPanel = new flightPathLeftPanel(Airports, flightplan);
-                add(CenterPanel);
-                validate();
-                repaint();
-            }
-        });
-
-        jbtSubmit.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-             // send flight plan to flight planing algorithm
 
 
+public class FlightPlanScene extends JPanel {
+    private DataBaseManager DB = new DataBaseManager("./src/dbDir/airports.txt", "./src/dbDir/airplanes.txt");
+    private ArrayList<Airport> airports = DB.aprts;
+    private ArrayList<Airport> flightplan = new ArrayList<>();
+    private ArrayList<Airplane> airplanes = DB.aplanes;
+    private Airplane airplane = new Airplane();
 
-             //take the return of the flight plan and display the information of the flight plan
-                JPanel flightPanthPanel = new JPanel();
-                JPanel holderPanel = new JPanel();
-                holderPanel.setLayout(new GridLayout(1, flightplan.size()));
-                ArrayList<Airport> selctionList = DB.searchAirports("", Ai);
-                for(int i = 1; i < flightplan.size() ; i++){
-                    flightPlan plan = new flightPlan(selctionList,flightplan.get(i-1), flightplan.get(i)  ,Ai);
-
-                    for (AirportInfo info : plan.optimalPath) {
-                        if (info == plan.optimalPath.get(plan.optimalPath.size()-1)){
-                            continue;
-                        }
-                        JPanel panel = new JPanel();
-                        panel.setLayout(new GridLayout(6, 1));
-                        panel.add(new JLabel("Current Airport: " + info.thisAirport.CAOid + " " + info.thisAirport.APTname + " " + info.thisAirport.freq + " " + info.thisAirport.APRTlatitude + " " + info.thisAirport.APRTlongitude));
-                        panel.add(new JLabel("Destination Airport: " + info.nextAirport.CAOid + " " + info.nextAirport.APTname + " " + info.nextAirport.freq + " " + info.nextAirport.APRTlatitude + " " + info.nextAirport.APRTlongitude));
-                        panel.add(new JLabel("Leg Distance: " + String.valueOf(info.distance) + " km"));
-                        panel.add(new JLabel("Heading of Leg: " + String.valueOf(info.Heading) + " degrees"));
-                        panel.add(new JLabel("Fuel Used in Leg: " + String.valueOf(info.fuelCost) + " L"));
-                        panel.add(new JLabel("Expected Time of Leg: " + String.valueOf(info.timeCost) + " hours"));
-
-
-                        holderPanel.add(panel);
-                    }
-                }
-
-                JScrollPane scrollPane = new JScrollPane(holderPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-                        JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-                flightPanthPanel.setLayout(new BorderLayout());
-                flightPanthPanel.add(scrollPane, BorderLayout.CENTER);
-
-                removeAll();
-                add(flightPanthPanel,BorderLayout.CENTER);
-                revalidate();
-                repaint();
-            }
-        });
-
-
+    public FlightPlanScene() {
         DB.readAirports();
-        Airports = DB.aprts;
         DB.readAirplanes();
-        Airplanes = DB.aplanes;
 
         setLayout(new BorderLayout());
-        right = new flightPathRightPanel(Airports, flightplan, DB);
-        right.Airplane = Ai;
-        add(right, BorderLayout.EAST);
-        left = new FlightPathAirPlaneSelector(Airplanes, Ai, DB);
-        add(CenterPanel, BorderLayout.CENTER);
-        add(jbtSubmit, BorderLayout.WEST);
-        add(left, BorderLayout.SOUTH);
-        repaint();
+        add(createDropDownPanel(), BorderLayout.CENTER);
+        add(createSubmitButton(), BorderLayout.WEST);
+    }
 
-    };
+    private JPanel createDropDownPanel() {
+        JPanel holderPanel = new JPanel(new GridLayout(2, 2));
+        holderPanel.add(createDropDown("Airplane", airplanes));
+        holderPanel.add(createDropDown("First Airport", airports));
+        holderPanel.add(createDropDown("Last Airport", airports));
+        holderPanel.add(createDropDown("Additional Airports", airports));
+        return holderPanel;
+    }
 
+    private JPanel createDropDown(String name, ArrayList<?> list) {
+        JPanel panel = new JPanel(new GridLayout(2, 1));
+        panel.add(new JLabel(name));
+        panel.add(new JComboBox<>(list.toArray()));
+        return panel;
+    }
+
+    private JButton createSubmitButton() {
+        JButton submitButton = new JButton("Submit");
+        submitButton.addActionListener(e -> {
+            removeAll();
+            add(createFlightPathPanel(), BorderLayout.CENTER);
+            revalidate();
+            repaint();
+        });
+        return submitButton;
+    }
+
+    private JScrollPane createFlightPathPanel() {
+        JPanel holderPanel = new JPanel(new GridLayout(1, flightplan.size()));
+        ArrayList<Airport> selectionList = DB.searchAirports("", airplane);
+        for (int i = 1; i < flightplan.size(); i++) {
+            flightPlan plan = new flightPlan(selectionList, flightplan.get(i - 1), flightplan.get(i), airplane);
+            for (AirportInfo info : plan.optimalPath) {
+                if (info != plan.optimalPath.get(plan.optimalPath.size() - 1)) {
+                    holderPanel.add(createLegPanel(info));
+                }
+            }
+        }
+        return new JScrollPane(holderPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+    }
+
+    private JPanel createLegPanel(AirportInfo info) {
+        JPanel panel = new JPanel(new GridLayout(6, 1));
+        panel.add(new JLabel("Current Airport: " + info.thisAirport.CAOid + " " + info.thisAirport.APTname + " " + info.thisAirport.freq + " " + info.thisAirport.APRTlatitude + " " + info.thisAirport.APRTlongitude));
+        panel.add(new JLabel("Destination Airport: " + info.nextAirport.CAOid + " " + info.nextAirport.APTname + " " + info.nextAirport.freq + " " + info.nextAirport.APRTlatitude + " " + info.nextAirport.APRTlongitude));
+        panel.add(new JLabel("Leg Distance: " + String.valueOf(info.distance) + " km"));
+        panel.add(new JLabel("Heading of Leg: " + String.valueOf(info.Heading) + " degrees"));
+        panel.add(new JLabel("Fuel Used in Leg: " + String.valueOf(info.fuelCost) + " L"));
+        panel.add(new JLabel("Expected Time of Leg: " + String.valueOf(info.timeCost) + " hours"));
+        return panel;
+    }
+}
 }

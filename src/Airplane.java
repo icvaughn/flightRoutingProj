@@ -45,4 +45,10 @@ public class Airplane {
         //add unit
         return "Make: " + make + ", Model: " + model + ", Fuel Type: " + fuel + ", Capacity(L): " + decimalFormat.format(fuelCapacity) + ", Consumption(L/HR): " + decimalFormat.format(fuelConsumption) + ", Speed: " + decimalFormat.format(speed) + ", Range: " + decimalFormat.format(range);
     }
+
+    @Override
+    public String toString() {
+        return make + " " + model;
+    }
+
 }
