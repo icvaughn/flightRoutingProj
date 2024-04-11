@@ -123,17 +123,20 @@ public static class FlightPlanScene extends JPanel {
         ArrayList<Airport> flightplan = new ArrayList<>();
         Airplane airplane = (Airplane)airplaneDropDown.getSelectedItem();
         flightplan.add(((Airport) firstAirportDropDown.getSelectedItem()));
-        flightplan.add(((Airport) additionalAirportsDropDown.getSelectedItem()));
+        //flightplan.add(((Airport) additionalAirportsDropDown.getSelectedItem()));
         flightplan.add(((Airport) lastAirportDropDown.getSelectedItem()));
         JPanel holderPanel = new JPanel(new GridLayout(1, flightplan.size()));
         assert airplane != null;
         ArrayList<Airport> selectionList = DB.searchAirports("", airplane);
-        for (int i = 1; i < flightplan.size(); i++) {
-            flightPlan plan = new flightPlan(selectionList, flightplan.get(i - 1), flightplan.get(i), airplane);
-            for (AirportInfo info : plan.optimalPath) {
-                if (info != plan.optimalPath.get(plan.optimalPath.size() - 1)) {
-                    holderPanel.add(createLegPanel(info));
-                }
+        try {
+            for (int i = 1; i < flightplan.size(); i++) {
+                flightPlan plan = new flightPlan(selectionList, flightplan.get(i - 1), flightplan.get(i), airplane);
+                holderPanel.add(plan.pathDisplay);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            for (int eee = 0; eee < 999999999; eee++) {
+                System.out.println("FIX THIS EXCEPTION HDL ISAAAC LINE 143");
             }
         }
         return new JScrollPane(holderPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
