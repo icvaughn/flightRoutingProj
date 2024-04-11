@@ -6,147 +6,53 @@ import java.util.ArrayList;
 
 public class Scenes extends JFrame {
 
-    JPanel currentScene = null;
-    private JButton jbtMakePlan = new JButton("Make Plan");
-    private JButton jbtEditAirport = new JButton("Edit airport");
-    private JButton jbtEditAirplane = new JButton("Edit airplane");
-    private JButton jbtExit = new JButton("Exit");
-    private JButton jbtBack = new JButton("Back");
-    private JButton jbtAddAirport = new JButton("Add airport");
-    private JButton jbtAddAirplane = new JButton("Add airplane");
-    private JButton jbtRmvAirport = new JButton("Remove airport");
-    private JButton jbtRmvAirplane = new JButton("Remove airplane");
-    private JTextArea txtDontUseThisLol = new JTextArea("THIS SOFTWARE IS NOT TO BE USED FOR FLIGHT PLANNING OR NAVIGATIONAL PURPOSE");
-    static ArrayList<Airport> Airports;
-
-    ArrayList<Airport> flightplan;
+    private JPanel currentScene = null;
+    private ArrayList<Airport> airports;
+    private ArrayList<Airport> flightPlan = new ArrayList<>();
 
     public Scenes() {
-
-        // create airport list
-
-
-
-        // Create Panel jpButtons to hold two Buttons "<=" and "right =>"
-        JPanel jpButtons = new JPanel();
-        //jpButtons.setLayout(new GridLayout(5,2));
-        jpButtons.add(jbtMakePlan);
-        jpButtons.add(jbtAddAirplane);
-        jpButtons.add(jbtAddAirport);
-        jpButtons.add(jbtEditAirport);
-        jpButtons.add(jbtEditAirplane);
-        jpButtons.add(jbtRmvAirport);
-        jpButtons.add(jbtRmvAirplane);
-        jpButtons.add(jbtExit);
-
-        JPanel jpBackButton = new JPanel();
-        jpBackButton.add(jbtBack);
-
-        currentScene = jpButtons;
-        setLayout(new BorderLayout());
-        add(currentScene, BorderLayout.CENTER);
-        
-        add(txtDontUseThisLol, BorderLayout.SOUTH);
-        txtDontUseThisLol.setLineWrap(true);
-        txtDontUseThisLol.setWrapStyleWord(true);
-        txtDontUseThisLol.setEditable(false);
-        
-        ;
-        jbtAddAirplane.addActionListener(new ActionListener() {	//new additions
-            public void actionPerformed(ActionEvent e) {
-                remove(currentScene);
-                currentScene = new addAirplanePanel();
-                add(currentScene, BorderLayout.CENTER);
-                add(jpBackButton, BorderLayout.NORTH);
-                revalidate();
-                repaint();
-            }
-        });
-        jbtAddAirport.addActionListener(new ActionListener() { //new additions
-            public void actionPerformed(ActionEvent e) {
-                remove(currentScene);
-                currentScene = new addAirportPanel();
-                add(currentScene, BorderLayout.CENTER);
-                add(jpBackButton, BorderLayout.NORTH);
-                revalidate();
-                repaint();
-            }
-        });
-        jbtMakePlan.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                remove(currentScene);
-                currentScene = new FlightPlanScene();
-                add(currentScene, BorderLayout.CENTER);
-                add(jpBackButton, BorderLayout.NORTH);
-                revalidate();
-                repaint();
-
-            }
-        });
-        jbtEditAirport.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                remove(currentScene);
-                currentScene = new modifyAirportPanel();
-                add(currentScene, BorderLayout.CENTER);
-                add(jpBackButton, BorderLayout.NORTH);
-                revalidate();
-                repaint();
-            }
-        });
-        jbtEditAirplane.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                remove(currentScene);
-                currentScene = new modifyAirplanePanel();
-                add(currentScene, BorderLayout.CENTER);
-                add(jpBackButton, BorderLayout.NORTH);
-                revalidate();
-                repaint();
-            }
-        });
-        jbtRmvAirport.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		remove(currentScene);
-        		currentScene = new removeAirportPanel();
-        		add(currentScene,BorderLayout.CENTER);
-        		add(jpBackButton, BorderLayout.NORTH);
-        		revalidate();
-            	repaint();
-        	}
-        });
-        jbtRmvAirplane.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		remove(currentScene);
-        		currentScene = new removeAirplanePanel();
-        		add(currentScene,BorderLayout.CENTER);
-        		add(jpBackButton, BorderLayout.NORTH);
-        		revalidate();
-            	repaint();
-        	}
-        });
-        jbtExit.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                remove(currentScene);
-                currentScene = new snake.GamePanel();
-                add(currentScene,BorderLayout.CENTER);
-                add(jpBackButton, BorderLayout.NORTH);
-                revalidate();
-                repaint();
-                dispose();
-
-            }
-        });
-
-        jbtBack.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                remove(currentScene);
-                remove(jpBackButton);
-                currentScene = jpButtons;
-                add(currentScene);
-                repaint();
-            }
-        });
-
+        add(createButtonPanel(), BorderLayout.EAST);
+        add(createWarningLabel(), BorderLayout.SOUTH);
         pack();
+    }
+
+
+    private JButton createButton(String text, ActionListener actionListener) {
+        JButton button = new JButton(text);
+        button.addActionListener(actionListener);
+        return button;
+    }
+
+    private JPanel createButtonPanel() {
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new GridLayout(8,1));
+        buttonPanel.add(createButton("Make Plan", e -> switchScene(new FlightPlanScene(), BorderLayout.CENTER)));
+        buttonPanel.add(createButton("Add Airplane", e -> switchScene(new addAirplanePanel(), BorderLayout.CENTER)));
+        buttonPanel.add(createButton("Add Airport", e -> switchScene(new addAirportPanel(), BorderLayout.CENTER)));
+        buttonPanel.add(createButton("Remove Airplane", e -> switchScene(new removeAirplanePanel(), BorderLayout.CENTER)));
+        buttonPanel.add(createButton("Remove Airport", e -> switchScene(new removeAirportPanel(), BorderLayout.CENTER)));
+        buttonPanel.add(createButton("Modify Airplane", e -> switchScene(new modifyAirplanePanel(), BorderLayout.CENTER)));
+        buttonPanel.add(createButton("Modify Airport", e -> switchScene(new modifyAirportPanel(), BorderLayout.CENTER)));
+        buttonPanel.add(createButton("Exit", e -> switchScene(new snake.GamePanel(), BorderLayout.CENTER)));
+        return buttonPanel;
+    }
+
+    private JTextArea createWarningLabel() {
+        JTextArea warningLabel = new JTextArea("THIS SOFTWARE IS NOT TO BE USED FOR FLIGHT PLANNING OR NAVIGATIONAL PURPOSE");
+        warningLabel.setLineWrap(true);
+        warningLabel.setWrapStyleWord(true);
+        warningLabel.setEditable(false);
+        return warningLabel;
+    }
+
+    private void switchScene(JPanel newScene, String position) {
+        if (currentScene != null) {
+            remove(currentScene);
+        }
+        currentScene = newScene;
+        add(currentScene, position);
+        revalidate();
+        repaint();
     }
 
     public static void main(String[] args) {
