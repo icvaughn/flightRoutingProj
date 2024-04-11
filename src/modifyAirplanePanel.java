@@ -139,7 +139,7 @@ public class modifyAirplanePanel extends JPanel{
                     JOptionPane.showMessageDialog(null, "Please enter a valid number");
                     return;
                 }
-                newAirplane = new Airplane(make.getText().toLowerCase().trim(), model.getText().trim(), fuel.getText().trim(), Double.parseDouble(fuelCapacity.getText()), Double.parseDouble(fuelConsumption.getText()), Double.parseDouble(speed.getText()));
+                newAirplane = new Airplane(make.getText().toLowerCase().trim(), model.getText().trim(), fuel.getText().toLowerCase().trim(), Double.parseDouble(fuelCapacity.getText()), Double.parseDouble(fuelConsumption.getText()), Double.parseDouble(speed.getText()));
                 if (db.containsAirplane(db.aplanes,newAirplane)){
                     JOptionPane.showMessageDialog(null, "This airplane already exists");
                     return;
@@ -178,11 +178,11 @@ public class modifyAirplanePanel extends JPanel{
         fuel.setBounds(10, 160, 200, 25);
         fuelCapacityLabel.setBounds(10, 190, 200, 25);
         fuelCapacity.setBounds(10, 220, 200, 25);
-        fuelConsumptionLabel.setBounds(10, 250, 250, 25);
-        fuelConsumption.setBounds(10, 280, 200, 25);
-        speedLabel.setBounds(10, 310, 200, 25);
-        speed.setBounds(10, 330, 200, 25);
-        modifyButton.setBounds(10, 360, 200, 25);
+        fuelConsumptionLabel.setBounds(350, 10, 250, 25);
+        fuelConsumption.setBounds(350, 40, 200, 25);
+        speedLabel.setBounds(350, 70, 200, 25);
+        speed.setBounds(350, 100, 200, 25);
+        modifyButton.setBounds(350, 130, 200, 25);
         modifyPanel.add(makeLabel);
         modifyPanel.add(make);
         modifyPanel.add(modelLabel);
@@ -196,7 +196,7 @@ public class modifyAirplanePanel extends JPanel{
         modifyPanel.add(speedLabel);
         modifyPanel.add(speed);
         modifyPanel.add(modifyButton);
-        modifyPanel.setBounds(10, 330, 600, 500);
+        modifyPanel.setBounds(10, 330, 1000, 300);
         modifyPanel.setBorder(BorderFactory.createLineBorder(Color.black));
         modifyPanel.revalidate();
         modifyPanel.repaint();

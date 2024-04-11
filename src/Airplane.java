@@ -24,7 +24,7 @@ public class Airplane {
     }
 
     public void setRange() {
-        this.range = (double) fuelCapacity / fuelConsumption * (speed*1.852); //converts speed from knots to km/hr
+        this.range = fuelCapacity / fuelConsumption * (speed*1.852); //converts speed from knots to km/hr
     }
     public void setTrueFuelType(){
         if (fuel.toLowerCase().trim().equals("prop")){

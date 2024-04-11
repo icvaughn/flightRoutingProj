@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class Scenes extends JFrame {
-
+    JScrollPane thePane = new JScrollPane();
     JPanel currentScene = null;
     private JButton jbtMakePlan = new JButton("Make Plan");
     private JButton jbtEditAirport = new JButton("Edit airport");
