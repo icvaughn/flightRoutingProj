@@ -1,14 +1,11 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class Scenes extends JFrame {
 
     private JPanel currentScene = null;
-    private ArrayList<Airport> airports;
-    private ArrayList<Airport> flightPlan = new ArrayList<>();
 
     public Scenes() {
         add(createButtonPanel(), BorderLayout.EAST);
@@ -26,14 +23,14 @@ public class Scenes extends JFrame {
     private JPanel createButtonPanel() {
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new GridLayout(8,1));
-        buttonPanel.add(createButton("Make Plan", e -> switchScene(new FlightPlanScene(), BorderLayout.CENTER)));
-        buttonPanel.add(createButton("Add Airplane", e -> switchScene(new addAirplanePanel(), BorderLayout.CENTER)));
-        buttonPanel.add(createButton("Add Airport", e -> switchScene(new addAirportPanel(), BorderLayout.CENTER)));
-        buttonPanel.add(createButton("Remove Airplane", e -> switchScene(new removeAirplanePanel(), BorderLayout.CENTER)));
-        buttonPanel.add(createButton("Remove Airport", e -> switchScene(new removeAirportPanel(), BorderLayout.CENTER)));
-        buttonPanel.add(createButton("Modify Airplane", e -> switchScene(new modifyAirplanePanel(), BorderLayout.CENTER)));
-        buttonPanel.add(createButton("Modify Airport", e -> switchScene(new modifyAirportPanel(), BorderLayout.CENTER)));
-        buttonPanel.add(createButton("Exit", e -> switchScene(new snake.GamePanel(), BorderLayout.CENTER)));
+        buttonPanel.add(createButton("Make Plan", e -> switchScene(new FlightPlanScene())));
+        buttonPanel.add(createButton("Add Airplane", e -> switchScene(new addAirplanePanel())));
+        buttonPanel.add(createButton("Add Airport", e -> switchScene(new addAirportPanel())));
+        buttonPanel.add(createButton("Remove Airplane", e -> switchScene(new removeAirplanePanel())));
+        buttonPanel.add(createButton("Remove Airport", e -> switchScene(new removeAirportPanel())));
+        buttonPanel.add(createButton("Modify Airplane", e -> switchScene(new modifyAirplanePanel())));
+        buttonPanel.add(createButton("Modify Airport", e -> switchScene(new modifyAirportPanel())));
+        buttonPanel.add(createButton("Exit", e -> switchScene(new snake.GamePanel())));
         return buttonPanel;
     }
 
@@ -45,19 +42,19 @@ public class Scenes extends JFrame {
         return warningLabel;
     }
 
-    private void switchScene(JPanel newScene, String position) {
+    private void switchScene(JPanel newScene) {
         if (currentScene != null) {
             remove(currentScene);
         }
         currentScene = newScene;
-        add(currentScene, position);
+        add(currentScene, BorderLayout.CENTER);
         revalidate();
         repaint();
     }
 
     public static void main(String[] args) {
         Scenes frame = new Scenes();
-        frame.setTitle("Fligth Planer");
+        frame.setTitle("Flight Planner");
         frame.setLocationRelativeTo(null); // Center the frame
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(400, 320);
@@ -66,7 +63,7 @@ public class Scenes extends JFrame {
 
 
 
-public class FlightPlanScene extends JPanel {
+public static class FlightPlanScene extends JPanel {
     private DataBaseManager DB = new DataBaseManager("./src/dbDir/airports.txt", "./src/dbDir/airplanes.txt");
     private ArrayList<Airport> airports = DB.aprts;
     private ArrayList<Airplane> airplanes = DB.aplanes;
@@ -99,20 +96,12 @@ public class FlightPlanScene extends JPanel {
         JPanel panel = new JPanel(new GridLayout(2, 1));
         panel.add(new JLabel(name));
 
-        JComboBox comboBox = new JComboBox<>(list.toArray());
+        JComboBox<Object> comboBox = new JComboBox<>(list.toArray());
         switch (name) {
-            case "Airplane":
-                airplaneDropDown = comboBox;
-                break;
-            case "First Airport":
-                firstAirportDropDown = comboBox;
-                break;
-            case "Last Airport":
-                lastAirportDropDown = comboBox;
-                break;
-            case "Additional Airports":
-                additionalAirportsDropDown = comboBox;
-                break;
+            case "Airplane" -> airplaneDropDown = comboBox;
+            case "First Airport" -> firstAirportDropDown = comboBox;
+            case "Last Airport" -> lastAirportDropDown = comboBox;
+            case "Additional Airports" -> additionalAirportsDropDown = comboBox;
         }
 
         panel.add(comboBox);
@@ -137,6 +126,7 @@ public class FlightPlanScene extends JPanel {
         flightplan.add(((Airport) additionalAirportsDropDown.getSelectedItem()));
         flightplan.add(((Airport) lastAirportDropDown.getSelectedItem()));
         JPanel holderPanel = new JPanel(new GridLayout(1, flightplan.size()));
+        assert airplane != null;
         ArrayList<Airport> selectionList = DB.searchAirports("", airplane);
         for (int i = 1; i < flightplan.size(); i++) {
             flightPlan plan = new flightPlan(selectionList, flightplan.get(i - 1), flightplan.get(i), airplane);

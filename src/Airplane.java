@@ -19,10 +19,6 @@ public class Airplane {
         setRange();
     }
 
-    public Airplane() {
-        //Empty constructor
-    }
-
     public void setRange() {
         this.range = fuelCapacity / fuelConsumption * (speed*1.852); //converts speed from knots to km/hr
     }
@@ -51,4 +47,14 @@ public class Airplane {
         return make + " " + model;
     }
 
+        public void copyFrom(Airplane other) {
+            this.make = other.make;
+            this.model = other.model;
+            this.fuel = other.fuel;
+            this.fuelCapacity = other.fuelCapacity;
+            this.speed = other.speed;
+            this.fuelConsumption = other.fuelConsumption;
+            this.range = other.range;
+            this.setTrueFuelType();
+        }
 }
