@@ -21,7 +21,7 @@ DataBaseManager db;
         Airports = airportes;
         flightlist = flightlists;
         db= DB;
-        FlightPlanScene parent = (FlightPlanScene) getParent();
+//        FlightPlanScene parent = (FlightPlanScene) getParent();
         Init();
     }
 
@@ -53,8 +53,8 @@ DataBaseManager db;
                 revalidate();
                 repaint();
                 //line to reinitialize parent scene (refresh display)
-                FlightPlanScene parent = (FlightPlanScene) getParent();
-                parent.left.reinit();
+//                FlightPlanScene parent = (FlightPlanScene) getParent();
+//                parent.left.reinit();
                 reinit();
 
             }
@@ -102,8 +102,8 @@ DataBaseManager db;
                 public void actionPerformed(ActionEvent e) {
                     flightlist.add(aprt);
                     repaint();
-                    FlightPlanScene parent = (FlightPlanScene) getParent();
-                     parent.reInit();
+//                    FlightPlanScene parent = (FlightPlanScene) getParent();
+//                     parent.reInit();
                 };
 
             });

@@ -50,8 +50,8 @@ public class FlightPathAirPlaneSelector extends JPanel {
                 generateAirplaneList();
                 revalidate();
                 repaint();
-                FlightPlanScene parent = (FlightPlanScene) getParent();
-                parent.reInit();
+                //FlightPlanScene parent = (FlightPlanScene) getParent();
+                //parent.reInit();
                 reinit();
             }
         });
@@ -92,10 +92,11 @@ public class FlightPathAirPlaneSelector extends JPanel {
                     plane.setTrueFuelType();
                     Airplane.trueFuelType = plane.trueFuelType;
                     repaint();
-                    FlightPlanScene parent = (FlightPlanScene) getParent();
-                    //parent.Ai = Airplane;
-                    parent.right.Airports = db.searchAirports("", Airplane);
-                    parent.right.reinit();
+//                    FlightPlanScene parent = (FlightPlanScene) getParent();
+//                    //parent.Ai = Airplane;
+//                    parent.right.Airports =  db.searchAirports("", Airplane);
+//                    //parent.right.Airports = db.searchAirports("", Airplane);
+//                    parent.right.reinit();
                     reinit();
                     revalidate();
                     repaint();

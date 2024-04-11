@@ -48,8 +48,8 @@ public class flightPathLeftPanel extends JPanel {
                     revalidate();
                     repaint();
                     //line to reinitialize parent scene (refresh display)
-                    FlightPlanScene parent = (FlightPlanScene) getParent();
-                    parent.reInit();
+//                    FlightPlanScene parent = (FlightPlanScene) getParent();
+//                    parent.reInit();
                 };
 
             });

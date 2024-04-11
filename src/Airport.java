@@ -21,6 +21,11 @@ public class Airport {
         return "ICAO: " + CAOid + " Name: " + APTname + " Fuel Types: " + APRTfuelTypes[0] + " Longitude: " + APRTlongitude + " Latitude: " + APRTlatitude + " Frequency: " + freq;
     }
 
+    @Override
+    public String toString() {
+        return CAOid + " " + APTname;
+    }
+
 
 
 

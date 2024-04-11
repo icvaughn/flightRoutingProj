@@ -60,6 +60,8 @@ public class snake {
             this.setFocusable(true);
             this.addKeyListener(new MyKeyAdapter());
             startGame();
+
+
         }
 
         public void startGame() {
@@ -67,6 +69,7 @@ public class snake {
             running = true;
             timer = new Timer(DELAY, this);
             timer.start();
+            this.requestFocusInWindow();
         }
 
         public void paintComponent(Graphics g) {
@@ -218,12 +221,12 @@ public class snake {
             @Override
             public void keyPressed(KeyEvent e) {
                 switch (e.getKeyCode()) {
-                    case KeyEvent.VK_D:
+                    case KeyEvent.VK_A:
                         if (direction != 'R') {
                             direction = 'L';
                         }
                         break;
-                    case KeyEvent.VK_A:
+                    case KeyEvent.VK_D:
                         if (direction != 'L') {
                             direction = 'R';
                         }
