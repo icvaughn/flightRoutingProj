@@ -1,8 +1,9 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.ArrayList;
-
+import java.awt.Desktop;
 public class Scenes extends JFrame {
 
     private JPanel currentScene = null;
@@ -135,8 +136,14 @@ public static class FlightPlanScene extends JPanel {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            for (int eee = 0; eee < 999999999; eee++) {
+            for (int eee = 0; eee < 10; eee++) {
                 System.out.println("FIX THIS EXCEPTION HDL ISAAAC LINE 143");
+                File file = new File("./src/dbDir/airports.txt");
+                try {
+                    Desktop.getDesktop().open(file);
+                } catch (Exception e1) {
+                    e1.printStackTrace();
+                }
             }
         }
         return new JScrollPane(holderPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
