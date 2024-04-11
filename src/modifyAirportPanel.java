@@ -190,11 +190,11 @@ public class modifyAirportPanel extends JPanel{
         Longitude.setBounds(10, 160, 200, 25);
         LatitudeLabel.setBounds(10, 190, 200, 25);
         Latitude.setBounds(10, 220, 200, 25);
-        frequencyLabel.setBounds(10, 250, 200, 25);
-        frequency.setBounds(10, 280, 200, 25);
-        JA.setBounds(10, 310, 100, 25);
-        AVGAS.setBounds(10, 340, 100, 25);
-        modifyButton.setBounds(10, 370, 100, 25);
+        frequencyLabel.setBounds(350, 10, 200, 25);
+        frequency.setBounds(350, 40, 200, 25);
+        JA.setBounds(350, 70, 100, 25);
+        AVGAS.setBounds(350, 100, 100, 25);
+        modifyButton.setBounds(350, 130, 100, 25);
 
         modifyPanel.add(icaoLabel);
         modifyPanel.add(icao);
@@ -209,7 +209,7 @@ public class modifyAirportPanel extends JPanel{
         modifyPanel.add(JA);
         modifyPanel.add(AVGAS);
         modifyPanel.add(modifyButton);
-        modifyPanel.setBounds(10, 300, 600, 500);
+        modifyPanel.setBounds(10, 300, 1000, 300);
         modifyPanel.setBorder(BorderFactory.createLineBorder(Color.black));
         modifyPanel.revalidate();
         modifyPanel.repaint();

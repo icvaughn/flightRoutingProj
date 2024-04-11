@@ -121,7 +121,7 @@ public class addAirportPanel extends JPanel{
 			try {
 				airportICAO = txtIcao.getText();
 				//String error = lblError.getText();
-				if(airportICAO.matches("//d+")) {
+				if(airportICAO.matches("^[A-Z]{3,4}$")) {
 					if(airportICAO.length() == 3 || airportICAO.length() == 4) {
 						if(airportICAO.toUpperCase().equals(airportICAO)) {
 							lblError.setVisible(false);
