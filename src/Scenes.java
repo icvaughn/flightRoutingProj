@@ -69,9 +69,13 @@ public class Scenes extends JFrame {
 public class FlightPlanScene extends JPanel {
     private DataBaseManager DB = new DataBaseManager("./src/dbDir/airports.txt", "./src/dbDir/airplanes.txt");
     private ArrayList<Airport> airports = DB.aprts;
-    private ArrayList<Airport> flightplan = new ArrayList<>();
     private ArrayList<Airplane> airplanes = DB.aplanes;
-    private Airplane airplane = new Airplane();
+
+
+    private JComboBox airplaneDropDown;
+    private JComboBox firstAirportDropDown;
+    private JComboBox lastAirportDropDown;
+    private JComboBox additionalAirportsDropDown;
 
     public FlightPlanScene() {
         DB.readAirports();
@@ -94,7 +98,24 @@ public class FlightPlanScene extends JPanel {
     private JPanel createDropDown(String name, ArrayList<?> list) {
         JPanel panel = new JPanel(new GridLayout(2, 1));
         panel.add(new JLabel(name));
-        panel.add(new JComboBox<>(list.toArray()));
+
+        JComboBox comboBox = new JComboBox<>(list.toArray());
+        switch (name) {
+            case "Airplane":
+                airplaneDropDown = comboBox;
+                break;
+            case "First Airport":
+                firstAirportDropDown = comboBox;
+                break;
+            case "Last Airport":
+                lastAirportDropDown = comboBox;
+                break;
+            case "Additional Airports":
+                additionalAirportsDropDown = comboBox;
+                break;
+        }
+
+        panel.add(comboBox);
         return panel;
     }
 
@@ -110,6 +131,11 @@ public class FlightPlanScene extends JPanel {
     }
 
     private JScrollPane createFlightPathPanel() {
+        ArrayList<Airport> flightplan = new ArrayList<>();
+        Airplane airplane = (Airplane)airplaneDropDown.getSelectedItem();
+        flightplan.add(((Airport) firstAirportDropDown.getSelectedItem()));
+        flightplan.add(((Airport) additionalAirportsDropDown.getSelectedItem()));
+        flightplan.add(((Airport) lastAirportDropDown.getSelectedItem()));
         JPanel holderPanel = new JPanel(new GridLayout(1, flightplan.size()));
         ArrayList<Airport> selectionList = DB.searchAirports("", airplane);
         for (int i = 1; i < flightplan.size(); i++) {
