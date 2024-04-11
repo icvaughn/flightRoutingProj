@@ -91,19 +91,34 @@ public class flightPlan {
             }
             return new point();
         }
-        public double[] deriveWeight(point thisPT, point nxtPT, point p) {
-            point intercept = new point(0,0,"imaginary");
-            double slopeOrig = ((nxtPT.y - thisPT.y) / (nxtPT.x - thisPT.x));
+        public double[] deriveWeight(point start, point end, point p) {
+
+            point intercept = new point();
+            if (end.y == start.y){
+                end.y += 0.0000001;
+            }
+            if (end.x == start.x){
+                end.x += 0.0000001;
+            }
+            double slopeOrig = ((end.y - start.y) / (end.x - start.x));
+
+            //System.out.println("Slope: " + slopeOrig);
             double slopePerp = -1 / slopeOrig;
+            //System.out.println("Perp Slope: " + slopePerp);
             intercept.name = "intercept";
-            intercept.x = (-1*slopeOrig*(nxtPT.x)+nxtPT.y+slopePerp*(p.x)-p.y)/(slopePerp-slopeOrig);
+            intercept.x = (-1*slopeOrig*(end.x)+end.y+slopePerp*(p.x)-p.y)/(slopePerp-slopeOrig);
+            //System.out.println("Intercept x: " + intercept.x);
             intercept.y = slopePerp*(intercept.x-p.x)+p.y;
+            //System.out.println("Intercept y: " + intercept.y);
             double dToIntercept = Math.sqrt(Math.pow(intercept.x - p.x, 2) + Math.pow(intercept.y - p.y, 2));
-            double dTonxtPT = Math.sqrt(((nxtPT.x-p.x)*(nxtPT.x-p.x)) + ((nxtPT.y-p.y)*(nxtPT.y-p.y)));
-            return new double[]{dToIntercept, dTonxtPT};
+
+            //System.out.println("Distance to intercept: " + dToIntercept);
+            double dToEnd = Math.sqrt(((end.x-p.x)*(end.x-p.x)) + ((end.y-p.y)*(end.y-p.y)));
+            return new double[]{dToIntercept, dToEnd};
         }
         public void setWeight(point start, point end, point p) {
             double[] weights = deriveWeight(start,end, p);
+            //System.out.println("Weights: " + weights[0] + " " + weights[1]);
             p.weight = weights[1]+weights[0];//weights[1]-weights[0];//Math.sqrt(Math.pow(weights[0],2)+Math.pow(weights[1],2)); //weights[1]-weights[0];//
         }
 
@@ -208,7 +223,7 @@ public class flightPlan {
             point cpyStr = ptz.get(ptz.indexOf(startpt.getPoint(startpt.name,ptz)));
             point cpyEnd = ptz.get(ptz.indexOf(endpt.getPoint(endpt.name,ptz)));
             point[] ptsArr = ptz.toArray(new point[ptz.size()]);
-
+            System.out.println("diss?: " + cpyStr.getDistance(cpyStr, cpyEnd));
             for (point p : ptz){
                 p.setWeight(cpyStr, cpyEnd, p);
             }
@@ -225,9 +240,29 @@ public class flightPlan {
                 System.out.println(p.name);
             }
             while (!finished) {
+                if (cpyStr.neighbors.size() == 0){
+                    throw new Exception("No path found");
+                } else if (cpyEnd.neighbors.size() == 0){
+                    throw new Exception("No path found");
+                }
+                //current.associateNbs(ptsArr, current, ap.range);
+
+                //System.out.println("Weight: " + current.getMin().weight);
+                //System.out.println("Current: " + current.name);
+                //System.out.println("Min: " + current.getMin().name);
+                if (current.neighbors.contains(cpyEnd)){
+                    if (!pathpts.contains(current)){
+                        pathpts.add(current);
+                    }
+                    if (!pathpts.contains(cpyEnd)){
+                        pathpts.add(cpyEnd);
+                    }
+                    System.out.println("Path found");
+                    finished = true;
+                    break;
+                }
                 if (ptz.get(ptz.indexOf(current.getPoint(current.name,ptz))).isEnd) {
                     finished = true;
-                    continue;
                 }
                 if (current.name == cpyStr.name && current.neighbors.size() == 0){
                     System.out.println("No path found");
@@ -244,21 +279,98 @@ public class flightPlan {
                     }
                     current = prev;
                     min = current.getMin(); //returns lowest besides the pathless
+                    continue;
                 }
 
                 //System.out.println(min.name);
                 prev = current;
-                current = min;
                 min = current.getMin();
                 pathpts.add(current);
+                current = min;
+
+
             }
+
+
             for (point p : pathpts){
                 path.add(new AirportInfo(DB.searchICAO(p.name)));
             }
             return path;
         }
     }
-    public flightPlan(ArrayList<Airport> inputApts, Airport start, Airport end, Airplane ap) {
+    public void setDisplay() {
+        //this will be the display for the path
+        //this panel must be 1080 by 540
+        graphDisplay = new JPanel(){
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.setColor(Color.RED);
+                setLayout(null);
+                setBackground(Color.BLACK);
+                g.drawString("The graph will not draw offscreen paths (I.E paths off map), so heading will look incorrect",10,10);
+                for (AirportInfo a : optimalPath){
+                    g.drawLine((int) (a.thisAirport.APRTlongitude+180)*3, (int) (540-((a.thisAirport.APRTlatitude + 90) * 3)), (int) (optimalPath.get(optimalPath.size()-1).thisAirport.APRTlongitude+180)*3, (int) (540-((optimalPath.get(optimalPath.size()-1).thisAirport.APRTlatitude + 90) * 3)));
+                }
+            }
+
+        };
+
+        graphDisplay.setSize(1080, 540);
+
+        graphDisplay.setVisible(true);
+        for (Airport ai : inputApts){
+
+            JLabel lbl = new JLabel(ai.CAOid);
+            lbl.setBounds((int) (ai.APRTlongitude+180)*3, (int) (graphDisplay.getHeight()-((ai.APRTlatitude + 90) * 3))+5, 25, 25);
+            lbl.setForeground(Color.WHITE);
+            graphDisplay.add(lbl);
+            smallbtn btn = new smallbtn(" ");
+            btn.setBounds((int) (ai.APRTlongitude+180)*3, (int) (graphDisplay.getHeight()-((ai.APRTlatitude + 90) * 3)), 5, 5);
+            btn.addActionListener(e -> {
+                JPanel panel = new JPanel();
+                panel.setSize(200, 300);
+                panel.setLayout(new GridLayout(8, 1));
+                panel.add(new JLabel("Airport Info: "));
+                panel.add(new JLabel("ICAO: " + ai.CAOid));
+                panel.add(new JLabel("Name: " + ai.APTname));
+                panel.add(new JLabel("Fuel Types: " + ai.APRTfuelTypes[0] + ", " + ai.APRTfuelTypes[1]));
+                panel.add(new JLabel("Longitude: " + ai.APRTlongitude));
+                panel.add(new JLabel("Latitude: " + ai.APRTlatitude));
+                panel.add(new JLabel("Frequency: " + ai.freq));
+                JButton close = new JButton("Close");
+                close.addActionListener(e1 -> {
+                    graphDisplay.remove(panel);
+                    graphDisplay.revalidate();
+                    graphDisplay.repaint();
+                });
+                panel.add(close);
+                panel.setVisible(true);
+                graphDisplay.add(panel);
+                graphDisplay.revalidate();
+                graphDisplay.repaint();
+            });
+            graphDisplay.add(btn);
+        }
+        pathDisplay = new JPanel();
+        pathDisplay.setLayout(new GridLayout(1, optimalPath.size()));
+        for (AirportInfo ai : optimalPath){
+            JPanel pathCard = new JPanel();
+            pathCard.setLayout(new GridLayout(6, 1));
+            pathCard.add(new JLabel("Airport: " + ai.thisAirport.CAOid));
+            pathCard.add(new JLabel("Fuel Types: " + ai.thisAirport.APRTfuelTypes[0] + ", " + ai.thisAirport.APRTfuelTypes[1]));
+            pathCard.add(new JLabel("Longitude: " + ai.thisAirport.APRTlongitude));
+            pathCard.add(new JLabel("Latitude: " + ai.thisAirport.APRTlatitude));
+            pathCard.add(new JLabel("Frequency: " + ai.thisAirport.freq));
+            pathCard.add(new JLabel("Heading: " + ai.Heading));
+            pathCard.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+            pathDisplay.add(pathCard);
+        }
+        pathDisplay.setVisible(true);
+        pathDisplay.revalidate();
+        pathDisplay.repaint();
+    }
+    public flightPlan(ArrayList<Airport> inputApts, Airport start, Airport end, Airplane ap) throws Exception {
         point p = new point(0,0,"tmp");
         this.inputApts = inputApts;
         this.start = start;
@@ -277,42 +389,80 @@ public class flightPlan {
                 totalDistance += ai.distance;
                 totalFuelCost += ai.fuelCost;
                 totalTimeCost += ai.timeCost;
-                totalStops++;
+
                 optimalPath.get(optimalPath.indexOf(ai)).Heading = p.calculateHeading(ai.thisAirport.APRTlatitude, ai.thisAirport.APRTlongitude, optimalPath.get(optimalPath.indexOf(ai)+1).thisAirport.APRTlatitude, optimalPath.get(optimalPath.indexOf(ai)+1).thisAirport.APRTlongitude);
                 if (optimalPath.indexOf(ai)+1 == optimalPath.size()-1){
                     System.out.println("End of path");
                     break;
                 }
+                totalStops++;
             }
         } catch (Exception e) {
             System.out.println("No path found");
+            this.optimalPath = new ArrayList<>();
+            throw new Exception("No path found");
+        }
+        setDisplay();
+    }
+    public class smallbtn extends JButton {
+
+        public smallbtn(String text) {
+            //super(text);
+            setPreferredSize(new Dimension(5, 5));
         }
 
+        @Override
+        protected void paintComponent(Graphics g) {
+            // Call the superclass's paintComponent method
+            super.paintComponent(g);
+
+            // Get the width and height of the button
+            int width = getWidth();
+            int height = getHeight();
+
+            // Set the color for the circular button
+            g.setColor(Color.RED);
+
+            // Draw a filled circle
+            g.fillOval(0, 0, width - 1, height - 1);
+        }
     }
     public flightPlan(){
         //empty constructor
     }
     public static void main(String[] args){
         DataBaseManager db = new DataBaseManager("./src/dbDir/airports.txt", "./src/dbDir/airplanes.txt");
-        ArrayList<Airplane> src = db.searchAirplanes("lowrange,test");
+        ArrayList<Airplane> src = db.searchAirplanes("lowrang");
         Airplane ap = src.get(0);
         System.out.println(ap.forPrint());
-        Airport start = db.searchICAO("KAUG");
-        Airport end = db.searchICAO("KATL");
+        Airport start = db.searchICAO("AAAA");
+        Airport end = db.searchICAO("NNNZ");
 
         //System.out.println(start.forPrint());
-        flightPlan fp = new flightPlan(db.aprts, start,end, ap);
-        for (AirportInfo ai : fp.optimalPath){
-            System.out.println(ai.thisAirport.forPrint());
-            System.out.println("Heading: " + ai.Heading);
+        try {
+            flightPlan fp = new flightPlan(db.aprts, start,end, ap);
+            for (AirportInfo ai : fp.optimalPath){
+                System.out.println(ai.thisAirport.forPrint());
+                System.out.println("Heading: " + ai.Heading);
+            }
+            System.out.println("Fuel cost " + fp.totalFuelCost);
+            System.out.println("Total Distance " + fp.totalDistance);
+            System.out.println("d2: " + fp.optimalPath.get(0).distance);
+            System.out.println("Total Time " + fp.totalTimeCost);
+            System.out.println("Total Stops " + fp.totalStops);
+            JFrame frame = new JFrame();
+            frame.setSize(540, 270);
+            frame.setVisible(true);
+            //frame.setLayout(new GridLayout(2,1));
+            fp.setDisplay();
+            //frame.add(fp.graphDisplay);
+            frame.add(fp.pathDisplay);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        System.out.println("Fuel cost " + fp.totalFuelCost);
-        System.out.println("Total Distance " + fp.totalDistance);
-        System.out.println("d2: " + fp.optimalPath.get(0).distance);
-        System.out.println("Total Time " + fp.totalTimeCost);
-        System.out.println("Total Stops " + fp.totalStops);
 
     }
+
 }
 /*AirportInfo ai = new AirportInfo(DB.searchICAO(current.name));
 

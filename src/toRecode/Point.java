@@ -29,6 +29,7 @@ public class Point {
     }
     public static void setWeight(Point start, Point end, Point p) {
         double[] weights = deriveWeight(start, end, p);
+        System.out.println("Weights: " + weights[0] + " " + weights[1]);
         p.weight = weights[1]+weights[0];//weights[1]-weights[0];//Math.sqrt(Math.pow(weights[0],2)+Math.pow(weights[1],2)); //weights[1]-weights[0];//
     }
     public static double getWeight(Point p){
