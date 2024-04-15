@@ -18,6 +18,7 @@ public class Scenes extends JFrame {
     private JButton createButton(String text, ActionListener actionListener) {
         JButton button = new JButton(text);
         button.addActionListener(actionListener);
+        button.setPreferredSize(new Dimension(150, 50));
         return button;
     }
 
@@ -65,7 +66,7 @@ public class Scenes extends JFrame {
 
 
 public static class FlightPlanScene extends JPanel {
-    private DataBaseManager DB = new DataBaseManager("./src/dbDir/airports.txt", "./src/dbDir/airplanes.txt");
+    private DataBaseManager DB = new DataBaseManager("./src/dbDir/airports1.txt", "./src/dbDir/airplanes.txt");
     private ArrayList<Airport> airports = DB.aprts;
     private ArrayList<Airplane> airplanes = DB.aplanes;
 
@@ -73,7 +74,7 @@ public static class FlightPlanScene extends JPanel {
     private JComboBox airplaneDropDown;
     private JComboBox firstAirportDropDown;
     private JComboBox lastAirportDropDown;
-    private JComboBox additionalAirportsDropDown;
+    //private JComboBox additionalAirportsDropDown;
 
     public FlightPlanScene() {
         DB.readAirports();
@@ -89,7 +90,7 @@ public static class FlightPlanScene extends JPanel {
         holderPanel.add(createDropDown("Airplane", airplanes));
         holderPanel.add(createDropDown("First Airport", airports));
         holderPanel.add(createDropDown("Last Airport", airports));
-        holderPanel.add(createDropDown("Additional Airports", airports));
+        //holderPanel.add(createDropDown("Additional Airports", airports));
         return holderPanel;
     }
 
@@ -102,7 +103,7 @@ public static class FlightPlanScene extends JPanel {
             case "Airplane" -> airplaneDropDown = comboBox;
             case "First Airport" -> firstAirportDropDown = comboBox;
             case "Last Airport" -> lastAirportDropDown = comboBox;
-            case "Additional Airports" -> additionalAirportsDropDown = comboBox;
+            //case "Additional Airports" -> additionalAirportsDropDown = comboBox;
         }
 
         panel.add(comboBox);
@@ -136,28 +137,21 @@ public static class FlightPlanScene extends JPanel {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            for (int eee = 0; eee < 10; eee++) {
-                System.out.println("FIX THIS EXCEPTION HDL ISAAAC LINE 143");
-                File file = new File("./src/dbDir/airports.txt");
-                try {
-                    Desktop.getDesktop().open(file);
-                } catch (Exception e1) {
-                    e1.printStackTrace();
-                }
-            }
+            ErrorFrame errorFrame = new ErrorFrame("Error: " + e.getMessage());
+
+//            for (int eee = 0; eee < 10; eee++) {
+//                System.out.println("FIX THIS EXCEPTION HDL ISAAAC LINE 143");
+//                File file = new File("./src/dbDir/airports.txt");
+//
+//                try {
+//                    Desktop.getDesktop().open(file);
+//                } catch (Exception e1) {
+//                    e1.printStackTrace();
+//                }
+//            }
         }
         return new JScrollPane(holderPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
     }
 
-    private JPanel createLegPanel(AirportInfo info) {
-        JPanel panel = new JPanel(new GridLayout(6, 1));
-        panel.add(new JLabel("Current Airport: " + info.thisAirport.CAOid + " " + info.thisAirport.APTname + " " + info.thisAirport.freq + " " + info.thisAirport.APRTlatitude + " " + info.thisAirport.APRTlongitude));
-        panel.add(new JLabel("Destination Airport: " + info.nextAirport.CAOid + " " + info.nextAirport.APTname + " " + info.nextAirport.freq + " " + info.nextAirport.APRTlatitude + " " + info.nextAirport.APRTlongitude));
-        panel.add(new JLabel("Leg Distance: " + String.valueOf(info.distance) + " km"));
-        panel.add(new JLabel("Heading of Leg: " + String.valueOf(info.Heading) + " degrees"));
-        panel.add(new JLabel("Fuel Used in Leg: " + String.valueOf(info.fuelCost) + " L"));
-        panel.add(new JLabel("Expected Time of Leg: " + String.valueOf(info.timeCost) + " hours"));
-        return panel;
-    }
 }
 }
