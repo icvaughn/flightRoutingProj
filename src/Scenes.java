@@ -66,7 +66,7 @@ public class Scenes extends JFrame {
 
 
 public static class FlightPlanScene extends JPanel {
-    private DataBaseManager DB = new DataBaseManager("./src/dbDir/airports1.txt", "./src/dbDir/airplanes.txt");
+    private DataBaseManager DB = new DataBaseManager("./src/dbDir/airports.txt", "./src/dbDir/airplanes.txt");
     private ArrayList<Airport> airports = DB.aprts;
     private ArrayList<Airplane> airplanes = DB.aplanes;
 

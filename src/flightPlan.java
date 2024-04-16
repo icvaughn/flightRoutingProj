@@ -239,15 +239,21 @@ public class flightPlan {
             for (point p : cpyStr.neighbors){
                 System.out.println(p.name);
             }
+            int cycleCT = 0;
             while (!finished) {
                 if (cpyStr.neighbors.size() == 0){
                     throw new Exception("No path found");
-                } else if (cpyEnd.neighbors.size() == 0){
+                }
+                if (prev == current.getMin()){
+                    cycleCT++;
+                }
+                if (cycleCT > 5){
                     throw new Exception("No path found");
                 }
                 //current.associateNbs(ptsArr, current, ap.range);
 
                 //System.out.println("Weight: " + current.getMin().weight);
+                //System.out.println("Prev: " + prev.name);
                 //System.out.println("Current: " + current.name);
                 //System.out.println("Min: " + current.getMin().name);
                 if (current.neighbors.contains(cpyEnd)){
@@ -413,17 +419,13 @@ public class flightPlan {
 
         @Override
         protected void paintComponent(Graphics g) {
-            // Call the superclass's paintComponent method
             super.paintComponent(g);
 
-            // Get the width and height of the button
             int width = getWidth();
             int height = getHeight();
 
-            // Set the color for the circular button
             g.setColor(Color.RED);
 
-            // Draw a filled circle
             g.fillOval(0, 0, width - 1, height - 1);
         }
     }
@@ -435,8 +437,8 @@ public class flightPlan {
         ArrayList<Airplane> src = db.searchAirplanes("lowrang");
         Airplane ap = src.get(0);
         System.out.println(ap.forPrint());
-        Airport start = db.searchICAO("AAAA");
-        Airport end = db.searchICAO("NNNZ");
+        Airport start = db.searchICAO("NNNZ");
+        Airport end = db.searchICAO("AAAA");
 
         //System.out.println(start.forPrint());
         try {

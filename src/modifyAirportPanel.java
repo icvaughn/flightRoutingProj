@@ -135,6 +135,10 @@ public class modifyAirportPanel extends JPanel{
                     JOptionPane.showMessageDialog(null, "Name must be less than 50 characters");
                     return;
                 }
+                if (Double.parseDouble(frequency.getText()) < 0){
+                    JOptionPane.showMessageDialog(null, "Frequency must be positive");
+                    return;
+                }
 
                 ArrayList<String> fts = new ArrayList<>();
                 if (AVGAS.isSelected()){
