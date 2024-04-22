@@ -12,13 +12,6 @@ Atlanta, Georgia
 79.5
 AVGAS
 JA-a
-KCLT
-Charlotte, North Carolina
-80.84
-35.23
-100.5
-AVGAS
-JA-a
 KSTA
 Statesville, North Carolina
 80.87
@@ -37,13 +30,6 @@ Toronto Pearson, Toronto, Canada
 79.62
 43.68
 122.275
-AVGAS
-JA-a
-KIAD
-Washington DC
-77.04
-38.9
-125.9
 AVGAS
 JA-a
 KCAE
@@ -101,4 +87,10 @@ NORTHERNERERERER
 41.0
 1122.0
 AVGAS
+JA-a
+KCLT
+Charlotte, North Carolina
+80.84
+35.23
+100.5
 JA-a

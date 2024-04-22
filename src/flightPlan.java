@@ -2,7 +2,7 @@ import java.util.*;
 import javax.swing.*;
 import java.awt.*;
 import java.util.PriorityQueue;
-//this algorithm is flat earth asf. will remodel when i have time (before pres)
+
 public class flightPlan {
     //back-end
     public ArrayList<Airport> inputApts;
@@ -14,10 +14,8 @@ public class flightPlan {
     //for display
     public JPanel graphDisplay = new JPanel();
     public JPanel pathDisplay = new JPanel();
-    public JPanel pathInfoScrn = new JPanel();
 
     //more back end
-    public AirportInfo[] pathInfo;
     public double totalDistance;
     public double totalFuelCost;
     public double totalTimeCost;
@@ -192,7 +190,6 @@ public class flightPlan {
             double theta = Math.atan2(y, x);
             double brng = Math.toDegrees(theta);
 
-            // Ensure the bearing is within [0, 360)
             if (brng < 0) {
                 brng += 360;
                 brng = brng%360;
@@ -201,7 +198,6 @@ public class flightPlan {
             return brng;
 
         }
-        //this is not finished: will work when im back
         public ArrayList<AirportInfo> getBestPath(ArrayList<Airport> pts, Airport start, Airport end, Airplane ap) throws Exception {
             ap.setRange();
             ap.setTrueFuelType();
@@ -466,17 +462,3 @@ public class flightPlan {
     }
 
 }
-/*AirportInfo ai = new AirportInfo(DB.searchICAO(current.name));
-
-                double distance = current.getDistance(current, min);
-                //System.out.println(distance);
-                ai.distance = distance;
-
-                double time = ai.distance/ap.speed; //this assumes km and km/hr (and L/hr and L)
-                ai.timeCost = time; //hours
-                ai.fuelCost = time*ap.fuelConsumption; // Liters (assumes L/Hr)
-                ai.Heading = calculateHeading(current.x, current.y, min.x, min.y);
-                ai.nextAirport = DB.searchICAO(min.name);
-                path.add(ai);
-
- */

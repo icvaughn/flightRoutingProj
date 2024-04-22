@@ -163,15 +163,6 @@ public class modifyAirportPanel extends JPanel{
 
                 db.modifyAirport(selected, newAirport);
 
-                /*
-                * System.out.println(selected.CAOid);
-                System.out.println(selected.APTname);
-                System.out.println(selected.APRTlongitude);
-                System.out.println(selected.APRTlatitude);
-                System.out.println(selected.freq);
-                System.out.println(selected.APRTfuelTypes[0]);
-                System.out.println(selected.APRTfuelTypes[1]);
-                * */
 
 
                 JOptionPane.showMessageDialog(null, "Airport modified");

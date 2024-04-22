@@ -55,8 +55,7 @@ public class Scenes extends JFrame {
     }
 
     public static void main(String[] args) {
-        Scenes frame = new Scenes();
-        frame.setTitle("Flight Planner");
+        Scenes frame = new Scenes();        frame.setTitle("Flight Planner");
         frame.setLocationRelativeTo(null); // Center the frame
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(400, 320);

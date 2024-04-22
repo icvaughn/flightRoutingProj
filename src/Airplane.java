@@ -38,7 +38,6 @@ public class Airplane {
     }
     public String forPrint(){
         DecimalFormat decimalFormat = new DecimalFormat("0.00");
-        //add unit
         return "Make: " + make + ", Model: " + model + ", Fuel Type: " + fuel + ", Capacity(L): " + decimalFormat.format(fuelCapacity) + ", Consumption(L/HR): " + decimalFormat.format(fuelConsumption) + ", Speed: " + decimalFormat.format(speed) + ", Range: " + decimalFormat.format(range);
     }
 
